@@ -1,5 +1,4 @@
-
-$(function () {
+$(function() {
     var option = {
         chart: {
             plotBackgroundColor: null,
