@@ -3,6 +3,9 @@ $(function(){
 	  appId: 752376788138741,
 	  frictionlessRequests: true,
 	  status: true,
+	  cookie: true,
+      xfbml: true,
+      oauth: true,
 	  version: 'v2.0'
 	});
 
