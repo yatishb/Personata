@@ -1,2 +1,39 @@
-.template {display: none;}
-.item {display: block;}
+body {
+	margin: 0;
+}
+
+#dev {
+	width: 100%;
+	text-align: center;
+	font-family: Verdana, Geneva, sans-serif;
+	background-color: #ADD8E6;
+}
+
+#title {
+	width: 450px;
+	margin: 50px auto;
+}
+
+#menu {
+	width: 550px;
+	margin: 0 auto;
+	margin-top: -20px;
+	margin-bottom: 20px;
+}
+
+#menu table {
+	/*width: 500px;*/
+	table-layout: fixed;
+}
+
+#menu td {
+	width: 270px;
+	height: 260px;
+	/*margin-left: 40px;*/
+	/*margin-right: 40px;*/
+}
+
+#menu td img {
+	padding: 0 10px;
+	text-align: center;
+}
