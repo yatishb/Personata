@@ -7,15 +7,19 @@
 	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequestException;
 
-	if ($session) {
-		$request = new FacebookRequest(
-		  $session,
-		  'GET',
-		  '/me'
-		);
-		$response = $request->execute();
-		$graphObject = $response->getGraphObject();
+	function getMe($session){
+		if ($session) {
+			$request = new FacebookRequest(
+			  $session,
+			  'GET',
+			  '/me'
+			);
+			$response = $request->execute();
+			$graphObject = $response->getGraphObject();
 
-		print_r($graphObject);
+			return $graphObject;
+		}
 	}
+
+	print_r(getMe($session));
 ?>
