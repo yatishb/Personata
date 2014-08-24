@@ -1,10 +1,13 @@
 <?php
 	require_once('authentication.php');
+	use Facebook\FacebookSession;
+	use Facebook\FacebookRequest;
+	use Facebook\GraphUser;
+	use Facebook\FacebookRedirectLoginHelper;
+	use Facebook\FacebookJavaScriptLoginHelper;
+	use Facebook\FacebookRequestException;
 
-	global $session = isAuthenticated();
-
-	function getMe()		
-	{	
+	if ($session) {
 		$request = new FacebookRequest(
 		  $session,
 		  'GET',
@@ -13,8 +16,6 @@
 		$response = $request->execute();
 		$graphObject = $response->getGraphObject();
 
-		return $graphObject;
+		print_r($graphObject);
 	}
-
-	print_r($graphObject);
 ?>
