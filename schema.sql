@@ -10,7 +10,7 @@ CREATE TABLE types (
 CREATE TABLE feeds(
 	fid VARCHAR(100),
 	uid VARCHAR(100) NOT NULL,
-	tid INTEGER,
+	tid INTEGER NOT NULL,
 	time DATE,
 	likes INTEGER,
 	comments INTEGER,
