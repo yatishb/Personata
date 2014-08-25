@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
     var option = {
         chart: {
             plotBackgroundColor: null,
@@ -29,7 +29,7 @@ $(function() {
         }]
     }
 
-    $.getJSON( "convertToJSON.php", function( data ) {
+    $.getJSON( "pieGraphJSON.php", function( data ) {
         var elements = new Array();
 
         for (var i = data.fields.length - 1; i >= 0; i--) {
