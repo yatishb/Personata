@@ -1,13 +1,19 @@
+DROP TABLE types;
+DROP TABLE feeds;
+
+CREATE TABLE types (
+	tid INTEGER NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL,
+	PRIMARY KEY(tid)
+);
+
 CREATE TABLE feeds(
 	fid VARCHAR(100),
-	uid VARCHAR(100),
-	type VARCHAR(20),
+	uid VARCHAR(100) NOT NULL,
+	tid INTEGER,
 	time DATE,
 	likes INTEGER,
 	comments INTEGER,
-	PRIMARY KEY(fid)
+	PRIMARY KEY(fid),
+	FOREIGN KEY(tid) REFERENCES types(tid)
 );
-
-
-
-
