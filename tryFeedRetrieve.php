@@ -23,20 +23,33 @@
 		}*/
 
 		//$postarray now contains all the posts
-		foreach ($postArray as $eachPost) {
+		/*foreach ($postArray as $eachPost) {
 			//Write to database
 			echo $eachPost["likes"]["summary"]["total_count"];
 			echo " ";
-		}
-		//echo $postArray[0]["id"];
-		//var_dump(getParticularPost($session, $postArray[0]["id"]));
+		}*/
+		$id1 = $postArray[0]["id"];
+		$post = getParticularPost($session, $postArray[0]["id"]);
+		//var_dump($post);
+		echo $post["id"];
 
 		//$now = new DateTime(null, new DateTimeZone('London'));
 		//echo $now->getTimestamp();
 
+		echo "count: ";
 		echo count($postArray);
 	}
 	//echo "out";
+
+	function convertObjectToArray($object) {
+		$array = array();
+		foreach ($object["data"] as $key => $value) {
+			$eachArray = json_decode(json_encode($value), true);
+			$array[] = $eachArray;
+		}
+
+		return $array;
+	}
 
 
 
@@ -50,13 +63,7 @@
 		$allPostsGraphObject = $response->getGraphObject();
 		$allPostsArray = $allPostsGraphObject->asArray();
 
-		$postArray = array();
-		foreach ($allPostsArray["data"] as $key => $value) {
-			$array = json_decode(json_encode($value), true);
-			$postArray[] = $array;
-		}
-
-		return $postArray;
+		return convertObjectToArray($allPostsArray);
 	}
 
 	function getParticularPost($session, $id){
