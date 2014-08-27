@@ -21,6 +21,18 @@
 		}
 	}
 
+
+	function convertObjectToArray($object) {
+		$array = array();
+		foreach ($object["data"] as $key => $value) {
+			$eachArray = json_decode(json_encode($value), true);
+			$array[] = $eachArray;
+		}
+
+		return $array;
+	}
+
+
 	// Returns an array of all posts in a specified time limit
 	function getAllPosts($session, $limit, $starttime, $endtime) {
 		$request = new FacebookRequest(
@@ -32,13 +44,7 @@
 		$allPostsGraphObject = $response->getGraphObject();
 		$allPostsArray = $allPostsGraphObject->asArray();
 
-		$postArray = array();
-		foreach ($allPostsArray["data"] as $key => $value) {
-			$array = json_decode(json_encode($value), true);
-			$postArray[] = $array;
-		}
-
-		return $postArray;
+		return convertObjectToArray($allPostsArray);
 	}
 
 	function getParticularPost($session, $id){
