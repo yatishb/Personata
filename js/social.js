@@ -3,10 +3,11 @@ var friendCache = {};
 function login(callback) {
   FB.login(callback, {scope: 'user_friends, user_status, read_stream'});
 }
+
 function loginCallback(response) {
   console.log('loginCallback',response);
   if(response.status != 'connected') {
-    top.location.href = 'https://www.facebook.com/appcenter/friendzzz-demography';
+    top.location.href = 'https://www.facebook.com/appcenter/personata-app';
   }
 }
 
@@ -16,18 +17,7 @@ function onStatusChange(response) {
   } else {
     getMe(function(){
       getPermissions(function(){
-        if(hasPermission('user_friends')) {
-          getFriends(function(){
-            renderWelcome();
-            renderFriends();
-            //onLeaderboard();
-            //showHome();    
-          });
-        } else {
-          renderWelcome();
-          console.log('no permissions');
-          //showHome();
-        }
+        renderMe();
       });
     });
   }
@@ -49,15 +39,15 @@ function getMe(callback) {
 }
 
 function getFriends(callback) {
-  FB.api('/me/friends', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response){
-    if( !response.error ) {
-      friendCache.friends = response.data;
-      console.log(response);
-      callback();
-    } else {
-      console.error('/me/friends', response);
-    }
-  });
+  // FB.api('/me/friends', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response){
+  //   if( !response.error ) {
+  //     friendCache.friends = response.data;
+  //     console.log(response);
+  //     callback();
+  //   } else {
+  //     console.error('/me/friends', response);
+  //   }
+  // });
 }
 
 function getPermissions(callback) {
