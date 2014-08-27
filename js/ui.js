@@ -1,7 +1,7 @@
-function renderWelcome() {
-  var welcome = $('#personal_info');
-  welcome.find('.name').html(friendCache.me.name);
-  welcome.find('.photo').attr('src',friendCache.me.picture.data.url);
+function renderMe() {
+  var user = $('#user');
+  // user.find('.name').html(friendCache.me.name);
+  user.find('#photo').attr('src',friendCache.me.picture.data.url);
 }
 
 function renderFriends() {
