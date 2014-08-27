@@ -20,6 +20,47 @@
 			return $graphObject;
 		}
 	}
+
+	// Returns an array of all posts in a specified time limit
+	function getAllPosts($session, $limit, $starttime, $endtime) {
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
+			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+		$response = $request->execute();
+		$allPostsGraphObject = $response->getGraphObject();
+		$allPostsArray = $allPostsGraphObject->asArray();
+
+		$postArray = array();
+		foreach ($allPostsArray["data"] as $key => $value) {
+			$array = json_decode(json_encode($value), true);
+			$postArray[] = $array;
+		}
+
+		return $postArray;
+	}
+
+	function getParticularPost($session, $id){
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/'.$id);
+		$response = $request->execute();
+		$postGraphObject = $response->getGraphObject();
+		return $postGraphObject;
+	}
+
+	function getPermissions($session) {
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/me/permissions');
+		$response = $request->execute();
+		$postsGraphObject = $response->getGraphObject();
+		$permissions = $postsGraphObject->asArray();
+		return $permissions;
+	}
 	
 	print_r(getMe($session));
 ?>
