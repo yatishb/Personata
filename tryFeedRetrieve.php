@@ -1,5 +1,4 @@
 <?php
-	require_once('backend.php');
 	require_once('authentication.php');
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRequest;
@@ -8,14 +7,12 @@
 	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequestException;
 
-	echo "Test";
-
 	if(empty($session)) {
 		echo "Session does not exist";
 	} else {
 
-		$allPosts = getAllPosts($session)->asArray();
-		var_dump($allPosts);
+		$allPosts = getAllPosts($session, 200)->asArray();
+		//var_dump($allPosts);
 		$numberPosts = count($allPosts["data"]);
 
 		$postArray = array();
@@ -24,30 +21,24 @@
 			$postArray[] = $array;
 		}
 
-		foreach ($postArray as $post) {
-			echo $post["id"],' ', PHP_EOL;
-			/*$bool = array_key_exists("likes", $post);
-			if ($bool == TRUE) {
-				$i +=1;
-				echo $post["id"];
-			}
-
-			if ($post["id"] == "10152041822345382_10152092624525382") {
-				echo "found";
-			}*/
+		//$postarray now contains all the posts
+		foreach ($postArray as $eachPost) {
+			//Write to database
 		}
+		//echo $postArray[0]["id"];
+		//var_dump(getParticularPost($session, $postArray[0]["id"]));
 
 		echo count($postArray);
 	}
-	echo "out";
+	//echo "out";
 
 
 
-	function getAllPosts($session) {
+	function getAllPosts($session, $limit) {
 		$request = new FacebookRequest(
 			$session,
 			'GET',
-			'/me/posts?fields=id,created_time,likes,comments');
+			'/me/posts?fields=id,created_time,likes,comments,message,story,type&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
 		return $allPostsGraphObject;
