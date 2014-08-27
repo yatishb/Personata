@@ -20,6 +20,6 @@
 			return $graphObject;
 		}
 	}
-
+	
 	print_r(getMe($session));
 ?>

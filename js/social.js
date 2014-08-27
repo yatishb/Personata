@@ -7,7 +7,7 @@ function login(callback) {
 function loginCallback(response) {
   console.log('loginCallback',response);
   if(response.status != 'connected') {
-    top.location.href = 'https://www.facebook.com/appcenter/friendzzz-demography';
+    top.location.href = 'https://www.facebook.com/appcenter/personata-app';
   }
 }
 
