@@ -21,6 +21,14 @@
 		}
 	}
 
+	function getNumberFeedPostsLastMonth($session, $limit = 1000) {
+		$currenttime = time();
+		$lastmonth = $currenttime - (30*24*60*60);
+		
+		$postsInMonth = getAllPosts($session, $limit, $lastmonth, $currenttime);
+		return count($postsInMonth);
+	}
+
 
 	function convertObjectToArray($object) {
 		$array = array();
@@ -38,8 +46,7 @@
 		$request = new FacebookRequest(
 			$session,
 			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
-			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&since='.$starttime.'&until='.$endtime.'&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
 		$allPostsArray = $allPostsGraphObject->asArray();
@@ -68,5 +75,5 @@
 		return $permissions;
 	}
 	
-	print_r(getMe($session));
+	//print_r(getMe($session));
 ?>
