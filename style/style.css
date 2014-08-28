@@ -4,15 +4,10 @@ html body {
 
 body {
 	margin: 0;
-}
-
-#container {
-	bottom: 0;
-	height: 100%;
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-image: url('../img/main_bg.png');
-	background-repeat: no-repeat center center fixed;
+	background-repeat: no-repeat;
 }
 
 #dev {
@@ -23,21 +18,34 @@ body {
 }
 
 #title {
-	margin-left: 11%;
-	padding-top: 100px;
+	margin-top: 100px;
+	margin-bottom: 50px;
+}
+
+.center-div {
+	background-image: url('../img/center_div_bg.png');
+	background-repeat: no-repeat center center fixed;
+	-webkit-background-size: cover;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	min-height: 600px !important;
+	margin-top: 40px;
+}
+
+.menu-buttons {
+	margin-top: 40px;
 }
 
 #user {
-	position: absolute;
 	background-image: url('../img/userinfo.png');
-	top: 100px;
-	right: 10%;
+	margin-top: 80px;
 	height: 230px;
 	width: 200px;
 }
 
 #user #photo {
-	position: absolute;
+	position: relative;
 	top: 15px;
 	left: 69px;
 	height: 120px;
@@ -45,19 +53,12 @@ body {
 }
 
 #menu {
-	margin-left: 10%;
+	width: 100%;
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
-#menu table {
-	/*width: 500px;*/
-	table-layout: fixed;
+#menu .row {
+	margin-bottom: 20px;
 }
 
-#menu td {
-	/*width: 270px;*/
-	height: 220px;
-	/*margin-left: 40px;*/
-	/*margin-right: 40px;*/
-}
