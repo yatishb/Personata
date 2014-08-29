@@ -7,10 +7,39 @@
 	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequestException;
 
-	function getEndTime() {
+	if (isset($_GET['data-type'])) {
+		switch ($_GET['data-type']) {
+			case 'events':
+				$start_time = date("Y")."-".(date("m")-1)."-01";
+				$results = getEvents($session, $start_time, getEndTimeForLastMonth());
+				
+				print count($results);
+			break;
+			
+			default:
+				echo '<pre>'.print_r(getEvents($session, '2014-04-01', getEndTimeForLastMonth()),1).'</pre>';
+				echo(getEndTimeForLastMonth());
+			break;
+		}
+	}
+
+	function getEndTimeForCurrentMonth() {
 		$year = date("Y");
 		$month = date("m");
 		$endDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+		return "$year-$month-$endDate";
+	}
+
+	function getEndTimeForLastMonth() {
+		$year = date("Y");
+		$month = date("m");
+		//if current month is Jan, then last month is Dec
+		if ($month == 1) {
+			$month == 12;
+			$year--;
+		}
+		$endDate = cal_days_in_month(CAL_GREGORIAN, --$month, $year);
 
 		return "$year-$month-$endDate";
 	}
@@ -20,7 +49,7 @@
 			$request = new FacebookRequest(
 			  $session,
 			  'GET',
-			  '/me'
+			  '/me?fileds=id'
 			);
 			$response = $request->execute();
 			$graphObject = $response->getGraphObject();
@@ -37,9 +66,9 @@
 				"/me/events?fileds=id,start_time,end_time&since=$starttime&until=$endtime"
 			);
 			$response = $request->execute();
-			$graphObject = $response->getGraphObject();
+			$graphObject = $response->getGraphObject()->getProperty('data');
 
-			return $graphObject;
+			return $graphObject->asArray();
 		}
 	}
 
@@ -89,6 +118,18 @@
 		$permissions = $postsGraphObject->asArray();
 		return $permissions;
 	}
-	
-	print_r(getEndTime());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
