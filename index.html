@@ -7,9 +7,12 @@
 	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<script src="js/jquery-2.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/highcharts.js"></script>
+	<script src="js/highcharts-more.js"></script>
 	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 	<script src="js/core.js"></script>
 	<script src="js/social.js"></script>
+	<script src="js/graph.js"></script>
 </head>
 <body>
 	<div id='dev'>This app is still under development.</div>
@@ -32,7 +35,7 @@
 						</div>
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a href=""><img src="img/event.png" alt=""></a>
+								<a class='ignore-default' onclick="switchView('.events-data'); renderEventsGraph();" href=""><img src="img/event.png" alt=""></a>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
 								<a href=""><img src="img/ranking.png" alt=""></a>
@@ -43,6 +46,11 @@
 				<div class='row'>
 					<div class='monthly-data center-div view col-md-10'>
 						<div id="monthly-data-graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='events-data center-div view col-md-10'>
+						<div id="events-container" class="col-md-10 col-md-offset-1"></div>
 					</div>
 				</div>
 			</div>
