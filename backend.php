@@ -53,6 +53,10 @@
 			);
 			$response = $request->execute();
 			$graphObject = $response->getGraphObject();
+			$id = $graphObject->getId();
+
+			//store user id to session for later api calls
+			$_SESSION['user_id'] = $id;
 
 			return $graphObject;
 		}
@@ -72,6 +76,19 @@
 		}
 	}
 
+	function getMostPopularPosts()
+	{
+		///retrieve 10 most popular posts from database
+		$query = "SELECT *, likes + comments AS popularity FROM feeds ORDER BY popularity DESC LIMIT 10";
+		$results = mysql_query("connection", $query);
+		
+		//request content for each post
+		while ($row = mysqli_fetch_array($results)) {
+			$id = $row['id'];
+
+		}
+
+	}
 
 	function convertObjectToArray($object) {
 		$array = array();

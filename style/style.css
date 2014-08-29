@@ -67,6 +67,12 @@ body {
 	margin-top: 150px;
 }
 
+#monthly-container {
+	position: absolute;
+	margin-top: 150px;
+	margin-left: -15px;
+}
+
 
 
 
