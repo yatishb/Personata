@@ -7,12 +7,34 @@
 	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequestException;
 
+	function getEndTime() {
+		$year = date("Y");
+		$month = date("m");
+		$endDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+		return "$year-$month-$endDate";
+	}
+
 	function getMe($session){
 		if ($session) {
 			$request = new FacebookRequest(
 			  $session,
 			  'GET',
 			  '/me'
+			);
+			$response = $request->execute();
+			$graphObject = $response->getGraphObject();
+
+			return $graphObject;
+		}
+	}
+
+	function getEvents($session, $starttime, $endtime) {
+		if ($session) {
+			$request = new FacebookRequest(
+				$session,
+				'GET',
+				"/me/events?fileds=id,start_time,end_time&since=$starttime&until=$endtime"
 			);
 			$response = $request->execute();
 			$graphObject = $response->getGraphObject();
@@ -68,5 +90,5 @@
 		return $permissions;
 	}
 	
-	print_r(getMe($session));
+	print_r(getEndTime());
 ?>

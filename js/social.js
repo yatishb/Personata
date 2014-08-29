@@ -1,7 +1,7 @@
 var friendCache = {};
 
 function login(callback) {
-  FB.login(callback, {scope: 'user_friends, user_status, read_stream'});
+  FB.login(callback, {scope: 'user_friends, user_status, user_events, read_stream'});
 }
 
 function loginCallback(response) {
