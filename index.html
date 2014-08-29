@@ -27,7 +27,7 @@
 					<div id="menu">
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a class='ignore-default' onclick="switchView('.monthly-data');" href=""><img src="img/monthly_data.png" alt=""></a>
+								<a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthDataGraph();" href=""><img src="img/monthly_data.png" alt=""></a>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
 								<a class='ignore-default' href=""><img src="img/daily_data.png" alt=""></a>
@@ -44,13 +44,13 @@
 					</div>
 				</div>
 				<div class='row'>
-					<div class='monthly-data center-div view col-md-10'>
-						<div id="monthly-data-graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+					<div class='monthly-data center-div view col-sm-12'>
+						<div id="monthly-container" class='col-sm-12'></div>
 					</div>
 				</div>
 				<div class='row'>
-					<div class='events-data center-div view col-md-10'>
-						<div id="events-container" class="col-md-10 col-md-offset-1"></div>
+					<div class='events-data center-div view col-sm-10'>
+						<div id="events-container" class="col-sm-10 col-sm-offset-1"></div>
 					</div>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class='row'>	
-					<div class='monthly-data view menu-buttons'>
+					<div class='monthly-data events-data view menu-buttons'>
 						<a href=""><img src="img/choose_again_button.png" alt=""></a><br>
 						<a class='ignore-default' href=""><img src="img/share_button.png" alt=""></a><br>
 						<a class='ignore-default' href=""><img src="img/view_friends_button.png" alt=""></a><br>
