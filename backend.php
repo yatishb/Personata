@@ -136,17 +136,55 @@
 		return $permissions;
 	}
 
+	function writePostsToDatabase($postArray, $con) {
+		foreach ($postArray as $post) {
+			$id = $post["id"];
+			$allids = explode("_", $id);
+			$fid = $allids[1];
+			$uid = $allids[0];
 
+			$time = $post["created_time"];
+			if(array_key_exists("likes", $post)){
+				$likes = $post["likes"]["summary"]["total_count"];	
+			} else {
+				$likes = 0;
+			}
+			
+			
+			$tid =1;
+			if(array_key_exists("comments", $post)){
+				$comments = $post["comments"]["summary"]["total_count"];
+			} else {
+				$comments = 0;
+			}
+			
+			$query = "INSERT INTO feeds(fid, uid, tid, time, likes, comments) VALUES(".$fid.",".$uid.",".$tid.",('".$time."'),".$likes.",".$comments.");";
+			$result = mysqli_query($con, $query);
+		}
+	}
 
+	function retrievePostsFromDbDate($date, $con) {
+		$query = "SELECT fid, uid, tid, time, likes, comments FROM feeds WHERE time BETWEEN ('".$date." 00:00:00') AND ('".$date." 23:59:59');";
+		$result = mysqli_query($con, $query);
+		
+		$counter = -1;
+		$posts = array();
 
+		while($row = mysqli_fetch_assoc($result))
+		{
+		    $counter++;
 
+		    $posts[$counter]['fid']=$row['fid'];
+		    $posts[$counter]['uid']=$row['uid'];
+		    $posts[$counter]['tid']=$row['tid'];
+		    $posts[$counter]['time']=$row['time'];
+		    $posts[$counter]['likes']=$row['likes'];
+		    $posts[$counter]['comments']=$row['comments'];
 
-
-
-
-
-
-
-
-
+		}
+		
+		return $posts;
+	}
+	
+	//print_r(getMe($session));
 ?>
