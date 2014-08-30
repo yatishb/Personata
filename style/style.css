@@ -75,6 +75,18 @@ body {
 	margin-left: -15px;
 }
 
+.fb-like {
+	position: absolute;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	left: 20px;
+}
+
+#fb-root {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 
 
 

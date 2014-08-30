@@ -4,15 +4,15 @@ $(function(){
 	  frictionlessRequests: true,
 	  status: true,
 	  cookie: true,
-      xfbml: true,
-      oauth: true,
+    xfbml: true,
+    oauth: true,
 	  version: 'v2.0'
 	});
 
 	FB.Event.subscribe('auth.authResponseChange', onAuthResponseChange);
 	FB.Event.subscribe('auth.statusChange', onStatusChange);
 
-  //FB.Canvas.setSize();
+  FB.Canvas.setSize();
 
 	$('.ignore-default').click(function(e){
 		e.preventDefault();
@@ -20,6 +20,19 @@ $(function(){
 
 	switchView('#front-page');
 });
+
+function FBInvite(){
+    FB.ui({method:'apprequests',
+      message:'Invite your FB friends to Join Personata!'
+    },
+    function(e){
+      // if(e){
+      //  dialog('<h2>Successfully Invited</h2><p>Thank you very very much.</p>',!0)
+      // }else{
+      //  dialog('<h2>Error</h2><p>Failed To Invite Persons</p>',!0)
+      // }
+    })
+}
 
 function switchView(view) {
   $('.view').hide();
