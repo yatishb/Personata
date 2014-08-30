@@ -181,7 +181,13 @@ function renderEventsGraph1() {
 }
 
 function renderMonthDataGraph(){
-    $.getJSON( "../lineGraphJSON.php", function( data ) {
+    $.getJSON( "backend.php", {data: 'month'}, function( data ) {
+        var fields = $.map(data.fields, function(el) { return el; });
+        var lastMonth = $.map(data.lastmonth, function(el) { return el; });
+        var thisMonth = $.map(data.thismonth, function(el) { return el; });
+
+        console.log(data);
+
         var option = {
             chart: {
                 backgroundColor:'rgba(255, 255, 255, 0.2)',
@@ -206,7 +212,7 @@ function renderMonthDataGraph(){
             },
             xAxis: {
                 //from outside data 
-                categories: data.fields
+                categories: fields
             },
             yAxis: {
                 title: {
@@ -232,14 +238,14 @@ function renderMonthDataGraph(){
                 color: '#0066FF',
                 dashStyle: 'ShortDash',
                 //from outside data
-                data: data.thisMonth
+                data: thisMonth
             }, 
             {
                 name: 'Last Month',
                 color: '#8A2BE2',
                 dashStyle: 'ShortDash',
                 //from outside data
-                data: data.lastMonth
+                data: lastMonth
             }]
         }
 
