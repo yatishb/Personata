@@ -1,5 +1,10 @@
 <?php
+	session_start();
+	header('Content-type: text/html; charset=utf-8');
+	header('Content-Type: application/json');
+
 	require_once('authentication.php');
+	require_once('dbconnect.php');
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;
@@ -8,12 +13,21 @@
 	use Facebook\FacebookRequestException;
 
 	if (isset($_GET['data'])) {
+		getMe($session);
 		switch ($_GET['data']) {
 			case 'events':
 				$start_time = date("Y")."-".(date("m")-1)."-01";
 				$results = getEvents($session, $start_time, getEndTimeForLastMonth());
 				
 				print count($results);
+			break;
+
+			case 'month':
+				$start_time = date("Y")."-".(date("m")-1)."-01";
+				$array = getAllPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
+				
+				writePostsToDatabase($array, setupdb());
+				print json_encode(getPostsCountTwoMonths(setupdb()));
 			break;
 			
 			default:
@@ -67,7 +81,7 @@
 			  '/me?fileds=id'
 			);
 			$response = $request->execute();
-			$graphObject = $response->getGraphObject();
+			$graphObject = $response->getGraphObject(GraphUser::className());
 			$id = $graphObject->getId();
 
 			//store user id to session for later api calls
@@ -267,20 +281,23 @@
 			$thismonthdata[$i] = 0;
 			$i ++;
 		}
+		
+		$uid = $_SESSION['user_id'];
 
 		$query = "SELECT postdate, count(*) 
 			FROM feeds 
-			WHERE postdate BETWEEN ('".$firstDateLastMonth." 00:00:00') AND ('".$dateToday." 23:59:59')
+			WHERE postdate BETWEEN ('".$firstDateLastMonth." 00:00:00') AND ('".$dateToday." 23:59:59') AND uid = ".$uid."
 			GROUP BY postdate;";
 		$result = mysqli_query($con, $query);
 		while ($row = mysqli_fetch_assoc($result)) {
 			$postdate = $row["postdate"];
 			$dateelements = explode("-",$postdate);
 			$date = intval($dateelements[2]);
+			$numberOfPosts = intval($row["count(*)"]);
 			if ($dateelements[1] == $thismonth) {
-				$thismonthdata[$date] = $row["count(*)"];
+				$thismonthdata[$date] = $numberOfPosts;
 			} else {
-				$lastmonthdata[$date] = $row["count(*)"];
+				$lastmonthdata[$date] = $numberOfPosts;
 			}
 			
 		}
