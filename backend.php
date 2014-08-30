@@ -44,6 +44,21 @@
 		return "$year-$month-$endDate";
 	}
 
+	function getStartTimeForLastMonth() {
+		$year = date("Y");
+		$month = date("m");
+		//if current month is Jan, then last month is Dec
+		if ($month == 1) {
+			$month == 12;
+			$year--;
+		} else {
+			$month --;
+		}
+		$startDate = 1;
+
+		return "$year-$month-$startDate";
+	}
+
 	function getMe($session){
 		if ($session) {
 			$request = new FacebookRequest(
@@ -192,6 +207,37 @@
 		}
 		
 		return $posts;
+	}
+
+	function retrieveCountPostsFromDbDate($date, $con) {
+		$query = "SELECT count(fid) FROM feeds WHERE time BETWEEN ('".$date." 00:00:00') AND ('".$date." 23:59:59');";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_row($result);
+		
+		return $row;
+	}
+
+	//Returns Array with all dates in which there has been a post in the last 2 months along with the number of posts made
+	function getPostsCountTwoMonths($con){
+		$postsByDate = array();
+		$lastDateThisMonth = date('d');
+		$thismonth = date('m');
+		$year = date('y');
+		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
+		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$query = "SELECT fid, time FROM feeds WHERE time BETWEEN ('".$firstDateLastMonth." 00:00:00') AND ('".$dateToday." 23:59:59');";
+		$result = mysqli_query($con, $query);
+		while ($row = mysqli_fetch_assoc($result)) {
+			$dateOfPost = explode(" ", $row["time"]);
+			if (array_key_exists($dateOfPost[0], $postsByDate)) {
+				$postsByDate[$dateOfPost[0]] += 1;
+			} else{
+				$postsByDate[$dateOfPost[0]] = 1;
+			}
+		}
+		
+		return $postsByDate;
 	}
 	
 	//print_r(getMe($session));
