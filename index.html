@@ -11,9 +11,21 @@
 	<script src="js/highcharts-more.js"></script>
 	<script src="//code.highcharts.com/modules/heatmap.js"></script>
 	<script src="//connect.facebook.net/en_US/sdk.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script> 
 	<script src="js/core.js"></script>
 	<script src="js/social.js"></script>
 	<script src="js/graph.js"></script>
+
+	<script>
+  		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+  		ga('create', 'UA-54318266-1', 'auto');
+  		ga('send', 'pageview');
+	</script>
+	
 </head>
 <body>
 	<div id='dev'>This app is still under development.</div>
@@ -70,12 +82,18 @@
 					<div class='monthly-data events-data daily-data view menu-buttons'>
 						<a href=""><img src="img/choose_again_button.png" alt=""></a><br>
 						<a class='ignore-default' href=""><img src="img/share_button.png" alt=""></a><br>
-						<a class='ignore-default' href=""><img src="img/view_friends_button.png" alt=""></a><br>
-					</div>
+						<a class='ignore-default' href="" onclick="FBInvite()"><img src="img/view_friends_button.png" alt=""></a><br>
+					</div>	
 				</div>
 			</div>
 		</div>
+		<div class='row'>
+			<div class="fb-like col-md-offset-1" data-href="https://apps.facebook.com/personata-app/?fb_source=search&amp;ref=br_tf" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		</div>
 	</div>
 </body>
-<div id="fb-root"></div>
+
+<div id="fb-root">
+	<footer>Copyright&copy;Personata 2014-2014</footer>
+</div>
 </html>
