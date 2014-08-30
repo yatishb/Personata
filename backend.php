@@ -7,8 +7,8 @@
 	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequestException;
 
-	if (isset($_GET['data-type'])) {
-		switch ($_GET['data-type']) {
+	if (isset($_GET['data'])) {
+		switch ($_GET['data']) {
 			case 'events':
 				$start_time = date("Y")."-".(date("m")-1)."-01";
 				$results = getEvents($session, $start_time, getEndTimeForLastMonth());
