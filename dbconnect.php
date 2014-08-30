@@ -1,7 +1,7 @@
 <?php
 function setupdb()
 {
-	$con=mysqli_connect("localhost","root","CS3216@Group5","Personata");
+	$con=mysqli_connect("localhost","root","CS3216@Group5","Personate");
 
 	// Check connection
 	if (mysqli_connect_errno()) {
@@ -9,11 +9,11 @@ function setupdb()
 	}
 	else
 	{
-		return $conn;
+		return $con;
 	}
 }
 function closedb($conn)
 {
 	mysqli_close($conn);
-}	
+}
 ?>
