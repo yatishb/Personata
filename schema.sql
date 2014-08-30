@@ -1,5 +1,6 @@
 DROP TABLE types;
 DROP TABLE feeds;
+DROP TABLE users;
 
 CREATE TABLE types (
 	tid INTEGER NOT NULL AUTO_INCREMENT,
@@ -11,9 +12,15 @@ CREATE TABLE feeds(
 	fid VARCHAR(100),
 	uid VARCHAR(100) NOT NULL,
 	tid INTEGER NOT NULL,
-	time DATE,
-	likes INTEGER,
-	comments INTEGER,
+	postdate DATE,
+	time TIME,
 	PRIMARY KEY(fid),
 	FOREIGN KEY(tid) REFERENCES types(tid)
+	FOREIGN KEY(uid) REFERENCES users(uid)
+);
+
+CREATE TABLE users(
+	uid VARCHAR(100) NOT NULL,
+	modified DATE NOT NULL,
+	PRIMARY KEY(uid)
 );
