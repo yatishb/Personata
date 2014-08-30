@@ -9,7 +9,7 @@ function setupdb()
 	}
 	else
 	{
-		return $conn;
+		return $con;
 	}
 }
 function closedb($conn)
