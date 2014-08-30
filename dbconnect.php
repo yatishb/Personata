@@ -1,7 +1,7 @@
 <?php
 function setupdb()
 {
-	$con=mysqli_connect("localhost","root","CS3216@Group5","Personata");
+	$con=mysqli_connect("localhost","root","CS3216@Group5","Personate");
 
 	// Check connection
 	if (mysqli_connect_errno()) {
@@ -15,5 +15,5 @@ function setupdb()
 function closedb($conn)
 {
 	mysqli_close($conn);
-}	
+}
 ?>
