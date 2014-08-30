@@ -90,6 +90,14 @@
 
 	}
 
+	function getNumberFeedPostsLastMonth($session, $limit = 1000) {
+		$currenttime = time();
+		$lastmonth = $currenttime - (30*24*60*60);
+		
+		$postsInMonth = getAllPosts($session, $limit, $lastmonth, $currenttime);
+		return count($postsInMonth);
+	}
+
 	function convertObjectToArray($object) {
 		$array = array();
 		foreach ($object["data"] as $key => $value) {
