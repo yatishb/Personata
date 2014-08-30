@@ -45,7 +45,22 @@ $(document).ready(function() {
             }]
         }
  
-        $('#container').highcharts(option);
+        $('#pieGraph').highcharts(option);    
     });
-    
+
+    $('#share').click(function () {
+        var chart = $('#pieGraph').highcharts(),
+            svg = chart.getSVG();
+            
+        var canvas = document.createElement( "canvas" );
+        var ctx = canvas.getContext( "2d" );
+        var img = document.createElement( "img" );
+        img.setAttribute( "src", "data:image/svg+xml;base64," + btoa(svg));
+        ctx.canvas.width  = img.width;
+        ctx.canvas.height = img.height;
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            window.open( canvas.toDataURL( "image/png" ) );
+        };
+    });
 });
