@@ -250,12 +250,23 @@
 
 	//Returns Array with all dates in which there has been a post in the last 2 months along with the number of posts made
 	function getPostsCountTwoMonths($con){
-		$postsByDate = array();
 		$lastDateThisMonth = date('d');
 		$thismonth = date('m');
 		$year = date('y');
 		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
 		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$data = array();
+		$fields = array();
+		$lastmonthdata = array();
+		$thismonthdata = array();
+		$i = 1;
+		while ($i <= 31) {
+			$fields[$i] = $i;
+			$lastmonthdata[$i] = 0;
+			$thismonthdata[$i] = 0;
+			$i ++;
+		}
 
 		$query = "SELECT postdate, count(*) 
 			FROM feeds 
@@ -264,10 +275,20 @@
 		$result = mysqli_query($con, $query);
 		while ($row = mysqli_fetch_assoc($result)) {
 			$postdate = $row["postdate"];
-			$postsByDate[$postdate] = $row["count(*)"];
+			$dateelements = explode("-",$postdate);
+			$date = intval($dateelements[2]);
+			if ($dateelements[1] == $thismonth) {
+				$thismonthdata[$date] = $row["count(*)"];
+			} else {
+				$lastmonthdata[$date] = $row["count(*)"];
+			}
+			
 		}
 		
-		return $postsByDate;
+		$data["fields"] = $fields;
+		$data["lastmonth"] = $lastmonthdata;
+		$data["thismonth"] = $thismonthdata;
+		return $data;
 	}
 	
 	//print_r(getMe($session));
