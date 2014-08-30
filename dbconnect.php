@@ -1,5 +1,5 @@
 <?php
-function setup_db()
+function setupdb()
 {
 	$con=mysqli_connect("localhost","root","CS3216@Group5","Personata");
 
@@ -12,7 +12,7 @@ function setup_db()
 		return $conn;
 	}
 }
-function close_db($conn)
+function closedb($conn)
 {
 	mysqli_close($conn);
 }	
