@@ -126,11 +126,15 @@
 
 	// Returns an array of all posts in a specified time limit
 	function getAllPosts($session, $limit, $starttime, $endtime) {
-		$request = new FacebookRequest(
+		/* $request = new FacebookRequest(
 			$session,
 			'GET',
 			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
-			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+			since='.$starttime.'&until='.$endtime.'&limit='.$limit); */
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/me/posts?fields=id,created_time,type&since='.$starttime.'&until='.$endtime.'&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
 		$allPostsArray = $allPostsGraphObject->asArray();
@@ -159,6 +163,15 @@
 		return $permissions;
 	}
 
+	function getTypeID($type, $con) {
+		$query = "SELECT tid 
+			FROM types 
+			WHERE name = '".$type."';";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_assoc($result);
+		return $row["tid"];
+	}
+
 	function writePostsToDatabase($postArray, $con) {
 		foreach ($postArray as $post) {
 			$id = $post["id"];
@@ -167,27 +180,46 @@
 			$uid = $allids[0];
 
 			$time = $post["created_time"];
-			if(array_key_exists("likes", $post)){
-				$likes = $post["likes"]["summary"]["total_count"];	
+			$timearray = explode('T', $time);
+			$postdate = $timearray[0];
+			$posttime = $timearray[1];
+
+			$type = $post["type"];
+			$query = "SELECT count(*) 
+				FROM types 
+				WHERE name = '".$type."';";
+			$result = mysqli_query($con, $query);
+			$row = mysqli_fetch_row($result);
+			if ($row[0] == 0) {
+				$query = "INSERT INTO types(name) 
+					VALUES('".$type."');";
+				$result = mysqli_query($con, $query);
+			}
+			$tid = getTypeID($type, $con);
+
+			$query = "SELECT count(*) 
+				FROM users 
+				WHERE uid = ".$uid.";";
+			$result = mysqli_query($con, $query);
+			$row = mysqli_fetch_row($result);
+			if ($row[0] == 0) {
+				$query = "INSERT INTO users(uid, modified) VALUES(".$uid.",now());";
+				$result = mysqli_query($con, $query);
 			} else {
-				$likes = 0;
+				$query = "UPDATE users SET modified = now() WHERE uid =".$uid.";";
+				$result = mysqli_query($con, $query);
 			}
 			
-			
-			$tid =1;
-			if(array_key_exists("comments", $post)){
-				$comments = $post["comments"]["summary"]["total_count"];
-			} else {
-				$comments = 0;
-			}
-			
-			$query = "INSERT INTO feeds(fid, uid, tid, time, likes, comments) VALUES(".$fid.",".$uid.",".$tid.",('".$time."'),".$likes.",".$comments.");";
+			$query = "INSERT INTO feeds(fid, uid, tid, postdate, time) 
+				VALUES(".$fid.",".$uid.",".$tid.",('".$postdate."'),('".$posttime."'));";
 			$result = mysqli_query($con, $query);
 		}
 	}
 
 	function retrievePostsFromDbDate($date, $con) {
-		$query = "SELECT fid, uid, tid, time, likes, comments FROM feeds WHERE time BETWEEN ('".$date." 00:00:00') AND ('".$date." 23:59:59');";
+		$query = "SELECT fid, uid, tid, postdate, posttime 
+			FROM feeds 
+			WHERE time BETWEEN ('".$date."') AND ('".$date."');";
 		$result = mysqli_query($con, $query);
 		
 		$counter = -1;
@@ -196,21 +228,20 @@
 		while($row = mysqli_fetch_assoc($result))
 		{
 		    $counter++;
-
 		    $posts[$counter]['fid']=$row['fid'];
 		    $posts[$counter]['uid']=$row['uid'];
 		    $posts[$counter]['tid']=$row['tid'];
-		    $posts[$counter]['time']=$row['time'];
-		    $posts[$counter]['likes']=$row['likes'];
-		    $posts[$counter]['comments']=$row['comments'];
-
+		    $posts[$counter]['postdate']=$row['postdate'];
+		    $posts[$counter]['posttime']=$row['posttime'];
 		}
 		
 		return $posts;
 	}
 
 	function retrieveCountPostsFromDbDate($date, $con) {
-		$query = "SELECT count(fid) FROM feeds WHERE time BETWEEN ('".$date." 00:00:00') AND ('".$date." 23:59:59');";
+		$query = "SELECT count(fid) 
+			FROM feeds 
+			WHERE time BETWEEN ('".$date." 00:00:00') AND ('".$date." 23:59:59');";
 		$result = mysqli_query($con, $query);
 		$row = mysqli_fetch_row($result);
 		
@@ -226,15 +257,14 @@
 		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
 		$firstDateLastMonth = getStartTimeForLastMonth();
 
-		$query = "SELECT fid, time FROM feeds WHERE time BETWEEN ('".$firstDateLastMonth." 00:00:00') AND ('".$dateToday." 23:59:59');";
+		$query = "SELECT postdate, count(*) 
+			FROM feeds 
+			WHERE postdate BETWEEN ('".$firstDateLastMonth." 00:00:00') AND ('".$dateToday." 23:59:59')
+			GROUP BY postdate;";
 		$result = mysqli_query($con, $query);
 		while ($row = mysqli_fetch_assoc($result)) {
-			$dateOfPost = explode(" ", $row["time"]);
-			if (array_key_exists($dateOfPost[0], $postsByDate)) {
-				$postsByDate[$dateOfPost[0]] += 1;
-			} else{
-				$postsByDate[$dateOfPost[0]] = 1;
-			}
+			$postdate = $row["postdate"];
+			$postsByDate[$postdate] = $row["count(*)"];
 		}
 		
 		return $postsByDate;
