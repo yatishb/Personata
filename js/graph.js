@@ -195,7 +195,7 @@ function renderMonthDataGraph(){
             credits: {
                 //enabled: false
                 text: 'Personata',
-                href: 'https://apps.facebook.com/personata-app/'
+                href: 'http://54.254.165.1/dev/'
             },
             title: {
                 text: '',
@@ -254,7 +254,7 @@ function renderMonthDataGraph(){
 }
 
 function renderDailyDataGraph(){
-    $.getJSON( "../pieGraphJSON.php", function( data ) {
+    $.getJSON( "pieGraphJSON.php", function( data ) {
         var elements = new Array();
 
         for (var i = data.fields.length - 1; i >= 0; i--) {
@@ -270,7 +270,7 @@ function renderDailyDataGraph(){
             credits: {
                 //enabled: false
                 text: 'Personata',
-                href: 'https://apps.facebook.com/personata-app/'
+                href: 'http://54.254.165.1/dev/'
             },
             title: {
                 text: ''

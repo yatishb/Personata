@@ -21,7 +21,6 @@ $(function(){
 	switchView('#front-page');
 
   $('#share').click(function () {
-    console.log("come in to share");
     var chart = $('#monthly-container').highcharts(),
     svg = chart.getSVG();
 
@@ -33,9 +32,8 @@ $(function(){
     ctx.canvas.height = img.height;
     img.onload = function() {
       ctx.drawImage(img, 0, 0);
-      var photo = canvas.toDataURL();
-      // window.open( canvas.toDataURL( "image/png" ) );
-      console.log("come to call share to facebook function");
+      var photo = canvas.toDataURL("img/png");
+
       $.ajax({
         type: "POST",
         url: "saveImage.php",
@@ -61,7 +59,7 @@ function FBSharePhoto(){
       method: 'feed',
       name: 'Facebook Dialogs',
       link: 'http://54.254.165.1/dev/',
-      picture: 'http://54.254.165.1/dev/img/' + friendCache.me.id + '.png',
+      picture: 'http://54.254.165.1/dev/images/' + friendCache.me.id + '.png',
       caption: 'Reference Documentation',
       description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
     },
