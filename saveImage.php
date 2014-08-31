@@ -1,6 +1,6 @@
 <?php
 	// requires php5
-	define('UPLOAD_DIR', 'img/');
+	define('UPLOAD_DIR', 'images/');
 	$uid = $_POST['uid'];
 	$img = $_POST['imgBase64'];
 	$img = str_replace('data:image/png;base64,', '', $img);
