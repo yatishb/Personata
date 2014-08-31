@@ -118,10 +118,18 @@ function renderEventsGraph() {
 
 function renderEventsGraph1() {
     $('#events-container').highcharts({
-
         chart: {
             type: 'heatmap',
             backgroundColor:'rgba(255, 255, 255, 0.2)',
+        },
+
+        exporting: {
+            url: 'http://export.highcharts.com/',
+            enabled: false
+        },
+
+        credits: {
+            enabled: false
         },
 
         title: {
@@ -186,16 +194,16 @@ function renderMonthDataGraph(){
         var lastMonth = $.map(data.lastmonth, function(el) { return el; });
         var thisMonth = $.map(data.thismonth, function(el) { return el; });
 
-        console.log(data);
-
         var option = {
+            exporting: {
+                url: 'http://export.highcharts.com/',
+                enabled: false
+            },
             chart: {
                 backgroundColor:'rgba(255, 255, 255, 0.2)',
             },    
             credits: {
-                //enabled: false
-                text: 'Personata',
-                href: 'http://54.254.165.1/dev/'
+                enabled: false
             },
             title: {
                 text: '',
@@ -267,10 +275,12 @@ function renderDailyDataGraph(){
             chart: {
                 backgroundColor:'rgba(255, 255, 255, 0.2)',
             },
+            exporting: {
+                url: 'http://export.highcharts.com/',
+                enabled: false
+            },
             credits: {
-                //enabled: false
-                text: 'Personata',
-                href: 'http://54.254.165.1/dev/'
+                enabled: false
             },
             title: {
                 text: ''
