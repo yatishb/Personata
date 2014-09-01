@@ -1,13 +1,17 @@
 var friendCache = {};
+var isLoggedIn = false;
 
 function login(callback) {
-  FB.login(callback, {scope: 'user_friends, user_status, user_events, read_stream'});
+  FB.login(callback, {scope: 'user_friends, user_status, user_events, read_stream'});  
 }
 
 function loginCallback(response) {
-  console.log('loginCallback',response);
-  if(response.status != 'connected') {
-    top.location.href = 'https://www.facebook.com/appcenter/personata-app';
+  console.log(response);
+  if(response.authResponse) {
+    isLoggedIn = true;
+    window.location.href = "http://54.254.165.1/dev/";
+  } else {
+
   }
 }
 
@@ -70,5 +74,34 @@ function hasPermission(permission) {
       return true;
   }
   return false;
+}
+
+function FBSharePhoto(url){
+  FB.ui(
+    {
+      method: 'feed',
+      name: 'Facebook Dialogs',
+      link: 'http://54.254.165.1/dev/',
+      picture: url,//'http://54.254.165.1/dev/images/' + friendCache.me.id + '.png',
+      caption: 'Reference Documentation',
+      description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+    },
+    function(response) {
+      if (response && response.post_id) {
+        alert('Post was published.');
+      } else {
+        alert('Post was not published.');
+      }
+    }
+  );
+}
+
+function FBInvite(){
+    FB.ui({method:'apprequests',
+      message:'Invite your FB friends to Join Personata!'
+    },
+    function(e){
+      
+    });
 }
 
