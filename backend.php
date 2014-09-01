@@ -263,11 +263,12 @@
 	}
 
 	//Returns Array with all dates in which there has been a post in the last 2 months along with the number of posts made
-	function getPostsCountTwoMonths($con){
-		$lastDateThisMonth = date('d');
-		$thismonth = date('m');
-		$year = date('y');
-		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
+	function getPostsCountTwoMonths($con, $uid = null){
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
 		$firstDateLastMonth = getStartTimeForLastMonth();
 
 		$data = array();
@@ -281,8 +282,6 @@
 			$thismonthdata[$i] = 0;
 			$i ++;
 		}
-		
-		$uid = $_SESSION['user_id'];
 
 		$query = "SELECT postdate, count(*) 
 			FROM feeds 
@@ -306,6 +305,85 @@
 		$data["lastmonth"] = $lastmonthdata;
 		$data["thismonth"] = $thismonthdata;
 		return $data;
+	}
+
+	//Returns the activity of the user based on time
+	function getTimeActivityDistribution($con, $uid = null) {
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
+		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$timeDurations = array("00:00:00 - 02:00:00", "02:00:00 - 04:00:00", "04:00:00 - 06:00:00", "06:00:00 - 08:00:00", "08:00:00 - 10:00:00", "10:00:00 - 12:00:00", "12:00:00 - 14:00:00", "14:00:00 - 16:00:00", "16:00:00 - 18:00:00", "18:00:00 - 20:00:00", "20:00:00 - 22:00:00", "22:00:00 - 23:59:59");
+		$activity = array();
+		$i = 0;
+
+		foreach ($timeDurations as $times) {
+			$timeSlotLimits = explode(" - ", $times);
+			$query = "SELECT count(*) 
+				FROM feeds 
+				WHERE postdate BETWEEN ('".$firstDateLastMonth."') AND ('".$dateToday."') AND uid = ".$uid."
+				AND time BETWEEN ('".$timeSlotLimits[0]."') AND ('".$timeSlotLimits[1]."');";
+			$result = mysqli_query($con, $query);
+			$row = mysqli_fetch_row($result);
+			$activity[$i++] = $row[0];
+		}
+
+		$data["timeslots"] = $timeDurations;
+		$data["activity"] = $activity;
+		return $data;
+	}
+
+
+	//Returns the number of posts of each type in the user's feed
+	function getFeedTypeActivity($con, $uid = null) {
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
+		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$type = array();
+		$countOfType = array();
+		$locationOfTypeIdInArray = array();
+
+		$query = "SELECT tid, name 
+			FROM types;";
+		$result = mysqli_query($con, $query);
+		$i = 0;
+		while ($row = mysqli_fetch_assoc($result)) {
+			$type[$i] = $row["name"];
+			$locationOfTypeIdInArray[$row["tid"]] = $i;
+			$numberType = 0;
+			$i++;
+		}
+
+		$query = "SELECT tid, count(*)
+			FROM feeds
+			WHERE uid = ".$uid."
+			GROUP BY tid;";
+		$result = mysqli_query($con, $query);
+		$i = 0;
+		while ($row = mysqli_fetch_assoc($result)) {
+			$tid = $row["tid"];
+			$countOfType[$locationOfTypeIdInArray[$tid]] = $row["count(*)"];
+			$i++;
+		}
+
+		$data["type"] = $type;
+		$data["count"] = $countOfType;
+		return $data;
+	}
+
+	function getDateToday(){
+		$lastDateThisMonth = date('d');
+		$thismonth = date('m');
+		$year = date('y');
+		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
+		return $dateToday;
 	}
 	
 	//print_r(getMe($session));
