@@ -1,24 +1,8 @@
 var friendCache = {};
-var isLoggedIn = false;
-
-function login(callback) {
-  FB.login(callback, {scope: 'user_friends, user_status, user_events, read_stream'});  
-}
-
-function loginCallback(response) {
-  console.log(response);
-  if(response.authResponse) {
-    isLoggedIn = true;
-    window.location.href = "http://54.254.165.1/dev/";
-  } else {
-
-  }
-}
 
 function onStatusChange(response) {
-  if( response.status != 'connected' ) {
-    login(loginCallback);
-  } else {
+  if( response.status == 'connected' ) {
+    switchView('#front-page'); 
     getMe(function(){
       getPermissions(function(){
         renderMe();

@@ -17,6 +17,10 @@ body {
 	background-color: #ADD8E6;
 }
 
+.view {
+	display: none;
+}
+
 #title {
 	margin-top: 100px;
 	margin-bottom: 50px;
@@ -91,7 +95,6 @@ body {
 #logo
 {
 	margin: 10px;
-
 }
 #login-page
 {

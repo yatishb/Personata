@@ -15,14 +15,6 @@ $(function(){
 	$('.ignore-default').click(function(e){
 		e.preventDefault();
 	});
-
-  FB.getLoginStatus(function(response) {
-    if (response.status === 'connected') {
-      switchView('#front-page');
-    } else {
-      switchView('#login-page');
-    }
- });
 	
   $('#fb-login').click(function(){
     login(loginCallback);
@@ -50,19 +42,8 @@ $(function(){
 });
 
 function switchView(view) {
-  if (view == '#front-page') {
-    $('#login-page').hide();
-    $('#main').show();
-    $('.view').hide();
-    $(view).show();
-    
-  } else if (view == '#login-page') {
-    $('#main').hide();
-    $('#login-page').show();
-  } else {
-    $('.view').hide();
-    $(view).show();
-  }
+  $('.view').hide();
+  $(view).show();
 }
 
 function renderMe() {

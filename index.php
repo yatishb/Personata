@@ -1,3 +1,10 @@
+<?php
+	session_start();
+	if (!isset($_SESSION['fb_access_token'])) {
+		header('Location:login.html');
+		exit();
+	}
+?>
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -21,19 +28,10 @@
 <body>
 	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
-		<div id="login-page" class="view" style='display:none;'> 
-			<div id="header">
-				Welcome to Personata!
-			</div>
-			<div class="intro">
-				
-					Welcome to Personata! We give you a better and clearer insight of your facebook usage, based on your browsing and status histories. </br></br>
-					Check out your Facebook usage and login </br>
-					
-			</div>
-			<div id="fb-login"><a>f</a></div>
-  		</div>
-		<div class='row' id='main' style='display: none;'>
+		<div id="logo">
+	      <a href="http://54.254.165.1/dev/"><img src="img/logo.png" ></a>
+	    </div>
+		<div class='row' id='main'>
 			<div class='col-md-7 col-md-offset-1'>	
 				<div id='front-page' class='view'>
 					<div id='title'>
