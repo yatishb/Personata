@@ -1,5 +1,6 @@
 <?php
 	require_once('authentication.php');
+	require_once('backend.php');
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;
@@ -12,78 +13,43 @@
 	} else {
 		echo "Session found";
 
-		$postArray = getAllPosts($session, 200, 1391244171, 1398848971);
-		//var_dump($allPosts);
-		/*$numberPosts = count($allPosts["data"]);
-
-		$postArray = array();
-		foreach ($allPosts["data"] as $key => $value) {
-			$array = json_decode(json_encode($value), true);
-			$postArray[] = $array;
-		}*/
-
 		//$postarray now contains all the posts
 		/*foreach ($postArray as $eachPost) {
 			//Write to database
 			echo $eachPost["likes"]["summary"]["total_count"];
 			echo " ";
 		}*/
-		$id1 = $postArray[0]["id"];
-		$post = getParticularPost($session, $postArray[0]["id"]);
-		//var_dump($post);
-		echo $post["id"];
+		/*$currenttime = time();
+		$lastmonth = $currenttime - (30*24*60*60);
+		$con = setupdb();
+		$posts = getAllPosts($session, 200, $lastmonth, $unixtime);
+		writePostsToDatabase($postArray, $con);
+		$data = getPostsCountTwoMonths($con);
+		getTimeActivityDistribution($con);*/
 
-		//$now = new DateTime(null, new DateTimeZone('London'));
-		//echo $now->getTimestamp();
-
-		echo "count: ";
-		echo count($postArray);
+		/*$facebook = new FacebookSession::setDefaultApplication('752376788138741', '8b7ebc139e08f42a6b1740d9a4a36c6c');
+		getMe($session);
+		$fql = 'SELECT name from user where uid = ' . $_SESSION['user_id'];
+		$ret_obj = $facebook->api(array(
+                                   'method' => 'fql.query',
+                                   'query' => $fql,
+                                 ));
+		
+*/		$con = setupdb();
+		var_dump(getFeedTypeActivity($con));
+		var_dump(getTimeActivityDistribution($con));
+		echo "done";
 	}
-	//echo "out";
+	//echo "out
 
-	function convertObjectToArray($object) {
-		$array = array();
-		foreach ($object["data"] as $key => $value) {
-			$eachArray = json_decode(json_encode($value), true);
-			$array[] = $eachArray;
-		}
-
-		return $array;
-	}
-
-
-
-	function getAllPosts($session, $limit, $starttime, $endtime) {
-		$request = new FacebookRequest(
-			$session,
-			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
-			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
-		$response = $request->execute();
-		$allPostsGraphObject = $response->getGraphObject();
-		$allPostsArray = $allPostsGraphObject->asArray();
-
-		return convertObjectToArray($allPostsArray);
-	}
-
-	function getParticularPost($session, $id){
-		$request = new FacebookRequest(
-			$session,
-			'GET',
-			'/'.$id);
-		$response = $request->execute();
-		$postGraphObject = $response->getGraphObject();
-		return $postGraphObject;
-	}
-
-	function getPermissions($session) {
-		$request = new FacebookRequest(
-			$session,
-			'GET',
-			'/me/permissions');
-		$response = $request->execute();
-		$postsGraphObject = $response->getGraphObject();
-		$permissions = $postsGraphObject->asArray();
-	}
-	
 ?>
+
+
+
+
+
+
+
+
+
+
