@@ -95,5 +95,6 @@
 	<div id="fb-root">
 		<footer>Copyright&copy;Personata 2014-2014</footer>
 	</div>
+	<div class="modal"><!-- Place at bottom of page --></div>
 </body>
 </html>
