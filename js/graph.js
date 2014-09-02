@@ -266,15 +266,11 @@ function renderMonthDataGraph(){
 }
 
 function renderDailyDataGraph(){
-    console.log("come in for pie graph");
     $.getJSON( "backend.php", {data: 'type'}, function( data ) {
         var elements = new Array();
-        console.log("pie graph data: "+data);
-        for (var i = data.fields.length - 1; i >= 0; i--) {
+       for (var i = data.fields.length - 1; i >= 0; i--) {
             var field = data.fields[i];
             var ratio = data.data[i];
-            console.log("field: " + field);
-            console.log("data: " + ratio);
             elements.push([field, ratio]);
         };
 
