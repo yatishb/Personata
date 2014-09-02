@@ -73,8 +73,21 @@ function getRankingData(){
   var start = '2014-7-20';
   var end = '2014-09-03';
   $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
-    renderRanking(data);
+    for (var i = 0; i < data.length; i++) {
+      getPost(data[i].id, renderRanking);
+    };
   });
+}
+
+function getPost(id, callback){
+  FB.api(
+    "/"+id+"?fields=message,type,actions,created_time",
+    function (response) {
+      if (response && !response.error) {
+        console.log(response);
+      }
+    }
+);
 }
 
 function renderMe() {
