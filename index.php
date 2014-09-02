@@ -49,7 +49,7 @@
 						</div>
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a class='ignore-default' onclick="switchView('.events-data'); renderEventsGraph1();" href=""><img src="img/event.png" alt=""></a>
+								<a class='ignore-default' onclick="switchView('.events-data'); processEventGraph();" href=""><img src="img/event.png" alt=""></a>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
 								<a href=""><img src="img/ranking.png" alt=""></a>

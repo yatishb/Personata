@@ -1,4 +1,5 @@
 var friendCache = {};
+var eventCache = {};
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
@@ -36,6 +37,56 @@ function getFriends(callback) {
   //     console.error('/me/friends', response);
   //   }
   // });
+}
+
+function getEvents(uid, startDate, endDate, callback) {
+  FB.api("/"+uid+"/events?fields=id,start_time,end_time&since="+startDate+"&until="+endDate,
+    function (response) {
+      if (response && !response.error) {
+        eventCache.event = response.data;
+        callback(constructEventsDataAarray(startDate, endDate), startDate);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+}
+
+function constructEventsDataAarray(startDate, endDate) {
+  data = new initDataArray();
+
+  for (var i = 0; i < eventCache.event.length; i++) {
+    startTime = new Date(getDate(eventCache.event[i].start_time));
+    endTime = new Date(getDate(eventCache.event[i].end_time));
+    temp = new Date(startDate);
+    temp.setDate(temp.getDate()-1);
+    for (var j = 0; j < 30; j++) {
+      temp.setDate(temp.getDate()+1);
+      if (startTime >= temp && endTime <= temp) {
+        data[j] ++;
+      }
+    } 
+  }
+
+  result = new Array();
+  for (var i = 0; i < 30; i++) {
+    result.push(new Array(i-Math.floor(i/6)*6, Math.floor(i/6), data[i]));   
+  } 
+
+  return result;
+}
+
+function initDataArray() {
+  data = new Array();
+  for (var i = 0; i < 30; i++) {
+    data.push(0);
+  }
+
+  return data;
+}
+
+function getDate(time) {
+  return time.substring(0, 10);
 }
 
 function getPermissions(callback) {
