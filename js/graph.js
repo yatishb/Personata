@@ -268,11 +268,13 @@ function renderMonthPostGraph(){
 }
 
 function renderMonthLikeGraph(){
-    var currMon = new Date().getMonth();
+    var currMon = (new Date()).getMonth();
     var lastMon = currMon - 1;
     if (currMon == 1) {
         lastMon = 12;
     }
+
+    console.log(currMon);
     var currResult = getNumnerOfLikesAndCommentsInMonth(currMon);
     var lastResult = getNumnerOfLikesAndCommentsInMonth(lastMon);
     
@@ -341,14 +343,14 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
                 borderWidth: 1
             },
             series: [{
-                name: month[currMon-1],
+                name: month[currMon],
                 color: '#0066FF',
                 dashStyle: 'ShortDash',
                 //from outside data
                 data: currLikes
             }, 
             {
-                name: month[lastMon-1],
+                name: month[lastMon],
                 color: '#8A2BE2',
                 dashStyle: 'ShortDash',
                 //from outside data
