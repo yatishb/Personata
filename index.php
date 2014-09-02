@@ -28,31 +28,40 @@
 <body>
 	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
-		<div id="logo">
-	      <a href="http://54.254.165.1/dev/"><img src="img/logo.png" ></a>
-	    </div>
 		<div class='row' id='main'>
-			<div class='col-md-7 col-md-offset-1'>	
+			<div class='col-lg-7 col-md-8'>	
+				<div id="logo">
+			      <a href="http://54.254.165.1/dev/"><img src="img/logo.png" ></a>
+			    </div>
 				<div id='front-page' class='view'>
 					<div id='title'>
-						<img src="img/title.png" alt="">
+						Choose Your Data Type:
 					</div>
 					
 					<div id="menu">
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthDataGraph();" href=""><img src="img/monthly_data.png" alt=""></a>
+								<div class="ObjectContainer">
+                                    <div class="Object" onclick="switchView('.monthly-data'); renderMonthDataGraph();">
+                                        <img src="img/monthly_data.png">
+                                    </div>
+                                    <a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthDataGraph();" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
+                                        Have you been more social for the past month?
+                                    </a>
+                                </div>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
-								<a class='ignore-default' onclick="switchView('.daily-data'); renderDailyDataGraph();" href=""><img src="img/daily_data.png" alt=""></a>
+								<a class='ignore-default ObjectContainer' onclick="switchView('.daily-data'); renderDailyDataGraph();" href="">
+									<img src="img/daily_data.png" alt="">
+								</a>
 							</div>
 						</div>
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a class='ignore-default' onclick="switchView('.events-data'); processEventGraph();" href=""><img src="img/event.png" alt=""></a>
+								<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); processEventGraph();" href=""><img src="img/event.png" alt=""></a>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
-								<a href=""><img src="img/ranking.png" alt=""></a>
+								<a class='ignore-default ObjectContainer' href=""><img src="img/ranking.png" alt=""></a>
 							</div>
 						</div>		
 					</div>
@@ -72,29 +81,71 @@
 						<div id="events-container" class="col-sm-12"></div>
 					</div>
 				</div>
+				<div class='row'>
+					<div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
+				</div>
 			</div>
-			<div class='col-md-3 col-md-offset-1 hidden-sm hidden-xs'>	
+			<div class='col-lg-2 hidden-xs'>	
 				<div class='row'>
 					<div id='user'>
 							<img id="photo" src="" alt="">
 					</div>
 				</div>
-				<div class='row'>	
-					<div class='monthly-data events-data daily-data view menu-buttons'>
-						<a href=""><img src="img/choose_again_button.png" alt=""></a><br>
-						<a class='ignore-default' id="share" href="#" styl="display:block"><img src="img/share_button.png" alt=""></a><br>
-						<a class='ignore-default' href="" onclick="FBInvite()"><img src="img/view_friends_button.png" alt=""></a><br>
-					</div>	
+				<div class='row'>
+					<div class="iconlist monthly-data events-data daily-data view">
+                        <a href="">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/home.png">
+                                    <p class="imgDescription">HOME</p>
+                            </div>
+                        </a>
+                        <a href="#" id="share" class='ignore-default'>
+                            <div class="imgWrap">
+                                <img class="icon" src="img/share.png">
+                                    <p class="imgDescription"> SHARE it! </p>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/view.png">
+                                    <p class="imgDescription">VIEW friends!</p>
+                            </div>
+                        </a>
+                        <a href="#" class='ignore-default' onclick="FBInvite()">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/invite.png">
+                                    <p class="imgDescription"> INVITE friends!</p>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/logout.png">
+                                    <p class="imgDescription"> Logout</p>
+                            </div>
+                        </a>
+                	</div>	
 				</div>
 			</div>
+
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+			    <div class='row'>
+			    	<div class="col-md-1">
+			    		<div class="sidebar">
+			    			<div class="intro">
+						        <img src="img/logo.png">
+						        </br></br>
+						            is an app created for you to view and evaluate your facebook usage.     You could know your monthly comments, likes and posts, view your     friends as well as share and invite them to use the app.
+						    </div>
+						    <div class="footer">
+						        Copyright 2014 &#169Personata
+						    </div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>	
 		</div>
-		<div class='row'>
-			<div class="fb-like col-md-offset-1" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
-		</div>
+		<div id="fb-root"></div>
+		<div class="modal"><!-- Place at bottom of page --></div>
 	</div>
-	<div id="fb-root">
-		<footer>Copyright&copy;Personata 2014-2014</footer>
-	</div>
-	<div class="modal"><!-- Place at bottom of page --></div>
 </body>
 </html>
