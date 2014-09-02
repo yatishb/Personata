@@ -31,7 +31,7 @@
 		<div class='row' id='main'>
 			<div class='col-lg-7 col-md-8'>	
 				<div id="logo">
-			      <a href="http://54.254.165.1/dev/"><img src="img/logo.png" ></a>
+			      <a href="."><img src="img/logo.png" ></a>
 			    </div>
 				<div id='front-page' class='view'>
 					<div id='title'>
@@ -42,10 +42,10 @@
 						<div class='row'>
 							<div class='col-sm-5'>
 								<div class="ObjectContainer">
-                                    <div class="Object" onclick="switchView('.monthly-data'); renderMonthDataGraph();">
+                                    <div class="Object" onclick="switchView('.monthly-data'); renderMonthPostGraph();">
                                         <img src="img/monthly_data.png">
                                     </div>
-                                    <a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthDataGraph();" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
+                                    <a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthPostGraph();" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
                                         Have you been more social for the past month?
                                     </a>
                                 </div>
@@ -68,6 +68,9 @@
 				</div>
 				<div class='row'>
 					<div class='monthly-data center-div view col-sm-12'>
+						<a href="" class="ignore-default" onclick="renderMonthPostGraph();">Posts</a>
+						<a href="" class="ignore-default" onclick="renderMonthLikeGraph();">Likes</a>
+						<a href="" class="ignore-default" onclick="renderMonthCommentGraph();">Comments</a>
 						<div id="monthly-container" class='col-sm-12'></div>
 					</div>
 				</div>

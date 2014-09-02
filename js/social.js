@@ -3,7 +3,9 @@ var eventCache = {};
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
-    switchView('#front-page'); 
+    switchView('#front-page');
+    getNumnerOfLikesAndCommentsInMonth(8);
+
     getMe(function(){
       getPermissions(function(){
         renderMe();
@@ -126,7 +128,7 @@ function getNumberOfLikesAndCommentsOnDay(startTime, endTime) {
             numberOfLikes += response.data[i].likes.summary.total_count;
           }
           if (response.data[i].comments) {
-            numberOfComments += reponse.data[i].comments.summary.total_count;
+            numberOfComments += response.data[i].comments.summary.total_count;
           };
         };
       }
@@ -153,6 +155,7 @@ function getNumnerOfLikesAndCommentsInMonth( month ) {
     likesAndCommentsInMonth.push([result['likes'], result['comments']]);
   };
 
+  console.log(likesAndCommentsInMonth);
   return likesAndCommentsInMonth;
 }
 
@@ -169,8 +172,6 @@ function FBSharePhoto(url){
     function(response) {
       if (response && response.post_id) {
         alert('Post was published.');
-      } else {
-        alert('Post was not published.');
       }
     }
   );
