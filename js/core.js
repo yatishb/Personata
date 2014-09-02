@@ -43,8 +43,7 @@ $(function(){
   $body = $("body");
   $(document).ajaxStart(function () {
     $body.addClass("loading");
-    $('.modal').show();
-    console.log("start loading");
+    // $('.modal').show();
   });
 
   $(document).ajaxComplete(function () {
