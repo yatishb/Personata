@@ -24,7 +24,7 @@
 
 			case 'month':
 				$start_time = getStartTimeForLastMonth();
-				$array = getAllPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
+				$array = getNewPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
 				
 				writePostsToDatabase($array, setupdb());
 				print json_encode(getPostsCountTwoMonths(setupdb()));
@@ -117,7 +117,12 @@
 
 
 	// Returns an array of all posts in a specified time limit
-	function getAllPosts($session, $limit, $starttime, $endtime) {
+	function getNewPosts($session, $limit, $starttime, $endtime) {
+		if( checkIfUserExistsInDb($_SESSION["user_id"], setupdb()) ){
+			$lastmodified = getLastModifiedTimeUser($_SESSION["user_id"], setupdb());
+			$dates = explode("-", $lastmodified);
+			$starttime = $dates[0]."-".$dates[1]."-".(intval($dates[2])-1);
+		}
 		$request = new FacebookRequest(
 			$session,
 			'GET',
@@ -127,6 +132,24 @@
 		$allPostsArray = $allPostsGraphObject->asArray();
 
 		return convertObjectToArray($allPostsArray);
+	}
+
+	function checkIfUserExistsInDb($uid, $con) {
+		$query = "SELECT count(*) 
+			FROM users 
+			WHERE uid = ".$uid.";";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_row($result);
+		return $row[0];
+	}
+
+	function getLastModifiedTimeUser($uid, $con) {
+		$query = "SELECT modified 
+			FROM users 
+			WHERE uid = ".$uid.";";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_row($result);
+		return $row[0];
 	}
 
 	function getParticularPost($session, $id){
