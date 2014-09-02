@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<title>Personata</title>
+	
+	<link href="style/style.css" rel="stylesheet" type="text/css">
+	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <script src="js/jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+  <div id='fb-root'></div>
+
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({ 
+      appId: 752376788138741,
+      status: true,
+      cookie: true,
+      xfbml: true,
+      oauth: true
+    });
+
+    function updateButton(response) {
+      if (response.authResponse) {
+        $.post("authentication.php", function(response){
+
+        });
+        window.location.href = "http://54.254.165.1/dev/";
+      } else {
+          document.getElementById('fb-login').addEventListener('click', function() {
+            FB.login(function(response) {
+              if (response.authResponse) {
+                $.post("authentication.php", function(response){
+          
+                });
+                window.location.href = "http://54.254.165.1/dev/";
+              } else {
+                // User cancelled login or did not grant authorization
+              }
+            }, {scope:'user_friends, user_status, user_events, read_stream'});    
+          });
+        }
+      }
+
+      // Run once with current status and whenever the status changes
+      FB.getLoginStatus(updateButton);
+      FB.Event.subscribe('auth.statusChange', updateButton);    
+    };
+
+    (function() {
+      var e = document.createElement('script'); 
+      e.async = true;
+      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+    </script>
+
+    <div id="logo">
+      <a href="http://54.254.165.1/dev/"><img src="img/logo.png" ></a>
+    </div>
+    <div id="login-page"> 
+      <div id="header">
+       Welcome to Personata!
+     </div>
+     <div class="intro">
+
+       Welcome to Personata! We give you a better and clearer insight of your facebook usage, based on your browsing and status histories. </br></br>
+       Check out your Facebook usage and login </br>
+
+     </div>
+     <div id="fb-login">
+      <a>f</a>
+    </div>
+  </div>
+  <div style='text-align: center;margin-bottom: 10px;'>
+    <footer>Copyright&copy;Personata 2014-2014</footer>
+  </div>
+</body>
+</html>

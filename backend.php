@@ -23,11 +23,16 @@
 			break;
 
 			case 'month':
-				$start_time = date("Y")."-".(date("m")-1)."-01";
-				$array = getAllPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
+				$start_time = getStartTimeForLastMonth();
+				$array = getNewPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
 				
 				writePostsToDatabase($array, setupdb());
 				print json_encode(getPostsCountTwoMonths(setupdb()));
+			break;
+
+			case 'type':
+				$data = getFeedTypeActivity(setupdb());
+				print json_encode($data);
 			break;
 			
 			default:
@@ -105,28 +110,6 @@
 		}
 	}
 
-	function getMostPopularPosts()
-	{
-		///retrieve 10 most popular posts from database
-		$query = "SELECT *, likes + comments AS popularity FROM feeds ORDER BY popularity DESC LIMIT 10";
-		$results = mysql_query("connection", $query);
-		
-		//request content for each post
-		while ($row = mysqli_fetch_array($results)) {
-			$id = $row['id'];
-
-		}
-
-	}
-
-	function getNumberFeedPostsLastMonth($session, $limit = 1000) {
-		$currenttime = time();
-		$lastmonth = $currenttime - (30*24*60*60);
-		
-		$postsInMonth = getAllPosts($session, $limit, $lastmonth, $currenttime);
-		return count($postsInMonth);
-	}
-
 	function convertObjectToArray($object) {
 		$array = array();
 		foreach ($object["data"] as $key => $value) {
@@ -139,12 +122,12 @@
 
 
 	// Returns an array of all posts in a specified time limit
-	function getAllPosts($session, $limit, $starttime, $endtime) {
-		/* $request = new FacebookRequest(
-			$session,
-			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
-			since='.$starttime.'&until='.$endtime.'&limit='.$limit); */
+	function getNewPosts($session, $limit, $starttime, $endtime) {
+		if( checkIfUserExistsInDb($_SESSION["user_id"], setupdb()) ){
+			$lastmodified = getLastModifiedTimeUser($_SESSION["user_id"], setupdb());
+			$dates = explode("-", $lastmodified);
+			$starttime = $dates[0]."-".$dates[1]."-".(intval($dates[2])-1);
+		}
 		$request = new FacebookRequest(
 			$session,
 			'GET',
@@ -154,6 +137,24 @@
 		$allPostsArray = $allPostsGraphObject->asArray();
 
 		return convertObjectToArray($allPostsArray);
+	}
+
+	function checkIfUserExistsInDb($uid, $con) {
+		$query = "SELECT count(*) 
+			FROM users 
+			WHERE uid = ".$uid.";";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_row($result);
+		return $row[0];
+	}
+
+	function getLastModifiedTimeUser($uid, $con) {
+		$query = "SELECT modified 
+			FROM users 
+			WHERE uid = ".$uid.";";
+		$result = mysqli_query($con, $query);
+		$row = mysqli_fetch_row($result);
+		return $row[0];
 	}
 
 	function getParticularPost($session, $id){
@@ -263,11 +264,13 @@
 	}
 
 	//Returns Array with all dates in which there has been a post in the last 2 months along with the number of posts made
-	function getPostsCountTwoMonths($con){
-		$lastDateThisMonth = date('d');
+	function getPostsCountTwoMonths($con, $uid = null){
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
 		$thismonth = date('m');
-		$year = date('y');
-		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
 		$firstDateLastMonth = getStartTimeForLastMonth();
 
 		$data = array();
@@ -281,8 +284,6 @@
 			$thismonthdata[$i] = 0;
 			$i ++;
 		}
-		
-		$uid = $_SESSION['user_id'];
 
 		$query = "SELECT postdate, count(*) 
 			FROM feeds 
@@ -307,6 +308,161 @@
 		$data["thismonth"] = $thismonthdata;
 		return $data;
 	}
+
+	//Returns the activity of the user based on time
+	function getTimeActivityDistribution($con, $uid = null) {
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
+		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$timeDurations = array("00:00:00 - 02:00:00", "02:00:00 - 04:00:00", "04:00:00 - 06:00:00", "06:00:00 - 08:00:00", "08:00:00 - 10:00:00", "10:00:00 - 12:00:00", "12:00:00 - 14:00:00", "14:00:00 - 16:00:00", "16:00:00 - 18:00:00", "18:00:00 - 20:00:00", "20:00:00 - 22:00:00", "22:00:00 - 23:59:59");
+		$activity = array();
+		$i = 0;
+
+		foreach ($timeDurations as $times) {
+			$timeSlotLimits = explode(" - ", $times);
+			$query = "SELECT count(*) 
+				FROM feeds 
+				WHERE postdate BETWEEN ('".$firstDateLastMonth."') AND ('".$dateToday."') AND uid = ".$uid."
+				AND time BETWEEN ('".$timeSlotLimits[0]."') AND ('".$timeSlotLimits[1]."');";
+			$result = mysqli_query($con, $query);
+			$row = mysqli_fetch_row($result);
+			$activity[$i++] = $row[0];
+		}
+
+		$data["timeslots"] = $timeDurations;
+		$data["activity"] = $activity;
+		return $data;
+	}
+
+
+	//Returns the number of posts of each type in the user's feed
+	function getFeedTypeActivity($con, $uid = null) {
+		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+
+		$dateToday = getDateToday();
+		$firstDateLastMonth = getStartTimeForLastMonth();
+
+		$type = array();
+		$countOfType = array();
+		$locationOfTypeIdInArray = array();
+
+		$query = "SELECT tid, name 
+			FROM types;";
+		$result = mysqli_query($con, $query);
+		$i = 0;
+		while ($row = mysqli_fetch_assoc($result)) {
+			$type[$i] = $row["name"];
+			$locationOfTypeIdInArray[$row["tid"]] = $i;
+			$countOfType[$i] = 0;
+			$i++;
+		}
+
+		$query = "SELECT tid, count(*)
+			FROM feeds
+			WHERE uid = ".$uid."
+			GROUP BY tid;";
+		$result = mysqli_query($con, $query);
+		$i = 0;
+		$totalcount = 0;
+		while ($row = mysqli_fetch_assoc($result)) {
+			$tid = $row["tid"];
+			$countOfType[$locationOfTypeIdInArray[$tid]] = $row["count(*)"];
+			$totalcount += intval($row["count(*)"]);
+			$i++;
+		}
+
+		$num = count($countOfType);
+		$i = 0;
+		$ratio = array();
+		while($i < $num) {
+			$ratio[$i] = $countOfType[$i]/$totalcount;
+			$i++;
+		}
+
+		$data["fields"] = $type;
+		$data["data"] = $ratio;
+		return $data;
+	}
+
+	function getDateToday(){
+		$lastDateThisMonth = date('d');
+		$thismonth = date('m');
+		$year = date('y');
+		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
+		return $dateToday;
+	}
+
+	function removePostsWithoutLikes($postArray) {
+		$filteredPosts = array();
+		foreach ($postArray as $eachpost) {
+			if (array_key_exists("likes", $eachpost)) {
+				array_push($filteredPosts, $eachpost);
+			}
+		}
+		return $filteredPosts;
+	}
+
+	function sortPostsOnLikes($postArray) {
+		$sorted = array();
+		$num = count($postArray);
+		$i = 0;
+		while ($i < $num-1) {
+			$j = 0;
+			while ($j < $num - $i - 1) {
+				$like1 = $postArray[$j]["likes"]["summary"]["total_count"];
+				$like2 = $postArray[$j+1]["likes"]["summary"]["total_count"];
+				if (intval($like2) > intval($like1)) {
+					$temp = $postArray[$j+1];
+					$postArray[$j+1] = $postArray[$j];
+					$postArray[$j] = $temp;
+				}
+				$j ++;
+			}
+			$i++;
+		}
+		return $postArray;
+	}
+
+	function getTopLiked($session, $starttime = null, $endtime = null, $limit = null) {
+		if($limit == null) {
+			$limit = 200;
+		}
+		if ($starttime == null) {
+			$starttime = time();
+		}
+		if ($endtime == null) {
+			$endtime = time() - (60*24*60*60);
+		}
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),type&
+			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+		$response = $request->execute();
+		$allPostsGraphObject = $response->getGraphObject();
+		$allPostsArray = $allPostsGraphObject->asArray();
+
+		$unsortedPosts = convertObjectToArray($allPostsArray);
+		$filtered = removePostsWithoutLikes($unsortedPosts);
+		$sorted = sortPostsOnLikes($filtered);
+
+		$data = array();
+		foreach ($sorted as $value) {
+			$nextPost = array();
+			$nextPost["id"] = $value["id"];
+			$nextPost["likes"] = $value["likes"]["summary"]["total_count"];
+			array_push($data, $nextPost);
+		}
+		return $data;
+	}
+
+
 	
 	//print_r(getMe($session));
 ?>

@@ -28,7 +28,6 @@ if (!empty($_SESSION['fb_access_token'])) {
 		$session = $helper->getSession();
 	} catch (Facebook\FacebookAuthorizationException $e) {
 		// Can't do anything about it. Fallback.
-		printf($e);
 	}
 
 	if ($session) {

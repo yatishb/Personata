@@ -17,6 +17,10 @@ body {
 	background-color: #ADD8E6;
 }
 
+.view {
+	display: none;
+}
+
 #title {
 	margin-top: 100px;
 	margin-bottom: 50px;
@@ -87,7 +91,96 @@ body {
 	margin-bottom: 10px;
 }
 
+/* For Log In Page */
+#logo
+{
+	margin: 10px;
+}
+#login-page
+{
+	opacity: 0.5;
+	width: 40%;
+	min-width: 300px;
+	height: 350px;
+	box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	margin-bottom: 100px;
+	padding: 20px;
+	background-color: white;
+}
+#header
+{
+	text-align: center;
+	margin: 20px;
+	font-size: 30px;
+	font-weight: bold;
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+}
 
+#login-page .intro
+{
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 20px;
+	text-align: justify;
+	font-size: 16px;
+	font-weight: lighter;
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+#fb-login
+{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	border: solid 1px grey;
+	padding-top: 10px;
+	padding-left: 40px;
+}
+#fb-login:hover
+{
+	border: solid 4px grey;
+	padding-top: 8px;
+	padding-left: 38px;
+}
+ #fb-login a
+{
+	font-size:60px; 
+	font-weight:bold;
+}
+#fb-login a:hover
+{
+	text-decoration: none;
+}
+
+/* Loading style css */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .2 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+body.loading {
+    overflow: hidden;   
+}
+
+body.loading .modal {
+    display: block;
+}
 
 
 
