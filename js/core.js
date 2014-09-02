@@ -1,3 +1,5 @@
+var currentView;
+
 $(function(){
 	FB.init({
 	  appId: 752376788138741,
@@ -23,7 +25,7 @@ $(function(){
   $('#share').click(function () {
       var obj = {}, chart;
           
-      chart = $('#monthly-container').highcharts();
+      chart = $(currentView).highcharts();
       obj.svg = chart.getSVG();
       obj.type = 'image/png';
       obj.width = 450; 
@@ -55,6 +57,8 @@ $(function(){
 function switchView(view) {
   $('.view').hide();
   $(view).show();
+  var temp = view.split("-");
+  currentView = '#' + temp[0].substring(1) + '-container';
 }
 
 function renderMe() {
