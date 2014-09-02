@@ -3,8 +3,7 @@ var eventCache = {};
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
-    switchView('#front-page');
-    getNumnerOfLikesAndCommentsInMonth(); 
+    switchView('#front-page'); 
     getMe(function(){
       getPermissions(function(){
         renderMe();
