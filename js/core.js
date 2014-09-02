@@ -61,6 +61,22 @@ function switchView(view) {
   currentView = '#' + temp[0].substring(1) + '-container';
 }
 
+function renderRanking(data){
+  var output = '<ul>';
+  for (var i = 0; i < data.length; i++) {
+    output += '<li>'+data[i].id+' '+data[i].likes+'</li>';
+  }
+  $('.ranking-data p').html(output+'</li>');
+}
+
+function getRankingData(){
+  var start = '2014-7-20';
+  var end = '2014-09-03';
+  $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
+    renderRanking(data);
+  });
+}
+
 function renderMe() {
   var user = $('#user');
   user.find('#photo').attr('src',friendCache.me.picture.data.url);
