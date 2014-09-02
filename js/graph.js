@@ -306,7 +306,7 @@ function renderDailyDataGraph(){
             },
             series: [{
                 type: 'pie',
-                name: 'Posts type',
+                name: 'Posts percentage',
                 data: elements
             }]
         }
