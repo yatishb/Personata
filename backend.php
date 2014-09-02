@@ -23,7 +23,7 @@
 			break;
 
 			case 'month':
-				$start_time = date("Y")."-".(date("m")-1)."-01";
+				$start_time = getStartTimeForLastMonth();
 				$array = getAllPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
 				
 				writePostsToDatabase($array, setupdb());
@@ -242,6 +242,7 @@
 		}
 
 		$dateToday = getDateToday();
+		$thismonth = date('m');
 		$firstDateLastMonth = getStartTimeForLastMonth();
 
 		$data = array();
@@ -390,7 +391,16 @@
 		return $postArray;
 	}
 
-	function getTopLiked($starttime, $endtime, $limit, $session) {
+	function getTopLiked($session, $starttime = null, $endtime = null, $limit = null) {
+		if($limit == null) {
+			$limit = 200;
+		}
+		if ($starttime == null) {
+			$starttime = time();
+		}
+		if ($endtime == null) {
+			$endtime = time() - (60*24*60*60);
+		}
 		$request = new FacebookRequest(
 			$session,
 			'GET',
