@@ -105,28 +105,6 @@
 		}
 	}
 
-	function getMostPopularPosts()
-	{
-		///retrieve 10 most popular posts from database
-		$query = "SELECT *, likes + comments AS popularity FROM feeds ORDER BY popularity DESC LIMIT 10";
-		$results = mysql_query("connection", $query);
-		
-		//request content for each post
-		while ($row = mysqli_fetch_array($results)) {
-			$id = $row['id'];
-
-		}
-
-	}
-
-	function getNumberFeedPostsLastMonth($session, $limit = 1000) {
-		$currenttime = time();
-		$lastmonth = $currenttime - (30*24*60*60);
-		
-		$postsInMonth = getAllPosts($session, $limit, $lastmonth, $currenttime);
-		return count($postsInMonth);
-	}
-
 	function convertObjectToArray($object) {
 		$array = array();
 		foreach ($object["data"] as $key => $value) {
@@ -385,6 +363,63 @@
 		$dateToday = $year . "-" . $thismonth . "-" . $lastDateThisMonth;
 		return $dateToday;
 	}
+
+	function removePostsWithoutLikes($postArray) {
+		$filteredPosts = array();
+		foreach ($postArray as $eachpost) {
+			if (array_key_exists("likes", $eachpost)) {
+				array_push($filteredPosts, $eachpost);
+			}
+		}
+		return $filteredPosts;
+	}
+
+	function sortPostsOnLikes($postArray) {
+		$sorted = array();
+		$num = count($postArray);
+		$i = 0;
+		while ($i < $num-1) {
+			$j = 0;
+			while ($j < $num - $i - 1) {
+				$like1 = $postArray[$j]["likes"]["summary"]["total_count"];
+				$like2 = $postArray[$j+1]["likes"]["summary"]["total_count"];
+				if (intval($like2) > intval($like1)) {
+					$temp = $postArray[$j+1];
+					$postArray[$j+1] = $postArray[$j];
+					$postArray[$j] = $temp;
+				}
+				$j ++;
+			}
+			$i++;
+		}
+		return $postArray;
+	}
+
+	function getTopLiked($starttime, $endtime, $limit, $session) {
+		$request = new FacebookRequest(
+			$session,
+			'GET',
+			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
+			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+		$response = $request->execute();
+		$allPostsGraphObject = $response->getGraphObject();
+		$allPostsArray = $allPostsGraphObject->asArray();
+
+		$unsortedPosts = convertObjectToArray($allPostsArray);
+		$filtered = removePostsWithoutLikes($unsortedPosts);
+		$sorted = sortPostsOnLikes($filtered);
+
+		$data = array();
+		foreach ($sorted as $value) {
+			$nextPost = array();
+			$nextPost["id"] = $value["id"];
+			$nextPost["likes"] = $value["likes"]["summary"]["total_count"];
+			array_push($data, $nextPost);
+		}
+		return $data;
+	}
+
+
 	
 	//print_r(getMe($session));
 ?>
