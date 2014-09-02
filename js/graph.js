@@ -117,11 +117,12 @@ function renderEventsGraph() {
 }
 
 function processEventGraph(){
+    $('body').addClass('loading');
     getEvents("me", "2014-07-20", "2014-08-19", renderEventsGraph1);
 }
 
 function renderEventsGraph1(data, startDate) {
-    console.log('result is ' + startDate);
+    $('body').removeClass('loading');
     $('#events-container').highcharts({
         chart: {
             type: 'heatmap',
