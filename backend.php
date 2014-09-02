@@ -118,11 +118,6 @@
 
 	// Returns an array of all posts in a specified time limit
 	function getAllPosts($session, $limit, $starttime, $endtime) {
-		/* $request = new FacebookRequest(
-			$session,
-			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
-			since='.$starttime.'&until='.$endtime.'&limit='.$limit); */
 		$request = new FacebookRequest(
 			$session,
 			'GET',
@@ -399,7 +394,7 @@
 		$request = new FacebookRequest(
 			$session,
 			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),comments.limit(1).summary(true),type&
+			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),type&
 			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
