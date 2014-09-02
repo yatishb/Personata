@@ -116,7 +116,12 @@ function renderEventsGraph() {
         });
 }
 
-function renderEventsGraph1() {
+function processEventGraph(){
+    getEvents("me", "2014-07-20", "2014-08-19", renderEventsGraph1);
+}
+
+function renderEventsGraph1(data, startDate) {
+    console.log('result is ' + startDate);
     $('#events-container').highcharts({
         chart: {
             type: 'heatmap',
@@ -162,19 +167,17 @@ function renderEventsGraph1() {
 
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+                temp = new Date(startDate);
+                increment = this.point.y*6+this.point.x;
+                temp.setDate(temp.getDate()+increment);
+                return '<b>Events: </b><br><b>' + this.point.value + '</b> events on ' + temp.toString().substring(0, 15) + '<br>';
             }
         },
 
         series: [{
             name: 'Events Per Day',
             borderWidth: 1,
-            data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 67], [1, 0, 92],
-                    [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0, 35], [2, 1, 15], 
-                    [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 1, 132], [3, 2, 114], 
-                    [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], 
-                    [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120]],
+            data: data,
             dataLabels: {
                 enabled: true,
                 color: 'black',
