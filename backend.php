@@ -29,6 +29,11 @@
 				writePostsToDatabase($array, setupdb());
 				print json_encode(getPostsCountTwoMonths(setupdb()));
 			break;
+
+			case 'type':
+				$data = getFeedTypeActivity(setupdb());
+				print json_encode($data);
+			break;
 			
 			default:
 				echo '<pre>'.print_r(getEvents($session, '2014-04-01', getEndTimeForLastMonth()),1).'</pre>';
@@ -354,7 +359,7 @@
 		while ($row = mysqli_fetch_assoc($result)) {
 			$type[$i] = $row["name"];
 			$locationOfTypeIdInArray[$row["tid"]] = $i;
-			$numberType = 0;
+			$countOfType[$i] = 0;
 			$i++;
 		}
 
@@ -364,14 +369,24 @@
 			GROUP BY tid;";
 		$result = mysqli_query($con, $query);
 		$i = 0;
+		$totalcount = 0;
 		while ($row = mysqli_fetch_assoc($result)) {
 			$tid = $row["tid"];
 			$countOfType[$locationOfTypeIdInArray[$tid]] = $row["count(*)"];
+			$totalcount += intval($row["count(*)"]);
 			$i++;
 		}
 
-		$data["type"] = $type;
-		$data["count"] = $countOfType;
+		$num = count($countOfType);
+		$i = 0;
+		$ratio = array();
+		while($i < $num) {
+			$ratio[$i] = $countOfType[$i]/$totalcount;
+			$i++;
+		}
+
+		$data["fields"] = $type;
+		$data["data"] = $ratio;
 		return $data;
 	}
 
