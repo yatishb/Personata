@@ -34,6 +34,13 @@
 				$data = getFeedTypeActivity(setupdb());
 				print json_encode($data);
 			break;
+
+			case 'ranking':
+				$start_time = $_GET['start'];
+				$end_time = $_GET['end'];
+				$data = getTopLiked($session, $start_time, $end_time);
+				print json_encode($data);
+			break;
 			
 			default:
 				echo '<pre>'.print_r(getEvents($session, '2014-04-01', getEndTimeForLastMonth()),1).'</pre>';
