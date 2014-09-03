@@ -10,8 +10,9 @@
 <head>
 	<title>Personata</title>
 	
-	<link href="style/style.css" rel="stylesheet" type="text/css">
+	
 	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="style/style.css" rel="stylesheet" type="text/css">
 	<script src="js/jquery-2.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/highcharts.js"></script>
@@ -26,56 +27,108 @@
 	
 </head>
 <body>
+	<div id="bg"></div>
 	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
 		<div class='row' id='main'>
-			<div class='col-lg-7 col-md-8'>	
-				<div id="logo">
+			<div id="logo">
 			      <a href="."><img src="img/logo.png" ></a>
-			    </div>
+			</div>
+			<!-- LHS of page -->
+			<div class='col-sm-9 col-md-7 col-lg-6 col-lg-offset-1'>	
+				<!-- meaning for normal display is nine of 12, for middle size is 7 out of 8? -->
+				
+
+			    <!-- front page -->
 				<div id='front-page' class='view'>
 					<div class='title'>
 						Choose Your Data Type:
 					</div>
-					
+
+					<!-- menu -->
 					<div id="menu">
 						<div class='row'>
 							<div class='col-sm-5'>
 								<div class="ObjectContainer">
-                                    <div class="Object" onclick="switchView('.monthly-data'); renderMonthPostGraph();">
-                                        <img src="img/monthly_data.png">
+                                    <div class="Object">
+                                        <img src="img/monthata.png">
                                     </div>
                                     <a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthPostGraph();" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
                                         Have you been more social for the past month?
                                     </a>
                                 </div>
 							</div>
+							<!-- Monthly -->
 							<div class='col-sm-5 col-sm-offset-1'>
+								<div class="ObjectContainer">
+                                    <div class="Object">
+                                        <img src="img/percenta.png">
+                                    </div>
 								<a class='ignore-default ObjectContainer' onclick="switchView('.daily-data'); renderDailyDataGraph();" href="">
-									<img src="img/daily_data.png" alt="">
+									See how active are you in the duration of a day! Which type of post you like to post the most?
 								</a>
+								</div>
 							</div>
+							<!-- Percenta -->
 						</div>
+						<!-- First Row -->
+
 						<div class='row'>
 							<div class='col-sm-5'>
-								<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); processEventGraph();" href=""><img src="img/event.png" alt=""></a>
+								<div class="ObjectContainer">
+                                    <div class="Object">
+                                        <img src="img/eventa.png">
+                                    </div>
+									<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); processEventGraph();" href="">
+										Having a busy schedule or loose track of your daily routine? See your event calendar.
+									 </a>
+								</div>
 							</div>
+							<!-- Eventa -->
 							<div class='col-sm-5 col-sm-offset-1'>
-								<a class='ignore-default ObjectContainer' onclick="switchView('.ranking-data'); getRankingData();" href=""><img src="img/ranking.png" alt=""></a>
+								<div class="ObjectContainer">
+									<div class="Object">
+                                        <img src="img/ranka.png">
+                                    </div>
+								<a class='ignore-default ObjectContainer' onclick="switchView('.ranking-data'); getRankingData();" href="">
+								See what is your most popular post that your friends like the most!</a>
+								</div>
 							</div>
-						</div>		
+							<!-- Ranking -->
+						</div>
+						<!-- Second Row -->
 					</div>
+					<!-- Menu -->
 				</div>
+				<!-- front page -->
+
+				<!-- subpage 1 monthly data -->
 				<div class='row'>
 					<div class='monthly-data center-div view col-sm-12'>
-						<p class='title sub-page-title'>Monthly Usage</p>
+						
+						<div class="title">The Monthly Usage</div>
+						<div class="row">
+							<div class="submenu col-sm-4 col-xs-2">
+								<a href="" class="ignore-default" onclick="renderMonthPostGraph();">&#9734</br>Post</a>
+							</div>
 
-						<a href="" class="ignore-default" onclick="renderMonthPostGraph();">Posts</a>
-						<a href="" class="ignore-default" onclick="renderMonthLikeGraph();">Likes</a>
-						<a href="" class="ignore-default" onclick="renderMonthCommentGraph();">Comments</a>
+							<div class="submenu col-sm-4 col-xs-2">
+								<a href="" class="ignore-default" onclick="renderMonthLikeGraph();">&#9825</br>Like</a>
+							</div>
+							<div class="submenu col-sm-4 col-xs-2">
+
+								<a href="" class="ignore-default" onclick="renderMonthCommentGraph();">&#9731</br>Comment</a>
+							</div>
+						</div>
+						
 						<div id="monthly-container" class='col-sm-12'></div>
+						
 					</div>
 				</div>
+				<!-- subpage 1 -->
+				<!-- oioio -->
+
+				<!-- subpage 2 percentage data -->
 				<div class='row'>
 					<div class='daily-data center-div view col-sm-12'>
 						<p class='title sub-page-title'>Percentage Data</p>
@@ -84,12 +137,18 @@
 						<div id="daily-container" class='col-sm-12'></div>
 					</div>
 				</div>
+				<!-- subpage 2 -->
+
+				<!-- subpage 3 events data-->
 				<div class='row'>
 					<div class='events-data center-div view col-sm-12'>
 						<p class='title sub-page-title'>Events HeatMap</p>
 						<div id="events-container" class="col-sm-12"></div>
 					</div>
 				</div>
+				<!-- PP3 -->
+
+				<!-- subpage 4 ranking data-->
 				<div class='row'>
 					<div class='ranking-data center-div view col-sm-12'>
 						<p class='title sub-page-title'>Most Popular Posts</p>
@@ -169,14 +228,22 @@
 						</ul>
 					</div>
 				</div>
+				<!-- subpage 4 ranking -->
+
+
 				<div class='row'>
 					<div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
 				</div>
 			</div>
-			<div class='col-lg-2 hidden-xs'>	
+
+
+
+			<!-- RHS of page -->
+			<div class='col-sm-2 col-sm-offset-1 col-md-1 hidden-xs'>	
 				<div class='row'>
 					<div id='user'>
 							<img id="photo" src="" alt="">
+							<div id="name">User Name</div>
 					</div>
 				</div>
 				<div class='row'>
@@ -215,14 +282,18 @@
 				</div>
 			</div>
 
-			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+			<div class="col-md-1 hidden-sm hidden-xs">
 			    <div class='row'>
 			    	<div class="col-md-1">
 			    		<div class="sidebar">
-			    			<div class="intro">
-						        <img src="img/logo.png">
+			    			<!-- <div class="intro"> -->
+						        <img src="img/logo-black.png">
 						        </br></br>
-						            is an app created for you to view and evaluate your facebook usage.     You could know your monthly comments, likes and posts, view your     friends as well as share and invite them to use the app.
+						         <div id="default-info">
+						            is an app created for you to view and evaluate your facebook usage.    
+						            You could know your monthly comments, likes and posts, view your     
+						            friends as well as share and invite them to use the app.
+						        </div>
 						    </div>
 						    <div class="footer">
 						        Copyright 2014 &#169Personata

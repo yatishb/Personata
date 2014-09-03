@@ -29,7 +29,6 @@ body {
 	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
 	font-size: 48px;
 	color: white;
-	margin-top: 40px;
 	margin-bottom: 20px;
 	left: 50px;
 	top: 100px;
@@ -53,18 +52,27 @@ body {
 }
 
 #user {
-	background-image: url('../img/userinfo.png');
-	margin-top: 80px;
-	height: 230px;
-	width: 200px;
+	
+	margin-top: 60px;
+	margin-left: -50px;
+	height: 120;
+	width: 120;
+	/*box-shadow: 0 0 5px grey;*/
 }
 
 #user #photo {
 	position: relative;
-	top: 15px;
-	left: 69px;
+	
 	height: 120px;
 	width: 120px;
+}
+#user #name{
+	position: absolute;
+	margin-top: 3px;
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+	font-size: 18px;
+	width: 120px;
+	text-align: right;
 }
 
 #menu {
@@ -72,11 +80,32 @@ body {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-
 #menu .row {
 	margin-bottom: 20px;
 }
+.submenu{
+	text-align: center;
+	margin-bottom: 20px;
+	margin-left: 40px;
+	padding-top: 20px; 
+	font-size: 16px;
+	width: 90px;
+	height: 90px;
+	border-radius: 45px;
+/*	border: 1px solid white;*/
+	box-shadow: 3px 3px 3px white;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}
+.submenu a{
+	text-decoration: none;
+	color: white;
+}
 
+.submenu:hover{
+	font-weight: bold;
+	box-shadow: none;
+	box-shadow: -3px -3px 3px white;
+}
 #events-container {
 	position: absolute;
 	margin-top: 50px;
@@ -85,7 +114,7 @@ body {
 
 #monthly-container {
 	position: absolute;
-	margin-top: 70px;
+
 	margin-left: -15px;
 }
 
@@ -280,16 +309,15 @@ body.loading .modal {
 	opacity: 0.4;
   	box-shadow: -2px 2px 6px grey;
   	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-}
-.sidebar .intro
-{
-	padding-left: 10px;
+  	color: black;
+  	padding-left: 20px;
 	padding-right: 20px;
-	margin-top: 200px;
+	padding-top: 300px;
 	font-size: 16px;
 	text-align: right;
 }
-.sidebar .footer
+
+.footer
 {
 	font-size: 12px;
 	text-align: right;
@@ -297,7 +325,8 @@ body.loading .modal {
 	color: grey;
 	position: fixed;
 	bottom: 3px;
-	/*font-weight: lighter;*/
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-weight: lighter;
 }
 
 /* Menu Animation */
@@ -310,9 +339,8 @@ body.loading .modal {
 }
 .ObjectContainer {
 	width: 300px;
-	height: 220px;
+	height: auto;
 	float: left;
-
 	position: relative;
 	overflow:hidden;
 }
@@ -327,13 +355,15 @@ body.loading .modal {
 }
 .ObjectContainer a {
 	position: absolute;
-	bottom: -300px;
+	bottom: 60px;
 	left: 0;
 	opacity: 0;
 	width: 100%;
 	line-height: 0px;
 	text-align: center;
 	vertical-align: middle;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-weight: lighter;
 }
 
 .ObjectContainer:hover .Object {
@@ -359,7 +389,8 @@ body.loading .modal {
 .iconlist
 {
 	position: absolute;
-	margin-left: 120px;
+	margin-left: 20px;
+	margin-top: 50px;
 }
 .imgWrap {
   position: relative;
@@ -379,11 +410,10 @@ body.loading .modal {
   padding:10px;
   visibility: hidden;
   opacity: 0;
-  font-size: 18px;
-
-  /*remove comment if you want a gradual transition between states
-  -webkit-transition: visibility opacity 0.2s;
-  */
+  font-size: 16px;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-weight: lighter;
+  
 }
 .imgWrap:hover .imgDescription {
   visibility: visible;
@@ -402,7 +432,7 @@ body.loading .modal {
 
 /*Timeline*/
 .timeline {
-	width: 65%;
+	width: 50%;
 	float: right;
 	position: relative;
 	border-left: dotted 3px white;
@@ -410,6 +440,7 @@ body.loading .modal {
 
 .timeline li {
 	display: block;
+	color: white;
 }
 
 .arrow {
@@ -474,7 +505,7 @@ body.loading .modal {
 
 /* Friends List */
 .popover-content{
-	width: 200px;
+	width: 500px;
 }
 
 
