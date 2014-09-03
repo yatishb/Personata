@@ -3,7 +3,7 @@ var eventCache = {};
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
-    switchView('#front-page'); 
+    switchView('#front-page');
     getMe(function(){
       getPermissions(function(){
         renderMe();
@@ -111,50 +111,91 @@ function hasPermission(permission) {
   return false;
 }
 
-function getNumberOfLikesAndCommentsOnDay(startTime, endTime) {
+function getNumberOfLikesOnDay(startTime, endTime, index, callback) {
   var numberOfLikes = 0;
-  var numberOfComments = 0;
-  
+
   FB.api(
-    "/me/posts?fields=likes.limit(1).summary(true), comments.limit(1).summary(true)&since="+startTime+"&until="+endTime,
+    "/me/posts?fields=likes.limit(1).summary(true)&since="+startTime+"&until="+endTime,
     function (response) {
       if (response && !response.error) {
-
-
         for (var i = response.data.length - 1; i >= 0; i--) {
           if (response.data[i].likes) {
             numberOfLikes += response.data[i].likes.summary.total_count;
           }
-          if (response.data[i].comments) {
-            numberOfComments += reponse.data[i].comments.summary.total_count;
-          };
         };
+
+        callback(numberOfLikes, index);
       }
     }
   );
-
-  var numberOfLikesAndComments = new Object();
-  numberOfLikesAndComments['comments'] = numberOfComments;
-  numberOfLikesAndComments['likes'] = numberOfLikes;
-
-  return numberOfLikesAndComments;
 }
 
-function getNumnerOfLikesAndCommentsInMonth( month ) {
+function getNumberOfLikesInMonth( month, callback ) {
   var today = new Date();
   month = typeof month !== 'undefined' ? month : today.getMonth()+1;
-  var likesAndCommentsInMonth = new Array();
+  var likesInMonth = new Array();
+  var countOfCallBacks = 0;
+  var number = 0;
 
-  for (var i = 1; i < new Date(today.getFullYear(), month, 0).getDate()+1; i++) {
-    var startOfDay = new Date(today.getFullYear(), month, i);
-    var endOfDay = new Date(today.getFullYear(), month, i, 23, 59, 59);
+  console.log(new Date(today.getFullYear(), month, 0));
+  var numberOfDays = new Date(today.getFullYear(), month, 0).getDate();
 
-    var result = getNumberOfLikesAndCommentsOnDay(startOfDay.getTime()/1000, endOfDay.getTime()/1000);
-    likesAndCommentsInMonth.push([result['likes'], result['comments']]);
+  for (var i = 1; i < new Date(today.getFullYear(), month, 0).getDate()+1; i++, number++) {
+    var startOfDay = new Date(today.getFullYear(), month-1, i);
+    var endOfDay = new Date(today.getFullYear(), month-1, i, 23, 59, 59);
+
+    getNumberOfLikesOnDay(startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(likes, index){
+      countOfCallBacks++;
+      likesInMonth[index] = likes;
+      if (countOfCallBacks == numberOfDays) {
+        callback(likesInMonth);
+      };
+    });
   };
-
-  return likesAndCommentsInMonth;
 }
+
+function getNumberOfCommentsOnDay(startTime, endTime, index, callback) {
+  var numberOfComments = 0;
+
+  FB.api(
+    "/me/posts?fields=comments.limit(1).summary(true)&since="+startTime+"&until="+endTime,
+    function (response) {
+      if (response && !response.error) {
+        for (var i = response.data.length - 1; i >= 0; i--) {
+          if (response.data[i].comments) {
+            numberOfComments += response.data[i].comments.summary.total_count;
+          };
+        };
+
+        callback(numberOfComments, index);
+      }
+    }
+  );
+}
+
+function getNumberOfCommentsInMonth( month, callback ) {
+  var today = new Date();
+  month = typeof month !== 'undefined' ? month : today.getMonth()+1;
+  var commentsInMonth = new Array();
+  var countOfCallBacks = 0;
+  var number = 0;
+
+  var numberOfDays = new Date(today.getFullYear(), month, 0).getDate();
+
+  for (var i = 1; i < new Date(today.getFullYear(), month, 0).getDate()+1; i++, number++) {
+    var startOfDay = new Date(today.getFullYear(), month-1, i);
+    var endOfDay = new Date(today.getFullYear(), month-1, i, 23, 59, 59);
+
+    getNumberOfCommentsOnDay(startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(comments, index){
+      countOfCallBacks++;
+      commentsInMonth[index] = comments;
+      if (countOfCallBacks == numberOfDays) {
+        callback(commentsInMonth);
+      };
+    });
+  };
+}
+
 
 function FBSharePhoto(url){
   FB.ui(
@@ -169,8 +210,6 @@ function FBSharePhoto(url){
     function(response) {
       if (response && response.post_id) {
         alert('Post was published.');
-      } else {
-        alert('Post was not published.');
       }
     }
   );
