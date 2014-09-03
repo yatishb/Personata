@@ -61,30 +61,37 @@ function switchView(view) {
   currentView = '#' + temp[0].substring(1) + '-container';
 }
 
-function renderRanking(data){
-  var output = '<ul>';
-  for (var i = 0; i < data.length; i++) {
-    output += '<li>'+data[i].id+' '+data[i].likes+'</li>';
+function renderRanking(index, like, data){
+  var time = data.created_time;
+  var link = data.actions[0].link;
+  var message = '';
+  if (data.message) {
+    message = data.message;
+    $('.timeline #'+index+' .message').html(message);
   }
-  $('.ranking-data p').html(output+'</li>');
+  $('#like-ranking-'+index).html(like+' likes');
+  $("#read-more-"+index).attr("href", link);
+  console.log(index + time + link + message + like);
 }
 
 function getRankingData(){
-  var start = '2014-7-20';
-  var end = '2014-09-03';
+  var d = new Date();
+  var start = d.getFullYear() + '-' + d.getMonth() + '-01';
+  var end = d.getFullYear() + '-' + (d.getMonth() + 1) + '-31';
   $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
+    console.log(data);
     for (var i = 0; i < data.length; i++) {
-      getPost(data[i].id, renderRanking);
+      getPost(data[i].id, data[i].likes, i, renderRanking);
     };
   });
 }
 
-function getPost(id, callback){
+function getPost(id, like, index, callback){
   FB.api(
     "/"+id+"?fields=message,type,actions,created_time",
     function (response) {
       if (response && !response.error) {
-        console.log(response);
+        callback(index, like, response);
       }
     }
 );

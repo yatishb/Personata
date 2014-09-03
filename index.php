@@ -61,7 +61,7 @@
 								<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); processEventGraph();" href=""><img src="img/event.png" alt=""></a>
 							</div>
 							<div class='col-sm-5 col-sm-offset-1'>
-								<a class='ignore-default ObjectContainer' href=""><img src="img/ranking.png" alt=""></a>
+								<a class='ignore-default ObjectContainer' onclick="switchView('.ranking-data'); getRankingData();" href=""><img src="img/ranking.png" alt=""></a>
 							</div>
 						</div>		
 					</div>
@@ -82,6 +82,84 @@
 				<div class='row'>
 					<div class='events-data center-div view col-sm-12'>
 						<div id="events-container" class="col-sm-12"></div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='ranking-data center-div view col-sm-12'>
+						<ul class="timeline">
+							<li id="0">
+								<div class="rightarrow arrow">
+									<p>1st <span id='like-ranking-0'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-0">Read More</a>
+								</div>
+							</li>
+							<li id="1">
+								<div class="rightarrow arrow">
+									<p>2nd <span id='like-ranking-1'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-1">Read More</a>
+								</div>
+							</li>
+							<li id="2">
+								<div class="leftarrow arrow">
+									<p>3rd <span id='like-ranking-2'></span></p>
+								</div>
+								<div class="display leftarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-2">Read More</a>
+								</div>
+							</li>
+							<li id="3">
+								<div class="rightarrow arrow">
+									<p>4th <span id='like-ranking-3'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-3">Read More</a>
+								</div>
+							</li>
+							<li id="4">
+								<div class="rightarrow arrow">
+									<p>5th <span id='like-ranking-4'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-4">Read More</a>
+								</div>
+							</li>
+							<li id="5">
+								<div class="leftarrow arrow">
+									<p>6th <span id='like-ranking-5'></span></p>
+								</div>
+								<div class="display leftarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-5">Read More</a>
+								</div>
+							</li>
+							<li id="6">
+								<div class="rightarrow arrow">
+									<p>7th <span id='like-ranking-6'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-6">Read More</a>
+								</div>
+							</li>
+							<li id="7">
+								<div class="rightarrow arrow">
+									<p>8th <span id='like-ranking-7'></span></p>
+								</div>
+								<div class="display rightarrow">
+									<p class='message'></p>
+									<a href="" id="read-more-7">Read More</a>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<div class='row'>
