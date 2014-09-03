@@ -398,7 +398,7 @@ function renderDailyDataGraph(){
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements, 'Percentage of all posts');
+        drawPieGraph(elements, 'of all posts');
     });
 }
 
@@ -406,22 +406,22 @@ function renderActiveDistribution(){
     $.getJSON( "backend.php",{data: 'active_time'}, function( data ) {
         var elements = new Array();
         var count = 0;
-        var timeDurations = new Array("00:00 - 02:00", "02:00 - 04:00", "04:00 - 06:00",
-                                    "06:00 - 08:00", "08:00 - 10:00", "10:00 - 12:00",
-                                    "12:00 - 14:00", "14:00 - 16:00", "16:00 - 18:00", 
-                                    "18:00 - 20:00", "20:00 - 22:00", "22:00:00 - 23:59:59");
+        var timeDurations = new Array("00:00 - 02:00: ", "02:00 - 04:00: ", "04:00 - 06:00: ",
+                                    "06:00 - 08:00: ", "08:00 - 10:00: ", "10:00 - 12:00: ",
+                                    "12:00 - 14:00: ", "14:00 - 16:00: ", "16:00 - 18:00: ", 
+                                    "18:00 - 20:00: ", "20:00 - 22:00: ", "22:00 - 23:59: ");
         
         for (var i = 0; i< 12 ; i++) {
-            count += data.activity[i];
+            count += Number(data.activity[i]);
         };
 
         for (var i = 0; i < 12; i++) {
-            var field = timeDurations[i];
+            var field = timeDurations[i]+data.activity[i] + "/" + count + "posts";
             var ratio = data.activity[i] / count;
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements, 'Percentage of active time slots');
+        drawPieGraph(elements, ' of all posts');
     });
 }
 
@@ -442,7 +442,7 @@ function drawPieGraph(elements, seriesName) {
             text: ''
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '<b>{point.percentage:.1f}%</b> {series.name}'
         },
         plotOptions: {
             pie: {
