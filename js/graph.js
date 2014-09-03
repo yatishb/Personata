@@ -1,3 +1,5 @@
+var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 function renderEventsGraph() {
     $('#events-container').highcharts({
         chart: {
@@ -192,7 +194,7 @@ function renderEventsGraph1(data, startDate) {
     });
 }
 
-function renderMonthDataGraph(){
+function renderMonthPostGraph(){
     $.getJSON( "backend.php", {data: 'month'}, function( data ) {
         var fields = $.map(data.fields, function(el) { return el; });
         var lastMonth = $.map(data.lastmonth, function(el) { return el; });
@@ -265,10 +267,130 @@ function renderMonthDataGraph(){
     });
 }
 
+function renderMonthLikeGraph(){
+    var currMon = (new Date()).getMonth();
+    var lastMon = currMon - 1;
+    if (currMon == 1) {
+        lastMon = 12;
+    }
+
+    console.log(currMon);
+    var currResult = getNumnerOfLikesAndCommentsInMonth(currMon);
+    var lastResult = getNumnerOfLikesAndCommentsInMonth(lastMon);
+    
+    var fields = new Array();
+    var currLikes = new Array();
+    var lastLikes = new Array();
+    for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+        if (i < currResult.length) {
+            currLikes.push(currResult[i][0]);
+        }
+        if (i < lastResult.length) {
+            lastLikes.push(lastResult[i][0]);
+        }
+        fields.push(i+1);
+    }
+
+    renderLineGraph("Number of Likes", " likes", fields, currMon, lastMon, currLikes, lastLikes);
+}
+
+function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
+    var option = {
+        exporting: {
+            url: 'http://export.highcharts.com/',
+            enabled: false
+        },
+        chart: {
+            backgroundColor:'rgba(255, 255, 255, 0.2)',
+        },    
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: '',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Source: Facebook.com',
+                x: -20
+            },
+            plotOptions: {
+                series: {
+                    threshold: 0,
+                }
+            },
+            xAxis: {
+                //from outside data 
+                categories: fields
+            },
+            yAxis: {
+                title: {
+                    text: title
+                },
+                plotLines: [{
+                    value: 1,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: suffix
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 1
+            },
+            series: [{
+                name: month[currMon],
+                color: '#0066FF',
+                dashStyle: 'ShortDash',
+                //from outside data
+                data: currLikes
+            }, 
+            {
+                name: month[lastMon],
+                color: '#8A2BE2',
+                dashStyle: 'ShortDash',
+                //from outside data
+                data: lastLikes
+            }]
+        }
+
+    $('#monthly-container').highcharts(option);
+}
+
+function renderMonthCommentGraph(){
+    var currMon = new Date().getMonth();
+    var lastMon = currMon - 1;
+    if (currMon == 1) {
+        lastMon = 12;
+    }
+    var currResult = getNumnerOfLikesAndCommentsInMonth(currMon);
+    var lastResult = getNumnerOfLikesAndCommentsInMonth(lastMon);
+    
+    var fields = new Array();
+    var currComments = new Array();
+    var lastComments = new Array();
+    for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+        if (i < currResult.length) {
+            currComments.push(currResult[i][1]);
+        }
+        if (i < lastResult.length) {
+            lastComments.push(lastResult[i][1]);
+        }
+        fields.push(i+1);
+    }
+
+    renderLineGraph("Number of Comments", " comments", fields, currMon, lastMon, currComments, lastComments);
+}
+
 function renderDailyDataGraph(){
-    $.getJSON( "backend.php", {data: 'type'}, function( data ) {
+    $.getJSON( "pieGraphJSON.php", function( data ) {
         var elements = new Array();
-       for (var i = data.fields.length - 1; i >= 0; i--) {
+
+        for (var i = data.fields.length - 1; i >= 0; i--) {
             var field = data.fields[i];
             var ratio = data.data[i];
             elements.push([field, ratio]);
