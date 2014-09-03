@@ -362,28 +362,30 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
 }
 
 function renderMonthCommentGraph(){
-    var currMon = new Date().getMonth();
+    var currMon = new Date().getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
         lastMon = 12;
     }
-    var currResult = getNumberOfLikesAndCommentsInMonth(currMon);
-    var lastResult = getNumberOfLikesAndCommentsInMonth(lastMon);
     
-    var fields = new Array();
-    var currComments = new Array();
-    var lastComments = new Array();
-    for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
-        if (i < currResult.length) {
-            currComments.push(currResult[i][1]);
-        }
-        if (i < lastResult.length) {
-            lastComments.push(lastResult[i][1]);
-        }
-        fields.push(i+1);
-    }
+    getNumberOfCommentsInMonth(currMon, function(currResult){
+        getNumberOfCommentsInMonth(lastMon, function(lastResult){
+            var fields = new Array();
+            var currComments = new Array();
+            var lastComments = new Array();
+            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+                if (i < currResult.length) {
+                    currComments.push(currResult[i]);
+                }
+                if (i < lastResult.length) {
+                    lastComments.push(lastResult[i]);
+                }
+                fields.push(i+1);
+            }
 
-    renderLineGraph("Number of Comments", " comments", fields, currMon, lastMon, currComments, lastComments);
+            renderLineGraph("Number of Comments", " comments", fields, currMon-1, lastMon-1, currComments, lastComments);
+        });
+    });
 }
 
 function renderDailyDataGraph(){

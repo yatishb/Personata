@@ -71,7 +71,6 @@ function renderRanking(index, like, data){
   }
   $('#like-ranking-'+index).html(like+' likes');
   $("#read-more-"+index).attr("href", link);
-  console.log(index + time + link + message + like);
 }
 
 function getRankingData(){
@@ -79,7 +78,6 @@ function getRankingData(){
   var start = d.getFullYear() + '-' + d.getMonth() + '-01';
   var end = d.getFullYear() + '-' + (d.getMonth() + 1) + '-31';
   $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
-    console.log(data);
     for (var i = 0; i < data.length; i++) {
       getPost(data[i].id, data[i].likes, i, renderRanking);
     };
