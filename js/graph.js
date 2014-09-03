@@ -268,30 +268,30 @@ function renderMonthPostGraph(){
 }
 
 function renderMonthLikeGraph(){
-    var currMon = (new Date()).getMonth();
+    var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
         lastMon = 12;
     }
 
-    console.log(currMon);
-    var currResult = getNumnerOfLikesAndCommentsInMonth(currMon);
-    var lastResult = getNumnerOfLikesAndCommentsInMonth(lastMon);
-    
-    var fields = new Array();
-    var currLikes = new Array();
-    var lastLikes = new Array();
-    for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
-        if (i < currResult.length) {
-            currLikes.push(currResult[i][0]);
-        }
-        if (i < lastResult.length) {
-            lastLikes.push(lastResult[i][0]);
-        }
-        fields.push(i+1);
-    }
+    getNumberOfLikesInMonth(currMon, function(currResult){
+        getNumberOfLikesInMonth(lastMon, function(lastResult){
+            var fields = new Array();
+            var currLikes = new Array();
+            var lastLikes = new Array();
+            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+                if (i < currResult.length) {
+                    currLikes.push(currResult[i]);
+                }
+                if (i < lastResult.length) {
+                    lastLikes.push(lastResult[i]);
+                }
+                fields.push(i+1);
+            }
 
-    renderLineGraph("Number of Likes", " likes", fields, currMon, lastMon, currLikes, lastLikes);
+            renderLineGraph("Number of Likes", " likes", fields, currMon-1, lastMon-1, currLikes, lastLikes);
+        });
+    });
 }
 
 function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
@@ -367,8 +367,8 @@ function renderMonthCommentGraph(){
     if (currMon == 1) {
         lastMon = 12;
     }
-    var currResult = getNumnerOfLikesAndCommentsInMonth(currMon);
-    var lastResult = getNumnerOfLikesAndCommentsInMonth(lastMon);
+    var currResult = getNumberOfLikesAndCommentsInMonth(currMon);
+    var lastResult = getNumberOfLikesAndCommentsInMonth(lastMon);
     
     var fields = new Array();
     var currComments = new Array();
@@ -387,7 +387,7 @@ function renderMonthCommentGraph(){
 }
 
 function renderDailyDataGraph(){
-    $.getJSON( "pieGraphJSON.php", function( data ) {
+    $.getJSON( "backend.php",{data: 'type'}, function( data ) {
         var elements = new Array();
 
         for (var i = data.fields.length - 1; i >= 0; i--) {
