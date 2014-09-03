@@ -34,7 +34,7 @@
 			      <a href="."><img src="img/logo.png" ></a>
 			    </div>
 				<div id='front-page' class='view'>
-					<div id='title'>
+					<div class='title'>
 						Choose Your Data Type:
 					</div>
 					
@@ -68,6 +68,8 @@
 				</div>
 				<div class='row'>
 					<div class='monthly-data center-div view col-sm-12'>
+						<p class='title sub-page-title'>Monthly Usage</p>
+
 						<a href="" class="ignore-default" onclick="renderMonthPostGraph();">Posts</a>
 						<a href="" class="ignore-default" onclick="renderMonthLikeGraph();">Likes</a>
 						<a href="" class="ignore-default" onclick="renderMonthCommentGraph();">Comments</a>
@@ -86,6 +88,7 @@
 				</div>
 				<div class='row'>
 					<div class='ranking-data center-div view col-sm-12'>
+						<p class='title sub-page-title'>Most Popular Posts</p>
 						<ul class="timeline">
 							<li id="0">
 								<div class="rightarrow arrow">

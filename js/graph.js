@@ -274,8 +274,8 @@ function renderMonthLikeGraph(){
         lastMon = 12;
     }
 
-    getNumberOfLikesInMonth(currMon, function(currResult){
-        getNumberOfLikesInMonth(lastMon, function(lastResult){
+    getNumberOfLikesInMonth("me", currMon, function(currResult){
+        getNumberOfLikesInMonth("me", lastMon, function(lastResult){
             var fields = new Array();
             var currLikes = new Array();
             var lastLikes = new Array();
@@ -368,8 +368,8 @@ function renderMonthCommentGraph(){
         lastMon = 12;
     }
     
-    getNumberOfCommentsInMonth(currMon, function(currResult){
-        getNumberOfCommentsInMonth(lastMon, function(lastResult){
+    getNumberOfCommentsInMonth("me", currMon, function(currResult){
+        getNumberOfCommentsInMonth("me", lastMon, function(lastResult){
             var fields = new Array();
             var currComments = new Array();
             var lastComments = new Array();
@@ -430,7 +430,7 @@ function renderDailyDataGraph(){
             },
             series: [{
                 type: 'pie',
-                name: 'Posts percentage',
+                name: 'Percentage of all posts',
                 data: elements
             }]
         }
