@@ -42,6 +42,17 @@ $(function(){
       });
   });
 
+  $("#view-friends-button").popover({
+    html : true, 
+    content: function() {
+      return $('#view-friends-content').html();
+    },
+    title: function() {
+      return $('#view-friends-title').html();
+    },
+    placement: 'left'
+  });
+
   $body = $("body");
   $(document).ajaxStart(function () {
     $body.addClass("loading");
@@ -100,14 +111,12 @@ function renderMe() {
   user.find('#photo').attr('src',friendCache.me.picture.data.url);
 }
 
-function renderFriends() {
-  var list = $('.scrollable_list');
-  list.children().remove('.item');
-  var template = list.find('.template'); 
+function renderFriendsList() {
+  var list = $('#view-friends-content');
+  var template = $('.template');
   for( var i = 0; i < friendCache.friends.length; i++ ) {
-    var item = template.clone().removeClass('template').addClass('item');
+    var item = template.clone().removeClass('template').addClass('friend');
     item.attr('data-id',friendCache.friends[i].id);
-    item.find('.name').html(friendCache.friends[i].name);
     item.find('.profile').attr('src',friendCache.friends[i].picture.data.url);
     list.append(item);
   }
