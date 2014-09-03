@@ -28,15 +28,15 @@ function getMe(callback) {
 }
 
 function getFriends(callback) {
-  // FB.api('/me/friends', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response){
-  //   if( !response.error ) {
-  //     friendCache.friends = response.data;
-  //     console.log(response);
-  //     callback();
-  //   } else {
-  //     console.error('/me/friends', response);
-  //   }
-  // });
+  FB.api('/me/friends', {fields: 'id,name,first_name,picture.width(120).height(120)'}, function(response){
+    if( !response.error ) {
+      friendCache.friends = response.data;
+      console.log(response);
+      callback();
+    } else {
+      console.error('/me/friends', response);
+    }
+  });
 }
 
 function getEvents(uid, startDate, endDate, callback) {
@@ -111,11 +111,11 @@ function hasPermission(permission) {
   return false;
 }
 
-function getNumberOfLikesOnDay(startTime, endTime, index, callback) {
+function getNumberOfLikesOnDay(uid, startTime, endTime, index, callback) {
   var numberOfLikes = 0;
 
   FB.api(
-    "/me/posts?fields=likes.limit(1).summary(true)&since="+startTime+"&until="+endTime,
+    "/"+uid+"/posts?fields=likes.limit(1).summary(true)&since="+startTime+"&until="+endTime,
     function (response) {
       if (response && !response.error) {
         for (var i = response.data.length - 1; i >= 0; i--) {
@@ -130,20 +130,20 @@ function getNumberOfLikesOnDay(startTime, endTime, index, callback) {
   );
 }
 
-function getNumberOfLikesInMonth( month, callback ) {
+function getNumberOfLikesInMonth(uid, month, callback) {
   var today = new Date();
   month = typeof month !== 'undefined' ? month : today.getMonth()+1;
   var likesInMonth = new Array();
   var countOfCallBacks = 0;
   var number = 0;
-  
+
   var numberOfDays = new Date(today.getFullYear(), month, 0).getDate();
 
   for (var i = 1; i < new Date(today.getFullYear(), month, 0).getDate()+1; i++, number++) {
     var startOfDay = new Date(today.getFullYear(), month-1, i);
     var endOfDay = new Date(today.getFullYear(), month-1, i, 23, 59, 59);
 
-    getNumberOfLikesOnDay(startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(likes, index){
+    getNumberOfLikesOnDay(uid, startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(likes, index){
       countOfCallBacks++;
       likesInMonth[index] = likes;
       if (countOfCallBacks == numberOfDays) {
@@ -153,11 +153,11 @@ function getNumberOfLikesInMonth( month, callback ) {
   };
 }
 
-function getNumberOfCommentsOnDay(startTime, endTime, index, callback) {
+function getNumberOfCommentsOnDay(uid, startTime, endTime, index, callback) {
   var numberOfComments = 0;
 
   FB.api(
-    "/me/posts?fields=comments.limit(1).summary(true)&since="+startTime+"&until="+endTime,
+    "/"+uid+"/posts?fields=comments.limit(1).summary(true)&since="+startTime+"&until="+endTime,
     function (response) {
       if (response && !response.error) {
         for (var i = response.data.length - 1; i >= 0; i--) {
@@ -172,7 +172,7 @@ function getNumberOfCommentsOnDay(startTime, endTime, index, callback) {
   );
 }
 
-function getNumberOfCommentsInMonth( month, callback ) {
+function getNumberOfCommentsInMonth(uid, month, callback) {
   var today = new Date();
   month = typeof month !== 'undefined' ? month : today.getMonth()+1;
   var commentsInMonth = new Array();
@@ -185,7 +185,7 @@ function getNumberOfCommentsInMonth( month, callback ) {
     var startOfDay = new Date(today.getFullYear(), month-1, i);
     var endOfDay = new Date(today.getFullYear(), month-1, i, 23, 59, 59);
 
-    getNumberOfCommentsOnDay(startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(comments, index){
+    getNumberOfCommentsOnDay(uid, startOfDay.getTime()/1000, endOfDay.getTime()/1000, number, function(comments, index){
       countOfCallBacks++;
       commentsInMonth[index] = comments;
       if (countOfCallBacks == numberOfDays) {

@@ -274,8 +274,8 @@ function renderMonthLikeGraph(){
         lastMon = 12;
     }
 
-    getNumberOfLikesInMonth(currMon, function(currResult){
-        getNumberOfLikesInMonth(lastMon, function(lastResult){
+    getNumberOfLikesInMonth("me", currMon, function(currResult){
+        getNumberOfLikesInMonth("me", lastMon, function(lastResult){
             var fields = new Array();
             var currLikes = new Array();
             var lastLikes = new Array();
@@ -368,8 +368,8 @@ function renderMonthCommentGraph(){
         lastMon = 12;
     }
     
-    getNumberOfCommentsInMonth(currMon, function(currResult){
-        getNumberOfCommentsInMonth(lastMon, function(lastResult){
+    getNumberOfCommentsInMonth("me", currMon, function(currResult){
+        getNumberOfCommentsInMonth("me", lastMon, function(lastResult){
             var fields = new Array();
             var currComments = new Array();
             var lastComments = new Array();
@@ -398,43 +398,62 @@ function renderDailyDataGraph(){
             elements.push([field, ratio]);
         };
 
-        var option = {
-            chart: {
-                backgroundColor:'rgba(255, 255, 255, 0.2)',
-            },
-            exporting: {
-                url: 'http://export.highcharts.com/',
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
+        drawPieGraph(elements);
+    });
+}
+
+function renderActiveDistribution(){
+    $.getJSON( "backend.php",{data: 'active'}, function( data ) {
+        var elements = new Array();
+
+        for (var i = data.fields.length - 1; i >= 0; i--) {
+            var field = data.fields[i];
+            var ratio = data.data[i];
+            elements.push([field, ratio]);
+        };
+
+        drawPieGraph(elements);
+    });
+}
+
+
+function drawPieGraph(elements) {
+    var option = {
+        chart: {
+            backgroundColor:'rgba(255, 255, 255, 0.2)',
+        },
+        exporting: {
+            url: 'http://export.highcharts.com/',
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Posts percentage',
-                data: elements
-            }]
-        }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Percentage of all posts',
+                    data: elements
+        }]
+    }
  
-        $('#daily-container').highcharts(option);
-    });
+    $('#daily-container').highcharts(option);
 }
