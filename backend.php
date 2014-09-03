@@ -35,6 +35,12 @@
 				print json_encode($data);
 			break;
 
+			case 'active_time':
+				$uid = $_GET['uid'];
+				$data = getTimeActivityDistribution(setupdb(), $uid);
+				print json_encode($data);
+			break;
+
 			case 'ranking':
 				$start_time = $_GET['start'];
 				$end_time = $_GET['end'];
