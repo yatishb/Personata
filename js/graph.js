@@ -398,43 +398,71 @@ function renderDailyDataGraph(){
             elements.push([field, ratio]);
         };
 
-        var option = {
-            chart: {
-                backgroundColor:'rgba(255, 255, 255, 0.2)',
-            },
-            exporting: {
-                url: 'http://export.highcharts.com/',
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
+        drawPieGraph(elements, 'of all posts');
+    });
+}
+
+function renderActiveDistribution(){
+    $.getJSON( "backend.php",{data: 'active_time'}, function( data ) {
+        var elements = new Array();
+        var count = 0;
+        var timeDurations = new Array("00:00 - 02:00: ", "02:00 - 04:00: ", "04:00 - 06:00: ",
+                                    "06:00 - 08:00: ", "08:00 - 10:00: ", "10:00 - 12:00: ",
+                                    "12:00 - 14:00: ", "14:00 - 16:00: ", "16:00 - 18:00: ", 
+                                    "18:00 - 20:00: ", "20:00 - 22:00: ", "22:00 - 23:59: ");
+        
+        for (var i = 0; i< 12 ; i++) {
+            count += Number(data.activity[i]);
+        };
+
+        for (var i = 0; i < 12; i++) {
+            var field = timeDurations[i]+data.activity[i] + "/" + count + "posts";
+            var ratio = data.activity[i] / count;
+            elements.push([field, ratio]);
+        };
+
+        drawPieGraph(elements, ' of all posts');
+    });
+}
+
+
+function drawPieGraph(elements, seriesName) {
+    var option = {
+        chart: {
+            backgroundColor:'rgba(255, 255, 255, 0.2)',
+        },
+        exporting: {
+            url: 'http://export.highcharts.com/',
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '<b>{point.percentage:.1f}%</b> {series.name}'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Percentage of all posts',
-                data: elements
-            }]
-        }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: seriesName,
+            data: elements
+        }]
+    }
  
-        $('#daily-container').highcharts(option);
-    });
+    $('#daily-container').highcharts(option);
 }
