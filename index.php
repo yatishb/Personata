@@ -78,11 +78,15 @@
 				</div>
 				<div class='row'>
 					<div class='daily-data center-div view col-sm-12'>
+						<p class='title sub-page-title'>Percentage Data</p>
+						<a href="" class="ignore-default">Post Type</a>
+						<a href="" class="ignore-default" onclick="renderActiveDistribution();">Daily Active Time</a>
 						<div id="daily-container" class='col-sm-12'></div>
 					</div>
 				</div>
 				<div class='row'>
 					<div class='events-data center-div view col-sm-12'>
+						<p class='title sub-page-title'>Events HeatMap</p>
 						<div id="events-container" class="col-sm-12"></div>
 					</div>
 				</div>
@@ -176,7 +180,7 @@
 					</div>
 				</div>
 				<div class='row'>
-					<div class="iconlist monthly-data events-data daily-data view">
+					<div class="iconlist monthly-data events-data daily-data ranking-data view">
                         <a href="">
                             <div class="imgWrap">
                                 <img class="icon" src="img/home.png">
@@ -189,9 +193,9 @@
                                     <p class="imgDescription"> SHARE it! </p>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="#"> 
                             <div class="imgWrap">
-                                <img class="icon" src="img/view.png">
+                                <img class="icon" src="img/view.png" id='view-friends-button'>
                                     <p class="imgDescription">VIEW friends!</p>
                             </div>
                         </a>
@@ -230,6 +234,12 @@
 		</div>
 		<div id="fb-root"></div>
 		<div class="modal"><!-- Place at bottom of page --></div>
+		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
+		<div id='view-friends-content' style='display:none;'>
+			<a class="template">
+				<img class='profile' src="" alt="">
+			</a>
+		</div>
 	</div>
 </body>
 </html>
