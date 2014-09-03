@@ -398,26 +398,35 @@ function renderDailyDataGraph(){
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements);
+        drawPieGraph(elements, 'Percentage of all posts');
     });
 }
 
 function renderActiveDistribution(){
-    $.getJSON( "backend.php",{data: 'active'}, function( data ) {
+    $.getJSON( "backend.php",{data: 'active_time'}, function( data ) {
         var elements = new Array();
+        var count = 0;
+        var timeDurations = new Array("00:00 - 02:00", "02:00 - 04:00", "04:00 - 06:00",
+                                    "06:00 - 08:00", "08:00 - 10:00", "10:00 - 12:00",
+                                    "12:00 - 14:00", "14:00 - 16:00", "16:00 - 18:00", 
+                                    "18:00 - 20:00", "20:00 - 22:00", "22:00:00 - 23:59:59");
+        
+        for (var i = 0; i< 12 ; i++) {
+            count += data.activity[i];
+        };
 
-        for (var i = data.fields.length - 1; i >= 0; i--) {
-            var field = data.fields[i];
-            var ratio = data.data[i];
+        for (var i = 0; i < 12; i++) {
+            var field = timeDurations[i];
+            var ratio = data.activity[i] / count;
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements);
+        drawPieGraph(elements, 'Percentage of active time slots');
     });
 }
 
 
-function drawPieGraph(elements) {
+function drawPieGraph(elements, seriesName) {
     var option = {
         chart: {
             backgroundColor:'rgba(255, 255, 255, 0.2)',
@@ -450,8 +459,8 @@ function drawPieGraph(elements) {
         },
         series: [{
             type: 'pie',
-            name: 'Percentage of all posts',
-                    data: elements
+            name: seriesName,
+            data: elements
         }]
     }
  
