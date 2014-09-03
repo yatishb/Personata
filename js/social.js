@@ -136,8 +136,7 @@ function getNumberOfLikesInMonth( month, callback ) {
   var likesInMonth = new Array();
   var countOfCallBacks = 0;
   var number = 0;
-
-  console.log(new Date(today.getFullYear(), month, 0));
+  
   var numberOfDays = new Date(today.getFullYear(), month, 0).getDate();
 
   for (var i = 1; i < new Date(today.getFullYear(), month, 0).getDate()+1; i++, number++) {
