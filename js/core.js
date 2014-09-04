@@ -103,6 +103,7 @@ function getRankingData(){
   var d = new Date();
   var start = d.getFullYear() + '-' + d.getMonth() + '-01';
   var end = d.getFullYear() + '-' + (d.getMonth() + 1) + '-31';
+  console.log(start, end);
   $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
     for (var i = 0; i < data.length; i++) {
       getPost(data[i].id, data[i].likes, i, renderRanking);
