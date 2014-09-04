@@ -503,8 +503,9 @@ body.loading .modal {
 }
 
 /* Friends List */
-.popover-content{
-	width: 500px;
+.popover{
+	max-width: 500px !important;
+	left: 400px !important;
 }
 
 
