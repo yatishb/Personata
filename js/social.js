@@ -3,7 +3,7 @@ var eventCache = {};
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
-    switchView('#front-page');
+    switchView('.front-page');
     getFriends(function(){
       renderFriendsList();
     });

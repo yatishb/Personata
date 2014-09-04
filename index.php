@@ -40,7 +40,7 @@
 				
 
 			    <!-- front page -->
-				<div id='front-page' class='view'>
+				<div class='front-page view'>
 					<div class='title'>
 						Choose Your Data Type:
 					</div>
@@ -252,7 +252,7 @@
 					</div>
 				</div>
 				<div class='row'>
-					<div class="iconlist">
+					<div class="iconlist front-page view">
                         <a href="" class='ignore-default' onclick="FBInvite()">
                             <div class="imgWrap">
                                 <img class="icon" src="img/invite.png">
@@ -293,9 +293,9 @@
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="#" id='logout'>
                             <div class="imgWrap">
-                                <img class="icon" src="img/logout.png" id='logout'>
+                                <img class="icon" src="img/logout.png">
                                     <p class="imgDescription"> Logout</p>
                             </div>
                         </a>
