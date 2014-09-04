@@ -252,6 +252,22 @@
 					</div>
 				</div>
 				<div class='row'>
+					<div class="iconlist">
+                        <a href="#" class='ignore-default' onclick="FBInvite()">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/invite.png">
+                                    <p class="imgDescription"> INVITE friends!</p>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="imgWrap">
+                                <img class="icon" src="img/logout.png" id='logout'>
+                                    <p class="imgDescription"> Logout</p>
+                            </div>
+                        </a>
+                	</div>	
+				</div>
+				<div class='row'>
 					<div class="iconlist monthly-data events-data daily-data ranking-data view">
                         <a href="">
                             <div class="imgWrap">
