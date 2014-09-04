@@ -274,7 +274,6 @@ function renderMonthPostGraph(uid){
 
 function renderMonthLikeGraph(uid){
     $('body').addClass('loading');
-    
     var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
@@ -303,7 +302,6 @@ function renderMonthLikeGraph(uid){
 
 function renderMonthCommentGraph(uid){
     $('body').addClass('loading');
-
     var currMon = new Date().getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
@@ -332,7 +330,6 @@ function renderMonthCommentGraph(uid){
 
 function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
     $('body').removeClass('loading');
-
     var option = {
         exporting: {
             url: 'http://export.highcharts.com/',
@@ -417,27 +414,29 @@ function renderActiveDistribution(uid){
     $.getJSON( "backend.php",{data: 'active_time', uid: uid}, function( data ) {
         var elements = new Array();
         var count = 0;
-        var timeDurations = new Array("00:00 - 02:00: ", "02:00 - 04:00: ", "04:00 - 06:00: ",
-                                    "06:00 - 08:00: ", "08:00 - 10:00: ", "10:00 - 12:00: ",
-                                    "12:00 - 14:00: ", "14:00 - 16:00: ", "16:00 - 18:00: ", 
-                                    "18:00 - 20:00: ", "20:00 - 22:00: ", "22:00 - 23:59: ");
-        
+        var timeDurations = new Array("08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00",
+                                    "14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00",
+                                    "20:00 - 22:00", "22:00 - 00:00", "00:00 - 02:00", 
+                                    "02:00 - 04:00", "04:00 - 06:00", "06:00 - 08:00");
+        var division = new Array();
+
         for (var i = 0; i< 12 ; i++) {
             count += Number(data.activity[i]);
         };
 
         for (var i = 0; i < 12; i++) {
-            var field = timeDurations[i]+data.activity[i] + "/" + count + "posts";
+            var field = timeDurations[i];
+            division.push(data.activity[i] + "/" + count + "posts");
             var ratio = data.activity[i] / count;
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements, ' of all posts');
+        drawPieGraph(elements, ' of all posts', division);
     });
 }
 
 
-function drawPieGraph(elements, seriesName) {
+function drawPieGraph(elements, seriesName, division) {
     var option = {
         chart: {
             backgroundColor:'rgba(255, 255, 255, 0.2)',
