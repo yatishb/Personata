@@ -1,6 +1,9 @@
 var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var monthPosts = new Array();
 var monthLikes = new Array();
 var monthComments = new Array();
+var dailyData = new Array();
+var activeTime = new Array();
 
 function renderEventsGraph() {
     $('#events-container').highcharts({
@@ -225,81 +228,91 @@ function renderEventsGraph1(data, startDate, name, type) {
 
 function renderMonthPostGraph(uid, name, type){
     console.log(uid + name + type);
-    $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
-        console.log(data);
-        var fields = $.map(data.fields, function(el) { return el; });
-        var lastMonth = $.map(data.lastmonth, function(el) { return el; });
-        var thisMonth = $.map(data.thismonth, function(el) { return el; });
 
-        var option = {
-            exporting: {
-                url: 'http://export.highcharts.com/',
-                enabled: false
-            },
-            chart: {
-                backgroundColor:'rgba(255, 255, 255, 0.5)',
-            },    
-            credits: {
-                enabled: false
-            },
+    if (monthPosts[uid]) {
+        drawMonthPostGraph(type, name, monthPosts[uid][0], monthPosts[uid][1], monthPosts[uid][2]);
+    } else {
+        $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
+            
+            console.log(data);
+
+            var fields = $.map(data.fields, function(el) { return el; });
+            var lastMonth = $.map(data.lastmonth, function(el) { return el; });
+            var thisMonth = $.map(data.thismonth, function(el) { return el; });
+
+            monthPosts[uid] = [fields, lastMonth, thisMonth];
+        
+            drawMonthPostGraph(type, name, fields, lastMonth, thisMonth);
+        });
+    }
+}
+
+function drawMonthPostGraph(type, name, fields, lastMonth, thisMonth) {
+    var option = {
+        exporting: {
+            url: 'http://export.highcharts.com/',
+            enabled: false
+        },
+        chart: {
+            backgroundColor:'rgba(255, 255, 255, 0.5)',
+        },    
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: type+' - '+name,
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: Facebook.com',
+            x: -20
+        },
+        plotOptions: {
+            series: {
+                threshold: 0,
+            }
+        },
+        xAxis: {
+            //from outside data 
+            categories: fields
+        },
+        yAxis: {
             title: {
-                text: type+' - '+name,
-                x: -20 //center
+                text: 'Number of Posts'
             },
-            subtitle: {
-                text: 'Source: Facebook.com',
-                x: -20
-
-            },
-
-            plotOptions: {
-                series: {
-                    threshold: 0,
-                }
-            },
-            xAxis: {
-                //from outside data 
-                categories: fields
-            },
-            yAxis: {
-                title: {
-                    text: 'Number of Posts'
-
-                },
-                plotLines: [{
-                    value: 1,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ' Posts'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 1
-            },
-            series: [
-            {
-                name: 'Last Month',
-                color: '#2F4B56',
-                dashStyle: 'Dot',
-                //from outside data
-                data: lastMonth
-            },
-            {
-                name: 'This Month',
-                color: '#F4C443',
-                dashStyle: 'Dot',
-                //from outside data
-                data: thisMonth
+            plotLines: [{
+                value: 1,
+                width: 1,
+                color: '#808080'
             }]
-        }
+        },
+        tooltip: {
+            valueSuffix: ' Posts'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 1
+        },
+        series: [
+        {
+            name: 'Last Month',
+            color: '#2F4B56',
+            dashStyle: 'Dot',
+            //from outside data
+            data: lastMonth
+        },
+        {
+            name: 'This Month',
+            color: '#F4C443',
+            dashStyle: 'Dot',
+            //from outside data
+            data: thisMonth
+        }]
+    }
 
-        $('#monthly-container').highcharts(option);
-    });
+    $('#monthly-container').highcharts(option);
 }
 
 function renderMonthLikeGraph(uid, name, type){
@@ -438,40 +451,50 @@ function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, cu
 }
 
 function renderDailyDataGraph(uid, name, type){
-    $.getJSON( "backend.php",{data: 'type', uid: uid}, function( data ) {
-        var elements = new Array();
+    if (dailyData[uid]) {
+        drawPieGraph(name, type, dailyData[uid], 'of all posts');
+    } else {
+        $.getJSON( "backend.php",{data: 'type', uid: uid}, function( data ) {
+            var elements = new Array();
 
-        for (var i = data.fields.length - 1; i >= 0; i--) {
-            var field = data.fields[i];
-            var ratio = data.data[i];
-            elements.push([field, ratio]);
-        };
+            for (var i = data.fields.length - 1; i >= 0; i--) {
+                var field = data.fields[i];
+                var ratio = data.data[i];
+                elements.push([field, ratio]);
+            };
 
-        drawPieGraph(name, type, elements, 'of all posts');
-    });
+            dailyData[uid] = elements;
+            drawPieGraph(name, type, elements, 'of all posts');
+        });
+    }
 }
 
 function renderActiveDistribution(uid, name, type){
-    $.getJSON( "backend.php",{data: 'active_time', uid: uid}, function( data ) {
-        var elements = new Array();
-        var count = 0;
-        var timeDurations = new Array("08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00",
-                                    "14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00",
-                                    "20:00 - 22:00", "22:00 - 00:00", "00:00 - 02:00", 
-                                    "02:00 - 04:00", "04:00 - 06:00", "06:00 - 08:00");
-        
-        for (var i = 0; i< 12 ; i++) {
-            count += Number(data.activity[i]);
-        };
+    if (activeTime[uid]) {
+        drawPieGraph(name, type, activeTime[uid], ' of all posts');
+    } else {
+        $.getJSON( "backend.php",{data: 'active_time', uid: uid}, function( data ) {
+            var elements = new Array();
+            var count = 0;
+            var timeDurations = new Array("08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00",
+                                        "14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00",
+                                        "20:00 - 22:00", "22:00 - 00:00", "00:00 - 02:00", 
+                                        "02:00 - 04:00", "04:00 - 06:00", "06:00 - 08:00");
+            
+            for (var i = 0; i< 12 ; i++) {
+                count += Number(data.activity[i]);
+            };
 
-        for (var i = 0; i < 12; i++) {
-            var field = timeDurations[i];
-            var ratio = data.activity[i] / count;
-            elements.push([field, ratio]);
-        };
+            for (var i = 0; i < 12; i++) {
+                var field = timeDurations[i];
+                var ratio = data.activity[i] / count;
+                elements.push([field, ratio]);
+            };
 
-        drawPieGraph(name, type, elements, ' of all posts');
-    });
+            activeTime[uid] = elements;
+            drawPieGraph(name, type, elements, ' of all posts');
+        });
+    }
 }
 
 
