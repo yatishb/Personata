@@ -126,14 +126,19 @@
 					</div>
 				</div>
 				<!-- subpage 1 -->
-				<!-- oioio -->
 
 				<!-- subpage 2 percentage data -->
 				<div class='row'>
 					<div class='daily-data center-div view col-sm-12'>
 						<p class='title sub-page-title'>Percentage Data</p>
-						<a href="" class="ignore-default">Post Type</a>
-						<a href="" class="ignore-default" onclick="renderActiveDistribution();">Daily Active Time</a>
+						<div class="row">
+							<div class="submenu col-sm-4 col-xs-3">
+								<a href="" class="ignore-default">Post Type</a>
+							</div>
+							<div class="submenu col-sm-4 col-xs-3">
+								<a href="" class="ignore-default" onclick="renderActiveDistribution();"> Activity</br> Level</a>
+							</div>
+						</div>
 						<div id="daily-container" class='col-sm-12'></div>
 					</div>
 				</div>
