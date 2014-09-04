@@ -133,7 +133,7 @@
 						<p class='title sub-page-title'>Percentage Data</p>
 						<div class="row">
 							<div class="submenu col-sm-4 col-xs-3">
-								<a href="" class="ignore-default">Post Type</a>
+								<a href="" class="ignore-default" onclick="renderDailyDataGraph();">Post Type</a>
 							</div>
 							<div class="submenu col-sm-4 col-xs-3">
 								<a href="" class="ignore-default" onclick="renderActiveDistribution();"> Activity</br> Level</a>
