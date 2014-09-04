@@ -60,6 +60,10 @@ $(function(){
     FB.logout(function(response) {
        var userInfo = document.getElementById('user-info');
     });
+    $.ajax({
+	url: '/dev/logout.php',
+	success: function () {}	
+    });
     window.location = "/dev/login.html";
   });
 
@@ -147,16 +151,17 @@ function renderFriendsGraph(param) {
   var uid = $(param).attr('data-id');
   if (dataType == 'monthly-post') {
     renderMonthPostGraph(uid);
+    console.log(currentView);
   } else if (dataType == 'monthly-like') {
-
+    renderMonthLikeGraph(uid);
   } else if (dataType == 'monthly-comment') {
-
+    renderMonthCommentGraph(uid);
   } else if (dataType == 'post-type') {
-
+    renderDailyDataGraph(uid);
   } else if (dataType == 'active-time') {
-
+    renderActiveDistribution(uid);
   } else if (dataType == 'event') {
-
+    processEventGraph(uid);
   } else if (dataType == 'ranking') {
 
   } else {
