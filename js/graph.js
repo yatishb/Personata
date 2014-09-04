@@ -120,7 +120,12 @@ function renderEventsGraph() {
 
 function processEventGraph(){
     $('body').addClass('loading');
-    getEvents("me", "2014-07-20", "2014-08-19", renderEventsGraph1);
+    var d = new Date();
+    var end = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
+    d.setDate(d.getDate() - 26);
+    var start = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
+
+    getEvents("me", start, end, renderEventsGraph1);
 }
 
 function renderEventsGraph1(data, startDate) {
@@ -206,7 +211,7 @@ function renderMonthPostGraph(){
                 enabled: false
             },
             chart: {
-                backgroundColor:'rgba(255, 255, 255, 0.2)',
+                backgroundColor:'rgba(255, 255, 255, 0.4)',
             },    
             credits: {
                 enabled: false
@@ -218,7 +223,9 @@ function renderMonthPostGraph(){
             subtitle: {
                 text: 'Source: Facebook.com',
                 x: -20
+
             },
+
             plotOptions: {
                 series: {
                     threshold: 0,
@@ -231,6 +238,7 @@ function renderMonthPostGraph(){
             yAxis: {
                 title: {
                     text: 'Number of Posts'
+
                 },
                 plotLines: [{
                     value: 1,
@@ -249,15 +257,15 @@ function renderMonthPostGraph(){
             },
             series: [{
                 name: 'This Month',
-                color: '#0066FF',
-                dashStyle: 'ShortDash',
+                color: '#86C1C7',
+                dashStyle: 'Dot',
                 //from outside data
                 data: thisMonth
             }, 
             {
                 name: 'Last Month',
-                color: '#8A2BE2',
-                dashStyle: 'ShortDash',
+                color: '#7FCCFA',
+                dashStyle: 'Dot',
                 //from outside data
                 data: lastMonth
             }]
@@ -344,15 +352,15 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
             },
             series: [{
                 name: month[currMon],
-                color: '#0066FF',
-                dashStyle: 'ShortDash',
+                color: '#FFE690',
+                dashStyle: 'Dot',
                 //from outside data
                 data: currLikes
             }, 
             {
                 name: month[lastMon],
-                color: '#8A2BE2',
-                dashStyle: 'ShortDash',
+                color: '#FF8260',
+                dashStyle: 'Dot',
                 //from outside data
                 data: lastLikes
             }]
@@ -457,12 +465,17 @@ function drawPieGraph(elements, seriesName) {
                 }
             }
         },
+        
         series: [{
             type: 'pie',
             name: seriesName,
             data: elements
         }]
     }
- 
+
     $('#daily-container').highcharts(option);
+}
+
+function pad(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString();
 }
