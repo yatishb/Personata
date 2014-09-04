@@ -118,12 +118,16 @@ function renderEventsGraph() {
         });
 }
 
-function processEventGraph(){
+function processEventGraph(uid, name, type){
     $('body').addClass('loading');
-    getEvents("me", "2014-07-20", "2014-08-19", renderEventsGraph1);
+    var d = new Date();
+    var end = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
+    d.setDate(d.getDate()-26);
+    var start = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
+    getEvents(uid, name, type, start, end, renderEventsGraph1);
 }
 
-function renderEventsGraph1(data, startDate) {
+function renderEventsGraph1(data, startDate, name, type) {
     $('body').removeClass('loading');
     $('#events-container').highcharts({
         chart: {
@@ -141,7 +145,7 @@ function renderEventsGraph1(data, startDate) {
         },
 
         title: {
-            text: ''
+            text: type+' - '+name
         },
 
         xAxis: {
@@ -194,7 +198,8 @@ function renderEventsGraph1(data, startDate) {
     });
 }
 
-function renderMonthPostGraph(uid){
+function renderMonthPostGraph(uid, name, type){
+    console.log(uid + name + type);
     $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
         console.log(data);
         var fields = $.map(data.fields, function(el) { return el; });
@@ -213,7 +218,7 @@ function renderMonthPostGraph(uid){
                 enabled: false
             },
             title: {
-                text: '',
+                text: type+' - '+name,
                 x: -20 //center
             },
             subtitle: {
@@ -254,14 +259,14 @@ function renderMonthPostGraph(uid){
             series: [
             {
                 name: 'Last Month',
-                color: '#000000',
+                color: '#2F4B56',
                 dashStyle: 'Dot',
                 //from outside data
                 data: lastMonth
             },
             {
                 name: 'This Month',
-                color: '#FF8260',
+                color: '#FFA0A3',
                 dashStyle: 'Dot',
                 //from outside data
                 data: thisMonth
@@ -272,7 +277,7 @@ function renderMonthPostGraph(uid){
     });
 }
 
-function renderMonthLikeGraph(uid){
+function renderMonthLikeGraph(uid, name, type){
     $('body').addClass('loading');
     var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
@@ -295,12 +300,12 @@ function renderMonthLikeGraph(uid){
                 fields.push(i+1);
             }
 
-            renderLineGraph("Number of Likes", " likes", fields, currMon-1, lastMon-1, currLikes, lastLikes);
+            renderLineGraph("Number of Likes", " likes", name, type, fields, currMon-1, lastMon-1, currLikes, lastLikes);
         });
     });
 }
 
-function renderMonthCommentGraph(uid){
+function renderMonthCommentGraph(uid, name, type){
     $('body').addClass('loading');
     var currMon = new Date().getMonth()+1;
     var lastMon = currMon - 1;
@@ -323,12 +328,12 @@ function renderMonthCommentGraph(uid){
                 fields.push(i+1);
             }
 
-            renderLineGraph("Number of Comments", " comments", fields, currMon-1, lastMon-1, currComments, lastComments);
+            renderLineGraph("Number of Comments", " comments", name, type, fields, currMon-1, lastMon-1, currComments, lastComments);
         });
     });
 }
 
-function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
+function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, currLikes, lastLikes) {
     $('body').removeClass('loading');
     var option = {
         exporting: {
@@ -336,14 +341,14 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
             enabled: false
         },
         chart: {
-            backgroundColor:'rgba(255, 255, 255, 0.2)',
+            backgroundColor:'rgba(255, 255, 255, 0.4)',
         },    
         credits: {
             enabled: false
         },
         title: {
-            text: '',
-                x: -20 //center
+            text: type+' - '+name,
+            x: -20 //center
             },
             subtitle: {
                 text: 'Source: Facebook.com',
@@ -360,6 +365,7 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
             },
             yAxis: {
                 title: {
+                    
                     text: title
                 },
                 plotLines: [{
@@ -396,7 +402,7 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
     $('#monthly-container').highcharts(option);
 }
 
-function renderDailyDataGraph(uid){
+function renderDailyDataGraph(uid, name, type){
     $.getJSON( "backend.php",{data: 'type', uid: uid}, function( data ) {
         var elements = new Array();
 
@@ -406,11 +412,11 @@ function renderDailyDataGraph(uid){
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements, 'of all posts');
+        drawPieGraph(name, type, elements, 'of all posts');
     });
 }
 
-function renderActiveDistribution(uid){
+function renderActiveDistribution(uid, name, type){
     $.getJSON( "backend.php",{data: 'active_time', uid: uid}, function( data ) {
         var elements = new Array();
         var count = 0;
@@ -431,16 +437,23 @@ function renderActiveDistribution(uid){
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(elements, ' of all posts', division);
+        drawPieGraph(name, type, elements, ' of all posts', division);
     });
 }
 
 
-function drawPieGraph(elements, seriesName, division) {
+function drawPieGraph(name, type, elements, seriesName, division) {
     var option = {
         chart: {
-            backgroundColor:'rgba(255, 255, 255, 0.2)',
+            backgroundColor:'rgba(255, 255, 255, 0.4)',
+            style: {
+              fontFamily: "Gill Sans, serif"
+           }
         },
+
+        colors: ["#f45b5b", "#8085e9", "#8d4654", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+        
+
         exporting: {
             url: 'http://export.highcharts.com/',
             enabled: false
@@ -449,7 +462,7 @@ function drawPieGraph(elements, seriesName, division) {
             enabled: false
         },
         title: {
-            text: ''
+            text: type+' - '+name
         },
         tooltip: {
             pointFormat: '<b>{point.percentage:.1f}%</b> {series.name}'
@@ -476,4 +489,8 @@ function drawPieGraph(elements, seriesName, division) {
     }
 
     $('#daily-container').highcharts(option);
+}
+
+function pad(d) {
+    return (d<10) ? '0'+d.toString() : d.toString();
 }

@@ -57,6 +57,7 @@ $(function(){
   });
 
   $('#logout').click(function() {
+console.log('in here');
     FB.logout(function(response) {
        var userInfo = document.getElementById('user-info');
     });
@@ -93,7 +94,7 @@ function switchView(view) {
   currentView = '#' + temp[0].substring(1) + '-container';
 }
 
-function renderRanking(index, like, data){
+function renderRanking(name, type, index, like, data){
   var time = data.created_time;
   var link = data.actions[0].link;
   var message = '';
@@ -101,27 +102,28 @@ function renderRanking(index, like, data){
     message = data.message;
     $('.timeline #'+index+' .message').html(message);
   }
+  $('#ranking-title').html(type+ ' - '+name);
   $('#like-ranking-'+index).html(like+' likes');
   $("#read-more-"+index).attr("href", link);
 }
 
-function getRankingData(){
+function getRankingData(uid, name, type){
   var d = new Date();
-  var start = d.getFullYear() + '-' + d.getMonth() + '-01';
-  var end = d.getFullYear() + '-' + (d.getMonth() + 1) + '-31';
-  $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
+  var start = d.getFullYear() + '-' + pad(d.getMonth()) + '-01';
+  var end = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-31';
+  $.getJSON('backend.php', {data: 'ranking', uid: uid, start: start, end: end}, function(data){
     for (var i = 0; i < data.length; i++) {
-      getPost(data[i].id, data[i].likes, i, renderRanking);
+      getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
     };
   });
 }
 
-function getPost(id, like, index, callback){
+function getPost(name, type, id, like, index, callback){
   FB.api(
     "/"+id+"?fields=message,type,actions,created_time",
     function (response) {
       if (response && !response.error) {
-        callback(index, like, response);
+        callback(name, type, index, like, response);
       }
     }
 );
@@ -129,6 +131,7 @@ function getPost(id, like, index, callback){
 
 function renderMe() {
   var user = $('#user');
+  user.find('#name').html(friendCache.me.first_name);
   user.find('#photo').attr('src',friendCache.me.picture.data.url);
 }
 
@@ -138,6 +141,7 @@ function renderFriendsList() {
   for( var i = 0; i < friendCache.friends.length; i++ ) {
     var item = template.clone().removeClass('template').addClass('friend');
     item.attr('data-id',friendCache.friends[i].id);
+    item.attr('data-name', friendCache.friends[i].first_name);
     item.find('.profile').attr('src',friendCache.friends[i].picture.data.url);
     list.append(item);
   }
@@ -149,21 +153,21 @@ function updateDataType (type) {
 
 function renderFriendsGraph(param) {
   var uid = $(param).attr('data-id');
+  var name = $(param).attr('data-name');
   if (dataType == 'monthly-post') {
-    renderMonthPostGraph(uid);
-    console.log(currentView);
+    renderMonthPostGraph(uid, name, 'Monthly Posts');
   } else if (dataType == 'monthly-like') {
-    renderMonthLikeGraph(uid);
+    renderMonthLikeGraph(uid, name, 'Monthly Likes');
   } else if (dataType == 'monthly-comment') {
-    renderMonthCommentGraph(uid);
+    renderMonthCommentGraph(uid, name, 'Monthly Comments');
   } else if (dataType == 'post-type') {
-    renderDailyDataGraph(uid);
+    renderDailyDataGraph(uid, name, 'Post Type Composition');
   } else if (dataType == 'active-time') {
-    renderActiveDistribution(uid);
+    renderActiveDistribution(uid, name, 'Daily Active Time');
   } else if (dataType == 'event') {
-    processEventGraph(uid);
+    processEventGraph(uid, name, 'Events For Past 30 Days');
   } else if (dataType == 'ranking') {
-
+    getRankingData(uid, name, 'Top Liked Posts');
   } else {
 
   }
