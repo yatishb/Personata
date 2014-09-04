@@ -42,12 +42,12 @@ function getFriends(callback) {
   });
 }
 
-function getEvents(uid, startDate, endDate, callback) {
+function getEvents(uid, name, type, startDate, endDate, callback) {
   FB.api("/"+uid+"/events?fields=id,start_time,end_time&since="+startDate+"&until="+endDate,
     function (response) {
       if (response && !response.error) {
         eventCache.event = response.data;
-        callback(constructEventsDataAarray(startDate, endDate), startDate);
+        callback(constructEventsDataAarray(startDate, endDate), startDate, name, type);
       } else {
         console.log(response);
       }
