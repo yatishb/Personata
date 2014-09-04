@@ -50,17 +50,32 @@ $(function(){
     title: function() {
       return $('#view-friends-title').html();
     },
-    placement: 'left'
+    placement: 'left',
+    container: 'body'
   });
 
+  $('#logout').click(function() {
+    FB.logout(function(response) {
+       var userInfo = document.getElementById('user-info');
+    });
+    window.location = "/dev/login.html";
+  });
+
+  /* loading indicator */
   $body = $("body");
   $(document).ajaxStart(function () {
     $body.addClass("loading");
-    // $('.modal').show();
   });
 
   $(document).ajaxComplete(function () {
     $body.removeClass("loading");
+  });
+
+  /* dismiss friends list view when clicking outside */
+  $('html').on('click', function(e) {
+    if (typeof $(e.target).data('original-title') == 'undefined') {
+      $('[data-original-title]').popover('hide');
+    }
   });
 
 });

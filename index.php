@@ -279,7 +279,7 @@
                         </a>
                         <a href="#">
                             <div class="imgWrap">
-                                <img class="icon" src="img/logout.png">
+                                <img class="icon" src="img/logout.png" id='logout'>
                                     <p class="imgDescription"> Logout</p>
                             </div>
                         </a>
