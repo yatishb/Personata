@@ -27,7 +27,7 @@
 	
 </head>
 <body>
-	<div id="bg" style="background-image:url(img/floor.jpg);"></div>
+	<div id="background" ></div>
 	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
 		<div class='row' id='main'>
@@ -106,7 +106,7 @@
 				<div class='row'>
 					<div class='monthly-data center-div view col-sm-12'>
 						
-						<div class="title">The Monthly Usage</div>
+						<div class="title sub-page-title">The Monthly Usage</div>
 						<div class="row">
 							<div class="submenu col-sm-4 col-xs-2">
 								<a href="" class="ignore-default" onclick="updateDataType('monthly-post');renderMonthPostGraph('me');">&#9734</br>Post</a>
@@ -248,18 +248,18 @@
 				<div class='row'>
 					<div id='user'>
 							<img id="photo" src="" alt="">
-							<div id="name">User Name</div>
+							<div id="name"></div>
 					</div>
 				</div>
 				<div class='row'>
 					<div class="iconlist">
-                        <a href="#" class='ignore-default' onclick="FBInvite()">
+                        <a href="" class='ignore-default' onclick="FBInvite()">
                             <div class="imgWrap">
                                 <img class="icon" src="img/invite.png">
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="">
                             <div class="imgWrap">
                                 <img class="icon" src="img/logout.png" id='logout'>
                                     <p class="imgDescription"> Logout</p>
