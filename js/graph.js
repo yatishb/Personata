@@ -424,25 +424,23 @@ function renderActiveDistribution(uid, name, type){
                                     "14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00",
                                     "20:00 - 22:00", "22:00 - 00:00", "00:00 - 02:00", 
                                     "02:00 - 04:00", "04:00 - 06:00", "06:00 - 08:00");
-        var division = new Array();
-
+        
         for (var i = 0; i< 12 ; i++) {
             count += Number(data.activity[i]);
         };
 
         for (var i = 0; i < 12; i++) {
             var field = timeDurations[i];
-            division.push(data.activity[i] + "/" + count + "posts");
             var ratio = data.activity[i] / count;
             elements.push([field, ratio]);
         };
 
-        drawPieGraph(name, type, elements, ' of all posts', division);
+        drawPieGraph(name, type, elements, ' of all posts');
     });
 }
 
 
-function drawPieGraph(name, type, elements, seriesName, division) {
+function drawPieGraph(name, type, elements, seriesName) {
     var option = {
         chart: {
             backgroundColor:'rgba(255, 255, 255, 0.4)',
