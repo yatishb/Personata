@@ -53,7 +53,7 @@
                                     <div class="Object">
                                         <img src="img/monthata.png">
                                     </div>
-                                    <a class='ignore-default' onclick="switchView('.monthly-data'); updateDataType('monthly-data'); renderMonthPostGraph('me');" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
+                                    <a class='ignore-default' onclick="switchView('.monthly-data'); updateDataType('monthly-post'); renderMonthPostGraph('me');" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
                                         Have you been more social for the past month?
                                     </a>
                                 </div>
@@ -64,7 +64,7 @@
                                     <div class="Object">
                                         <img src="img/percenta.png">
                                     </div>
-								<a class='ignore-default ObjectContainer' onclick="switchView('.daily-data'); renderDailyDataGraph();" href="">
+								<a class='ignore-default ObjectContainer' onclick="switchView('.daily-data'); updateDataType('post-type'); renderDailyDataGraph('me');" href="">
 									See how active are you in the duration of a day! Which type of post you like to post the most?
 								</a>
 								</div>
@@ -79,7 +79,7 @@
                                     <div class="Object">
                                         <img src="img/eventa.png">
                                     </div>
-									<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); processEventGraph();" href="">
+									<a class='ignore-default ObjectContainer' onclick="switchView('.events-data'); updateDataType('event'); processEventGraph('me');" href="">
 										Having a busy schedule or loose track of your daily routine? See your event calendar.
 									 </a>
 								</div>
@@ -90,7 +90,7 @@
 									<div class="Object">
                                         <img src="img/ranka.png">
                                     </div>
-								<a class='ignore-default ObjectContainer' onclick="switchView('.ranking-data'); getRankingData();" href="">
+								<a class='ignore-default ObjectContainer' onclick="switchView('.ranking-data'); updateDataType('ranking'); getRankingData('me');" href="">
 								See what is your most popular post that your friends like the most!</a>
 								</div>
 							</div>
@@ -109,15 +109,15 @@
 						<div class="title">The Monthly Usage</div>
 						<div class="row">
 							<div class="submenu col-sm-4 col-xs-2">
-								<a href="" class="ignore-default" onclick="renderMonthPostGraph();">&#9734</br>Post</a>
+								<a href="" class="ignore-default" onclick="updateDataType('monthly-post');renderMonthPostGraph('me');">&#9734</br>Post</a>
 							</div>
 
 							<div class="submenu col-sm-4 col-xs-2">
-								<a href="" class="ignore-default" onclick="renderMonthLikeGraph();">&#9825</br>Like</a>
+								<a href="" class="ignore-default" onclick="updateDataType('monthly-like');renderMonthLikeGraph('me');">&#9825</br>Like</a>
 							</div>
 							<div class="submenu col-sm-4 col-xs-2">
 
-								<a href="" class="ignore-default" onclick="renderMonthCommentGraph();">&#9731</br>Comment</a>
+								<a href="" class="ignore-default" onclick="updateDataType('monthly-comment');renderMonthCommentGraph('me');">&#9731</br>Comment</a>
 							</div>
 						</div>
 						
@@ -133,10 +133,10 @@
 						<p class='title sub-page-title'>Percentage Data</p>
 						<div class="row">
 							<div class="submenu col-sm-4 col-xs-3">
-								<a href="" class="ignore-default" onclick="renderDailyDataGraph();">Post Type</a>
+								<a href="" class="ignore-default" onclick="updateDataType('post-type');renderDailyDataGraph('me');">Post Type</a>
 							</div>
 							<div class="submenu col-sm-4 col-xs-3">
-								<a href="" class="ignore-default" onclick="renderActiveDistribution();"> Activity</br> Level</a>
+								<a href="" class="ignore-default" onclick="updateDataType('active-time');renderActiveDistribution('me');"> Activity</br> Level</a>
 							</div>
 						</div>
 						<div id="daily-container" class='col-sm-12'></div>
