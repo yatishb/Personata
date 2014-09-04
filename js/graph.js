@@ -273,6 +273,7 @@ function renderMonthPostGraph(uid){
 
 function renderMonthLikeGraph(){
     $('body').addClass('loading');
+    
     var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
@@ -301,6 +302,7 @@ function renderMonthLikeGraph(){
 
 function renderMonthCommentGraph(){
     $('body').addClass('loading');
+
     var currMon = new Date().getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
@@ -329,6 +331,7 @@ function renderMonthCommentGraph(){
 
 function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
     $('body').removeClass('loading');
+
     var option = {
         exporting: {
             url: 'http://export.highcharts.com/',
