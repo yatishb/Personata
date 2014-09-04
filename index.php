@@ -312,7 +312,7 @@
 		<div class="modal"><!-- Place at bottom of page --></div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
 		<div id='view-friends-content' style='display:none;'>
-			<a class="template">
+			<a class="ignore-default template" onclick="alert('working');" href="#">
 				<img class='profile' src="" alt="">
 			</a>
 		</div>
