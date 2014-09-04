@@ -20,7 +20,7 @@ function onAuthResponseChange(response) {
 }
 
 function getMe(callback) {
-  FB.api('/me', {fields: 'id,name,picture.width(120).height(120)'}, function(response){
+  FB.api('/me', {fields: 'id,first_name,picture.width(120).height(120)'}, function(response){
     if( !response.error ) {
       friendCache.me = response;
       callback();
@@ -31,7 +31,7 @@ function getMe(callback) {
 }
 
 function getFriends(callback) {
-  FB.api('/me/friends', {fields: 'id,picture.width(80).height(80)'}, function(response){
+  FB.api('/me/friends', {fields: 'id,first_name,picture.width(80).height(80)'}, function(response){
     if( !response.error ) {
       friendCache.friends = response.data;
       //console.log(response);
@@ -203,11 +203,11 @@ function FBSharePhoto(url){
   FB.ui(
     {
       method: 'feed',
-      name: 'Facebook Dialogs',
+      name: 'Personata',
       link: 'http://54.254.165.1/dev/',
       picture: url,//'http://54.254.165.1/dev/images/' + friendCache.me.id + '.png',
-      caption: 'Reference Documentation',
-      description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+      caption: 'Facebook Usage Analytics',
+      description: 'Personata is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well.'
     },
     function(response) {
       if (response && response.post_id) {
