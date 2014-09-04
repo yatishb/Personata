@@ -1,19 +1,20 @@
+
 html, body {
 	height: 100%;
 }
 
 body {
-	background: rgb(226,191,154); /* Old browsers */
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(226,191,154,1) 20%, rgba(215,175,141,1) 50%, rgba(200,159,134,1) 62%, rgba(169,131,122,1) 81%, rgba(129,109,115,1) 99%); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(20%,rgba(226,191,154,1)), color-stop(50%,rgba(215,175,141,1)), color-stop(62%,rgba(200,159,134,1)), color-stop(81%,rgba(169,131,122,1)), color-stop(99%,rgba(129,109,115,1))); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(226,191,154,1) 20%,rgba(215,175,141,1) 50%,rgba(200,159,134,1) 62%,rgba(169,131,122,1) 81%,rgba(129,109,115,1) 99%); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  rgba(226,191,154,1) 20%,rgba(215,175,141,1) 50%,rgba(200,159,134,1) 62%,rgba(169,131,122,1) 81%,rgba(129,109,115,1) 99%); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(226,191,154,1) 20%,rgba(215,175,141,1) 50%,rgba(200,159,134,1) 62%,rgba(169,131,122,1) 81%,rgba(129,109,115,1) 99%); /* IE10+ */
-	background: radial-gradient(ellipse at center,  rgba(226,191,154,1) 20%,rgba(215,175,141,1) 50%,rgba(200,159,134,1) 62%,rgba(169,131,122,1) 81%,rgba(129,109,115,1) 99%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2bf9a', endColorstr='#816d73',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-	margin: 0;
-}
+ /*IE9 SVG, needs conditional override of 'filter' to 'none' */
 
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
+	font-size: 18px;
+	color: white;
+}
+a, p {
+	color: white;
+	text-decoration: none;
+	
+}
 #dev {
 	width: 100%;
 	text-align: center;
@@ -30,14 +31,14 @@ body {
 	font-size: 48px;
 	color: white;
 	margin-bottom: 20px;
-	left: 50px;
-	top: 100px;
+	margin-left: 50px;
+	margin-top: 80px;
 	-webkit-animation: glow 0.5s linear 0s infinite alternate; /* Chrome, Safari, Opera */
     animation: glow 0.5s linear 0s infinite alternate; /* Standard syntax */
 }
 
 .sub-page-title {
-	margin-top: -20px;
+	margin-top: 0px;
 	margin-left: 20px;
 }
 
@@ -94,7 +95,7 @@ body {
 	border-radius: 45px;
 /*	border: 1px solid white;*/
 	box-shadow: 3px 3px 3px white;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 }
 .submenu a{
 	text-decoration: none;
@@ -105,6 +106,9 @@ body {
 	font-weight: bold;
 	box-shadow: none;
 	box-shadow: -3px -3px 3px white;
+}
+.submenu:visited{
+	box-shadow: 0px 0px 3px white;
 }
 #events-container {
 	position: absolute;
@@ -143,11 +147,11 @@ body {
 
 /*movable background*/
 #bg {
-    -moz-animation: bg 120s linear infinite;
-    -webkit-animation: bg 120s linear infinite;
-    -o-animation: bg 120s linear infinite;
-    -ms-animation: bg 120s linear infinite;
-    animation: bg 120s linear infinite;
+    -moz-animation: bg 500s linear infinite;
+    -webkit-animation: bg 500s linear infinite;
+    -o-animation: bg 500s linear infinite;
+    -ms-animation: bg 500s linear infinite;
+    animation: bg 500s linear infinite;
     -moz-backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -o-backface-visibility: hidden;
@@ -175,9 +179,30 @@ body {
   @keyframes bg { 0% { -moz-transform: translate3d(0,0,0); -webkit-transform: translate3d(0,0,0); -o-transform: translate3d(0,0,0); -ms-transform: translate3d(0,0,0); transform: translate3d(0,0,0); } 100% { -moz-transform: translate3d(-2250px,0,0); -webkit-transform: translate3d(-2250px,0,0); -o-transform: translate3d(-2250px,0,0); -ms-transform: translate3d(-2250px,0,0); transform: translate3d(-2250px,0,0); } }
 
   #bg {
-    background-size: 2250px auto;
+    background-size: auto 100%;
     width: 6750px;
   }
+
+/*movable background*/
+
+/* background*/
+#background {  
+    /* Set your background with this */
+    background:  #348cb2 url("../img/background1.jpg") bottom left;
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    z-index: -1000;
+
+  }
+
+  #background {
+    background-size: 100% 100%;
+    width: 2000px;
+  }
+
 /*movable background*/
 
     /* Header */
@@ -235,7 +260,7 @@ body {
 	text-align: justify;
 	font-size: 16px;
 	font-weight: lighter;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
   color: white;
   position: relative;
   top: 100px;
@@ -305,15 +330,16 @@ body.loading .modal {
     top: 0;
 	height: 100%;
 	background-color: white;
-	opacity: 0.4;
+	opacity: 0.6;
   	box-shadow: -2px 2px 6px grey;
-  	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
   	color: black;
   	padding-left: 20px;
 	padding-right: 20px;
 	padding-top: 300px;
 	font-size: 16px;
 	text-align: right;
+
 }
 
 .footer
@@ -324,7 +350,7 @@ body.loading .modal {
 	color: grey;
 	position: fixed;
 	bottom: 3px;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 	font-weight: lighter;
 }
 
@@ -361,8 +387,8 @@ body.loading .modal {
 	line-height: 0px;
 	text-align: center;
 	vertical-align: middle;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-	font-weight: lighter;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
+/*	font-weight: lighter;*/
 }
 
 .ObjectContainer:hover .Object {
@@ -404,13 +430,11 @@ body.loading .modal {
   bottom: 0;
   left: 0;
   right: 0;
-  color: #fff;
   text-align: right;
   padding:10px;
   visibility: hidden;
   opacity: 0;
   font-size: 16px;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 	font-weight: lighter;
   
 }
@@ -422,11 +446,14 @@ body.loading .modal {
 .icon{
 	width: 50px;
 	height: 50px;
+	border-radius: 25px;
 	opacity: 0.7;
+	box-shadow: 0 0 5px grey;
 }
 .icon:hover
 {
 	opacity: 1;
+	box-shadow: none;
 }
 
 /*Timeline*/
@@ -465,7 +492,7 @@ body.loading .modal {
 }
 
 .arrow span {
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 	font-size: 18px;
 	font-weight: lighter;
 }
@@ -475,7 +502,7 @@ body.loading .modal {
 	width: 10%;
 	padding: 20px;
 	padding-left: 50px;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 	font-size: 18px;
 	font-weight: lighter;
 	margin-left: -250px;
@@ -487,7 +514,7 @@ body.loading .modal {
 	width: 90%;
 	padding: 20px;
 	padding-left: 50px;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 	font-size: 18px;
 	font-weight: lighter;
 }
@@ -497,7 +524,7 @@ body.loading .modal {
 	width: 30%;
 	padding: 20px;
 	padding-left: 50px;
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
 	font-size: 18px;
 	font-weight: lighter;
 }
