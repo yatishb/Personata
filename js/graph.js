@@ -196,6 +196,7 @@ function renderEventsGraph1(data, startDate) {
 
 function renderMonthPostGraph(uid){
     $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
+        console.log(data);
         var fields = $.map(data.fields, function(el) { return el; });
         var lastMonth = $.map(data.lastmonth, function(el) { return el; });
         var thisMonth = $.map(data.thismonth, function(el) { return el; });
@@ -271,7 +272,7 @@ function renderMonthPostGraph(uid){
     });
 }
 
-function renderMonthLikeGraph(){
+function renderMonthLikeGraph(uid){
     $('body').addClass('loading');
     var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
@@ -279,8 +280,8 @@ function renderMonthLikeGraph(){
         lastMon = 12;
     }
 
-    getNumberOfLikesInMonth("me", currMon, function(currResult){
-        getNumberOfLikesInMonth("me", lastMon, function(lastResult){
+    getNumberOfLikesInMonth(uid, currMon, function(currResult){
+        getNumberOfLikesInMonth(uid, lastMon, function(lastResult){
             var fields = new Array();
             var currLikes = new Array();
             var lastLikes = new Array();
@@ -299,7 +300,7 @@ function renderMonthLikeGraph(){
     });
 }
 
-function renderMonthCommentGraph(){
+function renderMonthCommentGraph(uid){
     $('body').addClass('loading');
     var currMon = new Date().getMonth()+1;
     var lastMon = currMon - 1;
@@ -307,8 +308,8 @@ function renderMonthCommentGraph(){
         lastMon = 12;
     }
     
-    getNumberOfCommentsInMonth("me", currMon, function(currResult){
-        getNumberOfCommentsInMonth("me", lastMon, function(lastResult){
+    getNumberOfCommentsInMonth(uid, currMon, function(currResult){
+        getNumberOfCommentsInMonth(uid, lastMon, function(lastResult){
             var fields = new Array();
             var currComments = new Array();
             var lastComments = new Array();
@@ -395,8 +396,8 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
     $('#monthly-container').highcharts(option);
 }
 
-function renderDailyDataGraph(){
-    $.getJSON( "backend.php",{data: 'type'}, function( data ) {
+function renderDailyDataGraph(uid){
+    $.getJSON( "backend.php",{data: 'type', uid: uid}, function( data ) {
         var elements = new Array();
 
         for (var i = data.fields.length - 1; i >= 0; i--) {
@@ -409,8 +410,8 @@ function renderDailyDataGraph(){
     });
 }
 
-function renderActiveDistribution(){
-    $.getJSON( "backend.php",{data: 'active_time'}, function( data ) {
+function renderActiveDistribution(uid){
+    $.getJSON( "backend.php",{data: 'active_time', uid: uid}, function( data ) {
         var elements = new Array();
         var count = 0;
         var timeDurations = new Array("00:00 - 02:00: ", "02:00 - 04:00: ", "04:00 - 06:00: ",
