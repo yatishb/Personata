@@ -347,6 +347,8 @@
 		$firstDateLastMonth = getStartTimeForLastMonth();
 
 		$timeDurations = array("00:00:00 - 02:00:00", "02:00:00 - 04:00:00", "04:00:00 - 06:00:00", "06:00:00 - 08:00:00", "08:00:00 - 10:00:00", "10:00:00 - 12:00:00", "12:00:00 - 14:00:00", "14:00:00 - 16:00:00", "16:00:00 - 18:00:00", "18:00:00 - 20:00:00", "20:00:00 - 22:00:00", "22:00:00 - 23:59:59");
+		$adjustedTimezone = array();//array("00:00:00 - 02:00:00", "02:00:00 - 04:00:00", "04:00:00 - 06:00:00", "06:00:00 - 08:00:00", "08:00:00 - 10:00:00", "10:00:00 - 12:00:00", "12:00:00 - 14:00:00", "14:00:00 - 16:00:00", "16:00:00 - 18:00:00", "18:00:00 - 20:00:00", "20:00:00 - 22:00:00", "22:00:00 - 23:59:59");
+		$timezone = 8;
 		$activity = array();
 		$i = 0;
 
@@ -358,10 +360,29 @@
 				AND time BETWEEN ('".$timeSlotLimits[0]."') AND ('".$timeSlotLimits[1]."');";
 			$result = mysqli_query($con, $query);
 			$row = mysqli_fetch_row($result);
-			$activity[$i++] = $row[0];
+			$activity[$i] = $row[0];
+
+			if($timeSlotLimits[1] == "23:59:59") {
+				$timeSlotLimits[1] = "00:00:00";
+			}
+			$hour1 = explode(":", $timeSlotLimits[0]);
+			$hour2 = explode(":", $timeSlotLimits[1]);
+			if( intval($hour1[0]) + 8 >= 24 ){
+				$hour1[0] = intval($hour1[0]) + 8 - 24;
+			} else {
+				$hour1[0] = intval($hour1[0]) + 8;
+			}
+			if( intval($hour2[0]) + 8 >= 24 ){
+				$hour2[0] = intval($hour2[0]) + 8 - 24;
+			} else {
+				$hour2[0] = intval($hour2[0]) + 8;
+			}
+			array_push($adjustedTimezone, $hour1[0].":".$hour1[1].":".$hour1[2]." - ".$hour2[0].":".$hour2[1].":".$hour2[2]);
+
+			$i+=1;
 		}
 
-		$data["timeslots"] = $timeDurations;
+		$data["timeslots"] = $adjustedTimezone;
 		$data["activity"] = $activity;
 		return $data;
 	}
