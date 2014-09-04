@@ -17,21 +17,24 @@
 		switch ($_GET['data']) {
 			case 'events':
 				$start_time = date("Y")."-".(date("m")-1)."-01";
-				$results = getEvents($session, $start_time, getEndTimeForLastMonth());
+				$uid = $_GET['uid'];
+				$results = getEvents($session, $start_time, getEndTimeForLastMonth(), $uid);
 				
 				print count($results);
 			break;
 
 			case 'month':
 				$start_time = getStartTimeForLastMonth();
-				$array = getNewPosts($session, 200, $start_time, getEndTimeForCurrentMonth());
+				$uid = $_GET['uid'];
+				$array = getNewPosts($session, 200, $start_time, getEndTimeForCurrentMonth(), $uid);
 				
 				writePostsToDatabase($array, setupdb());
-				print json_encode(getPostsCountTwoMonths(setupdb()));
+				print json_encode(getPostsCountTwoMonths(setupdb(), $uid));
 			break;
 
 			case 'type':
-				$data = getFeedTypeActivity(setupdb());
+				$uid = $_GET['uid'];
+				$data = getFeedTypeActivity(setupdb(), $uid);
 				print json_encode($data);
 			break;
 
@@ -44,7 +47,8 @@
 			case 'ranking':
 				$start_time = $_GET['start'];
 				$end_time = $_GET['end'];
-				$data = getTopLiked($session, $start_time, $end_time);
+				$uid = $_GET['uid'];
+				$data = getTopLiked($session, $start_time, $end_time, $uid);
 				print json_encode($data);
 			break;
 			
@@ -101,20 +105,25 @@
 			$response = $request->execute();
 			$graphObject = $response->getGraphObject(GraphUser::className());
 			$id = $graphObject->getId();
+			$name = $graphObject->getName();
 
 			//store user id to session for later api calls
 			$_SESSION['user_id'] = $id;
+			$_SESSION['user_name'] = $name;
 
 			return $graphObject;
 		}
 	}
 
-	function getEvents($session, $starttime, $endtime) {
+	function getEvents($session, $starttime, $endtime, $uid) {
+		if ($uid == 'me') {
+			$uid = $_SESSION['user_id'];
+		}
 		if ($session) {
 			$request = new FacebookRequest(
 				$session,
 				'GET',
-				"/me/events?fileds=id,start_time,end_time&since=$starttime&until=$endtime"
+				"/".$uid."/events?fileds=id,start_time,end_time&since=$starttime&until=$endtime"
 			);
 			$response = $request->execute();
 			$graphObject = $response->getGraphObject()->getProperty('data');
@@ -135,8 +144,8 @@
 
 
 	// Returns an array of all posts in a specified time limit
-	function getNewPosts($session, $limit, $starttime, $endtime) {
-		if( checkIfUserExistsInDb($_SESSION["user_id"], setupdb()) ){
+	function getNewPosts($session, $limit, $starttime, $endtime, $uid) {
+		if( checkIfUserExistsInDb($uid, setupdb()) ){
 			$lastmodified = getLastModifiedTimeUser($_SESSION["user_id"], setupdb());
 			$dates = explode("-", $lastmodified);
 			$starttime = $dates[0]."-".$dates[1]."-".(intval($dates[2])-1);
@@ -144,7 +153,7 @@
 		$request = new FacebookRequest(
 			$session,
 			'GET',
-			'/me/posts?fields=id,created_time,type&since='.$starttime.'&until='.$endtime.'&limit='.$limit);
+			'/'.$uid.'/posts?fields=id,created_time,type&since='.$starttime.'&until='.$endtime.'&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
 		$allPostsArray = $allPostsGraphObject->asArray();
@@ -278,6 +287,9 @@
 
 	//Returns Array with all dates in which there has been a post in the last 2 months along with the number of posts made
 	function getPostsCountTwoMonths($con, $uid = null){
+		if ($uid == 'me') {
+			$uid = $_SESSION['user_id'];
+		}
 		if ($uid == null) {
 			$uid = $_SESSION['user_id'];
 		}
@@ -327,6 +339,9 @@
 		if ($uid == null) {
 			$uid = $_SESSION['user_id'];
 		}
+		if ($uid == 'me') {
+			$uid = $_SESSION['user_id'];
+		}
 
 		$dateToday = getDateToday();
 		$firstDateLastMonth = getStartTimeForLastMonth();
@@ -355,6 +370,9 @@
 	//Returns the number of posts of each type in the user's feed
 	function getFeedTypeActivity($con, $uid = null) {
 		if ($uid == null) {
+			$uid = $_SESSION['user_id'];
+		}
+		if ($uid == 'me') {
 			$uid = $_SESSION['user_id'];
 		}
 
@@ -442,7 +460,7 @@
 		return $postArray;
 	}
 
-	function getTopLiked($session, $starttime = null, $endtime = null, $limit = null) {
+	function getTopLiked($session, $starttime = null, $endtime = null, $limit = null, $uid = null) {
 		if($limit == null) {
 			$limit = 200;
 		}
@@ -452,10 +470,13 @@
 		if ($endtime == null) {
 			$endtime = time() - (60*24*60*60);
 		}
+		if ($uid == null) {
+			$uid = 'me';
+		}
 		$request = new FacebookRequest(
 			$session,
 			'GET',
-			'/me/posts?fields=id,created_time,likes.limit(1).summary(true),type&
+			'/'.$uid.'/posts?fields=id,created_time,likes.limit(1).summary(true),type&
 			since='.$starttime.'&until='.$endtime.'&limit='.$limit);
 		$response = $request->execute();
 		$allPostsGraphObject = $response->getGraphObject();
