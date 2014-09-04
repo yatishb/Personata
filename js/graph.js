@@ -1,10 +1,12 @@
 var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var monthLikes = new Array();
+var monthComments = new Array();
 
 function renderEventsGraph() {
     $('#events-container').highcharts({
         chart: {
             type: 'gauge',
-            backgroundColor:'rgba(255, 255, 255, 0)',
+            backgroundColor:'rgba(255, 255, 255, 0.4)',
             plotBackgroundImage: null,
             plotBorderWidth: 0,
             plotShadow: false
@@ -132,7 +134,7 @@ function renderEventsGraph1(data, startDate, name, type) {
     $('#events-container').highcharts({
         chart: {
             type: 'heatmap',
-            backgroundColor:'rgba(255, 255, 255, 0.2)',
+            backgroundColor:'rgba(255, 255, 255, 0.4)',
         },
 
         exporting: {
@@ -145,7 +147,13 @@ function renderEventsGraph1(data, startDate, name, type) {
         },
 
         title: {
-            text: type+' - '+name
+            text: type+' - '+name,
+            style: {
+                 color: '#36525E',
+                 fontSize: '18px',
+                 fontWeight: 'bold'
+                }
+            
         },
 
         xAxis: {
@@ -154,7 +162,12 @@ function renderEventsGraph1(data, startDate, name, type) {
 
         yAxis: {
             categories: ['Period 1', 'Period 2', 'Period 3', 'Period 4', 'Period 5'],
-            title: null
+            title: null,
+            style:{
+                fontWeight:'light',
+                fontSize:'16px',
+            }
+            
         },
 
         colorAxis: {
@@ -181,13 +194,25 @@ function renderEventsGraph1(data, startDate, name, type) {
             }
         },
 
+        plotOptions: {
+              series: {
+                 shadow: true
+              },
+              candlestick: {
+                 lineColor: 'white'
+              },
+              map: {
+                 shadow: true
+              }
+           },
+ 
         series: [{
             name: 'Events Per Day',
             borderWidth: 1,
             data: data,
             dataLabels: {
                 enabled: true,
-                color: 'black',
+                color: 'grey',
                 style: {
                     textShadow: 'none',
                     HcTextStroke: null
@@ -266,7 +291,7 @@ function renderMonthPostGraph(uid, name, type){
             },
             {
                 name: 'This Month',
-                color: '#FFA0A3',
+                color: '#F4C443',
                 dashStyle: 'Dot',
                 //from outside data
                 data: thisMonth
@@ -285,24 +310,29 @@ function renderMonthLikeGraph(uid, name, type){
         lastMon = 12;
     }
 
-    getNumberOfLikesInMonth(uid, currMon, function(currResult){
-        getNumberOfLikesInMonth(uid, lastMon, function(lastResult){
-            var fields = new Array();
-            var currLikes = new Array();
-            var lastLikes = new Array();
-            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
-                if (i < currResult.length) {
-                    currLikes.push(currResult[i]);
+    if (monthLikes[uid]) {
+        renderLineGraph("Number of Likes", " likes", name, type, monthLikes[uid][0], 
+            currMon-1, lastMon-1, monthLikes[uid][1], monthLikes[uid][2]);
+    } else {
+        getNumberOfLikesInMonth(uid, currMon, function(currResult){
+            getNumberOfLikesInMonth(uid, lastMon, function(lastResult){
+                var fields = new Array();
+                var currLikes = new Array();
+                var lastLikes = new Array();
+                for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+                    if (i < currResult.length) {
+                        currLikes.push(currResult[i]);
+                    }
+                    if (i < lastResult.length) {
+                        lastLikes.push(lastResult[i]);
+                    }
+                    fields.push(i+1);
                 }
-                if (i < lastResult.length) {
-                    lastLikes.push(lastResult[i]);
-                }
-                fields.push(i+1);
-            }
-
-            renderLineGraph("Number of Likes", " likes", name, type, fields, currMon-1, lastMon-1, currLikes, lastLikes);
+                monthLikes[uid] = [fields, currLikes, lastLikes];
+                renderLineGraph("Number of Likes", " likes", name, type, fields, currMon-1, lastMon-1, currLikes, lastLikes);
+            });
         });
-    });
+    }
 }
 
 function renderMonthCommentGraph(uid, name, type){
@@ -313,24 +343,29 @@ function renderMonthCommentGraph(uid, name, type){
         lastMon = 12;
     }
     
-    getNumberOfCommentsInMonth(uid, currMon, function(currResult){
-        getNumberOfCommentsInMonth(uid, lastMon, function(lastResult){
-            var fields = new Array();
-            var currComments = new Array();
-            var lastComments = new Array();
-            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
-                if (i < currResult.length) {
-                    currComments.push(currResult[i]);
+    if (monthComments[uid]) {
+        renderLineGraph("Number of Comments", " comments", name, type, monthComments[uid][0], 
+            currMon-1, lastMon-1, monthComments[uid][1], monthComments[uid][2]);
+    } else {
+        getNumberOfCommentsInMonth(uid, currMon, function(currResult){
+            getNumberOfCommentsInMonth(uid, lastMon, function(lastResult){
+                var fields = new Array();
+                var currComments = new Array();
+                var lastComments = new Array();
+                for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+                    if (i < currResult.length) {
+                        currComments.push(currResult[i]);
+                    }
+                    if (i < lastResult.length) {
+                        lastComments.push(lastResult[i]);
+                    }
+                    fields.push(i+1);
                 }
-                if (i < lastResult.length) {
-                    lastComments.push(lastResult[i]);
-                }
-                fields.push(i+1);
-            }
-
-            renderLineGraph("Number of Comments", " comments", name, type, fields, currMon-1, lastMon-1, currComments, lastComments);
+                monthComments[uid] = [fields, currComments, lastComments];
+                renderLineGraph("Number of Comments", " comments", name, type, fields, currMon-1, lastMon-1, currComments, lastComments);
+            });
         });
-    });
+    }
 }
 
 function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, currLikes, lastLikes) {
@@ -385,14 +420,14 @@ function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, cu
             },
             series: [{
                 name: month[lastMon],
-                color: '#000000',
+                color: '#36525E',
                 dashStyle: 'Dot',
                 //from outside data
                 data: lastLikes
             },
             {
                 name: month[currMon],
-                color: '#FFE690',
+                color: '#F4C443',
                 dashStyle: 'Dot',
                 //from outside data
                 data: currLikes
