@@ -60,6 +60,10 @@ $(function(){
     FB.logout(function(response) {
        var userInfo = document.getElementById('user-info');
     });
+    $.ajax({
+	url: '/dev/logout.php',
+	success: function () {}	
+    });
     window.location = "/dev/login.html";
   });
 
