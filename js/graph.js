@@ -120,12 +120,7 @@ function renderEventsGraph() {
 
 function processEventGraph(){
     $('body').addClass('loading');
-    var d = new Date();
-    var end = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
-    d.setDate(d.getDate() - 26);
-    var start = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDay());
-
-    getEvents("me", start, end, renderEventsGraph1);
+    getEvents("me", "2014-07-20", "2014-08-19", renderEventsGraph1);
 }
 
 function renderEventsGraph1(data, startDate) {
@@ -199,8 +194,8 @@ function renderEventsGraph1(data, startDate) {
     });
 }
 
-function renderMonthPostGraph(){
-    $.getJSON( "backend.php", {data: 'month'}, function( data ) {
+function renderMonthPostGraph(uid){
+    $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
         var fields = $.map(data.fields, function(el) { return el; });
         var lastMonth = $.map(data.lastmonth, function(el) { return el; });
         var thisMonth = $.map(data.thismonth, function(el) { return el; });
@@ -211,7 +206,7 @@ function renderMonthPostGraph(){
                 enabled: false
             },
             chart: {
-                backgroundColor:'rgba(255, 255, 255, 0.4)',
+                backgroundColor:'rgba(255, 255, 255, 0.5)',
             },    
             credits: {
                 enabled: false
@@ -255,19 +250,20 @@ function renderMonthPostGraph(){
                 verticalAlign: 'middle',
                 borderWidth: 1
             },
-            series: [{
-                name: 'This Month',
-                color: '#86C1C7',
-                dashStyle: 'Dot',
-                //from outside data
-                data: thisMonth
-            }, 
+            series: [
             {
                 name: 'Last Month',
-                color: '#7FCCFA',
+                color: '#000000',
                 dashStyle: 'Dot',
                 //from outside data
                 data: lastMonth
+            },
+            {
+                name: 'This Month',
+                color: '#FF8260',
+                dashStyle: 'Dot',
+                //from outside data
+                data: thisMonth
             }]
         }
 
@@ -276,6 +272,7 @@ function renderMonthPostGraph(){
 }
 
 function renderMonthLikeGraph(){
+    $('body').addClass('loading');
     var currMon = (new Date()).getMonth()+1;
     var lastMon = currMon - 1;
     if (currMon == 1) {
@@ -302,7 +299,36 @@ function renderMonthLikeGraph(){
     });
 }
 
+function renderMonthCommentGraph(){
+    $('body').addClass('loading');
+    var currMon = new Date().getMonth()+1;
+    var lastMon = currMon - 1;
+    if (currMon == 1) {
+        lastMon = 12;
+    }
+    
+    getNumberOfCommentsInMonth("me", currMon, function(currResult){
+        getNumberOfCommentsInMonth("me", lastMon, function(lastResult){
+            var fields = new Array();
+            var currComments = new Array();
+            var lastComments = new Array();
+            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
+                if (i < currResult.length) {
+                    currComments.push(currResult[i]);
+                }
+                if (i < lastResult.length) {
+                    lastComments.push(lastResult[i]);
+                }
+                fields.push(i+1);
+            }
+
+            renderLineGraph("Number of Comments", " comments", fields, currMon-1, lastMon-1, currComments, lastComments);
+        });
+    });
+}
+
 function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, lastLikes) {
+    $('body').removeClass('loading');
     var option = {
         exporting: {
             url: 'http://export.highcharts.com/',
@@ -351,49 +377,22 @@ function renderLineGraph(title, suffix, fields, currMon, lastMon, currLikes, las
                 borderWidth: 1
             },
             series: [{
+                name: month[lastMon],
+                color: '#000000',
+                dashStyle: 'Dot',
+                //from outside data
+                data: lastLikes
+            },
+            {
                 name: month[currMon],
                 color: '#FFE690',
                 dashStyle: 'Dot',
                 //from outside data
                 data: currLikes
-            }, 
-            {
-                name: month[lastMon],
-                color: '#FF8260',
-                dashStyle: 'Dot',
-                //from outside data
-                data: lastLikes
             }]
         }
 
     $('#monthly-container').highcharts(option);
-}
-
-function renderMonthCommentGraph(){
-    var currMon = new Date().getMonth()+1;
-    var lastMon = currMon - 1;
-    if (currMon == 1) {
-        lastMon = 12;
-    }
-    
-    getNumberOfCommentsInMonth("me", currMon, function(currResult){
-        getNumberOfCommentsInMonth("me", lastMon, function(lastResult){
-            var fields = new Array();
-            var currComments = new Array();
-            var lastComments = new Array();
-            for (var i = 0; i < Math.max(currResult.length, lastResult.length); i++) {
-                if (i < currResult.length) {
-                    currComments.push(currResult[i]);
-                }
-                if (i < lastResult.length) {
-                    lastComments.push(lastResult[i]);
-                }
-                fields.push(i+1);
-            }
-
-            renderLineGraph("Number of Comments", " comments", fields, currMon-1, lastMon-1, currComments, lastComments);
-        });
-    });
 }
 
 function renderDailyDataGraph(){
@@ -474,8 +473,4 @@ function drawPieGraph(elements, seriesName) {
     }
 
     $('#daily-container').highcharts(option);
-}
-
-function pad(d) {
-    return (d < 10) ? '0' + d.toString() : d.toString();
 }

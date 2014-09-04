@@ -27,7 +27,7 @@
 	
 </head>
 <body>
-	<div id="bg"></div>
+	<div id="bg" style="background-image:url(img/floor.jpg);"></div>
 	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
 		<div class='row' id='main'>
@@ -53,7 +53,7 @@
                                     <div class="Object">
                                         <img src="img/monthata.png">
                                     </div>
-                                    <a class='ignore-default' onclick="switchView('.monthly-data'); renderMonthPostGraph();" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
+                                    <a class='ignore-default' onclick="switchView('.monthly-data'); updateDataType('monthly-data'); renderMonthPostGraph('me');" href="#" >See from here your monthly data usage, how many posts, comments and likes?</br>
                                         Have you been more social for the past month?
                                     </a>
                                 </div>
@@ -133,7 +133,7 @@
 						<p class='title sub-page-title'>Percentage Data</p>
 						<div class="row">
 							<div class="submenu col-sm-4 col-xs-3">
-								<a href="" class="ignore-default">Post Type</a>
+								<a href="" class="ignore-default" onclick="renderDailyDataGraph();">Post Type</a>
 							</div>
 							<div class="submenu col-sm-4 col-xs-3">
 								<a href="" class="ignore-default" onclick="renderActiveDistribution();"> Activity</br> Level</a>
@@ -312,7 +312,7 @@
 		<div class="modal"><!-- Place at bottom of page --></div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
 		<div id='view-friends-content' style='display:none;'>
-			<a class="ignore-default template" onclick="alert('working');" href="#">
+			<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
 				<img class='profile' src="" alt="">
 			</a>
 		</div>

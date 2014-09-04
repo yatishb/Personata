@@ -1,4 +1,6 @@
 var currentView;
+var currentUser;
+var dataType;
 
 $(function(){
 	FB.init({
@@ -103,7 +105,6 @@ function getRankingData(){
   var d = new Date();
   var start = d.getFullYear() + '-' + d.getMonth() + '-01';
   var end = d.getFullYear() + '-' + (d.getMonth() + 1) + '-31';
-  console.log(start, end);
   $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
     for (var i = 0; i < data.length; i++) {
       getPost(data[i].id, data[i].likes, i, renderRanking);
@@ -135,5 +136,30 @@ function renderFriendsList() {
     item.attr('data-id',friendCache.friends[i].id);
     item.find('.profile').attr('src',friendCache.friends[i].picture.data.url);
     list.append(item);
+  }
+}
+
+function updateDataType (type) {
+  dataType = type;
+}
+
+function renderFriendsGraph(param) {
+  var uid = $(param).attr('data-id');
+  if (dataType == 'monthly-post') {
+    renderMonthPostGraph(uid);
+  } else if (dataType == 'monthly-like') {
+
+  } else if (dataType == 'monthly-comment') {
+
+  } else if (dataType == 'post-type') {
+
+  } else if (dataType == 'active-time') {
+
+  } else if (dataType == 'event') {
+
+  } else if (dataType == 'ranking') {
+
+  } else {
+
   }
 }
