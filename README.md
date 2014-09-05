@@ -5,9 +5,9 @@ It is an app created for you to view and evaluate your facebook usage. You could
 ### Team Members ###
 
 * Bathini Yatish - yatishby@gmail.com
-* Tang Ning - a0105529@nus.edu.sg
+* Tang Ning - a0105529@ nus.edu.sg
 * Xia Yiping - eva.ping2506@gmail.com
-* Zhang Yichuan - a0105518@nus.edu.sg
+* Zhang Yichuan - a0105518@ nus.edu.sg
 
 ### Contributions ###
 
