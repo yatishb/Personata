@@ -514,7 +514,7 @@
 			$nextPost["likes"] = $value["likes"]["summary"]["total_count"];
 			array_push($data, $nextPost);
 		}
-		return $data;
+		return array_slice($data,0,10);
 	}
 
 
