@@ -94,18 +94,18 @@ $(function(){
 
 function switchView(view) {
   $('#share').show();
-  
+
   /* update sub page info */
   if (view == '.front-page') {
-    $('#default-info').html('is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well as share and invite them to use the app.');
+    $('#default-info').html("is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends' as well as share and invite them to use the app.");
   } else if (view == '.monthly-data') {
-    $('#default-info').html('This allows you to see your monthly usage of Facebook — How many posts, likes and comments do you have for a consecutive two months? Is there an outstanding date that you’ve noticed?');
+    $('#default-info').html('This allows you to see your monthly usage of Facebook — How many posts, likes and comments do you have for a consecutive two months? Have you noticed an outstanding date?');
   } else if (view == '.daily-data') {
     $('#default-info').html('Come and observe your daily routine of Facebook usage — Which is your peak period of posting? Which type of post is your favorite accumulatively?');
   } else if (view == '.events-data') {
-    $('#default-info').html('');
+    $('#default-info').html('What events have you had for the past 30 days? Can you still remember all of them? Let us help you arrange them, and see which day was on fire!');
   } else if (view == '.ranking-data') {
-    $('#default-info').html('You could see the top-listed posts by you, ranked by the amount of likes and comments you have from your friends — Come and find out what they’ve liked you for.');
+    $('#default-info').html('You could see the top-listed posts from yourself, ranked according to the amount of likes and comments you had from your friends — Come and find out what they’ve liked you for.');
     $('#share').hide();
   }
 
@@ -125,6 +125,8 @@ function renderRanking(name, type, index, like, data){
 
   if (data.message) {
     message = data.message;
+    $('#'+index+' .message').html(message);
+  } else {
     $('#'+index+' .message').html(message);
   }
   $('#ranking-title').html(type+ ' - '+name);
@@ -150,7 +152,6 @@ function getRankingData(uid, name, type){
     };
   } else {
     $.getJSON('backend.php', {data: 'ranking', start: start, end: end, uid: uid}, function(data){
-      console.log(data);
       rankingBuffer[uid] = data;
       for (var i = 0; i < data.length; i++) {
         getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
