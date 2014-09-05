@@ -520,8 +520,18 @@ body.loading .modal {
 
 /* Friends List */
 .popover{
-	max-width: 500px !important;
+	max-width: 425px !important;
+	color: #000000;
 	left: 400px !important;
+}
+
+.popover-content {
+	padding: 0 !important;
+}
+
+.friend {
+	margin: 0;
+	padding: 0;
 }
 
 

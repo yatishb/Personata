@@ -333,11 +333,10 @@
 		<div id="fb-root"></div>
 		<div class="modal"><!-- Place at bottom of page --></div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
-		<div id='view-friends-content' style='display:none;'>
-			<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
-				<img class='profile' src="" alt="">
-			</a>
-		</div>
+		<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
+			<img class='profile' src="" alt="">
+		</a>
+		<div id='view-friends-content' style='display:none;'></div>
 	</div>
 </body>
 </html>
