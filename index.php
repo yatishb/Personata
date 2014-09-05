@@ -244,11 +244,6 @@
 					</div>
 				</div>
 				<!-- subpage 4 ranking -->
-
-
-				<div class='row'>
-					<div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
-				</div>
 			</div>
 
 
@@ -326,6 +321,7 @@
 						            friends as well as share and invite them to use the app.
 						        </div>
 						    </div>
+						    <div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
 						    <div class="footer">
 						        Copyright 2014 &#169Personata
 						    </div>
