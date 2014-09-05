@@ -273,7 +273,7 @@
 				</div>
 				<div class='row'>
 					<div class="iconlist monthly-data events-data daily-data ranking-data view">
-                        <a href="">
+                        <a href="" class='ignore-default' onclick="switchView('.front-page');">
                             <div class="imgWrap">
                                 <img class="icon" src="img/home.png">
                                     <p class="imgDescription">HOME</p>
