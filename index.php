@@ -10,7 +10,7 @@
 <head>
 	<title>Personata</title>
 	
-	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="style/style.css" rel="stylesheet" type="text/css">
 	<script src="js/jquery-2.1.1.min.js"></script>
@@ -190,10 +190,10 @@
 								<div class="leftarrow arrow">
 									<p>3rd <span id='like-ranking-2'></span></p>
 								</div>
-								<div class="display leftarrow">
+								<div class="display left-display">
 									<p class='message'></p>
-									<a href="" id="read-more-2">Read More</a>
 								</div>
+								<a class='leftarrow display' href="" id="read-more-2">Read More</a>
 							</li>
 							<li id="3">
 								<div class="rightarrow arrow">
@@ -217,10 +217,10 @@
 								<div class="leftarrow arrow">
 									<p>6th <span id='like-ranking-5'></span></p>
 								</div>
-								<div class="display leftarrow">
+								<div class="display left-display">
 									<p class='message'></p>
-									<a href="" id="read-more-5">Read More</a>
 								</div>
+								<a class='leftarrow display' href="" id="read-more-5">Read More</a>
 							</li>
 							<li id="6">
 								<div class="rightarrow arrow">
@@ -244,11 +244,6 @@
 					</div>
 				</div>
 				<!-- subpage 4 ranking -->
-
-
-				<div class='row'>
-					<div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
-				</div>
 			</div>
 
 
@@ -326,6 +321,7 @@
 						            friends as well as share and invite them to use the app.
 						        </div>
 						    </div>
+						    <div class="fb-like" data-href="http://54.254.165.1/dev/" data-layout="standard" data-action="like" data-show-faces="true"></div>
 						    <div class="footer">
 						        Copyright 2014 &#169Personata
 						    </div>
