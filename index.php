@@ -264,9 +264,9 @@
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="#" class='ignore-default logout'>
                             <div class="imgWrap">
-                                <img class="icon" src="img/logout.png" id='logout'>
+                                <img class="icon" src="img/logout.png">
                                     <p class="imgDescription"> Logout</p>
                             </div>
                         </a>
@@ -298,7 +298,7 @@
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="" id='logout'>
+                        <a href="" class='ignore-default logout'>
                             <div class="imgWrap">
                                 <img class="icon" src="img/logout.png">
                                     <p class="imgDescription"> Logout</p>
