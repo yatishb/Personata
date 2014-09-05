@@ -93,6 +93,8 @@ $(function(){
 });
 
 function switchView(view) {
+  $('#share').show();
+  
   /* update sub page info */
   if (view == '.front-page') {
     $('#default-info').html('is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well as share and invite them to use the app.');
@@ -104,6 +106,7 @@ function switchView(view) {
     $('#default-info').html('');
   } else if (view == '.ranking-data') {
     $('#default-info').html('You could see the top-listed posts by you, ranked by the amount of likes and comments you have from your friends — Come and find out what they’ve liked you for.');
+    $('#share').hide();
   }
 
   $('.view').hide();
