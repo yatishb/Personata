@@ -103,9 +103,9 @@ function switchView(view) {
   } else if (view == '.daily-data') {
     $('#default-info').html('Come and observe your daily routine of Facebook usage — Which is your peak period of posting? Which type of post is your favorite accumulatively?');
   } else if (view == '.events-data') {
-    $('#default-info').html('You could see the top-listed posts from yourself, ranked according to the amount of likes and comments you had from your friends — Come and find out what they’ve liked you for.');
+    $('#default-info').html('What events have you had for the past 30 days? Can you still remember all of them? Let us help you arrange them, and see which day was on fire!');
   } else if (view == '.ranking-data') {
-    $('#default-info').html('You could see the top-listed posts by you, ranked by the amount of likes and comments you have from your friends — Come and find out what they’ve liked you for.');
+    $('#default-info').html('You could see the top-listed posts from yourself, ranked according to the amount of likes and comments you had from your friends — Come and find out what they’ve liked you for.');
     $('#share').hide();
   }
 
