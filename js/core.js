@@ -103,9 +103,13 @@ function renderRanking(name, type, index, like, data){
   var time = data.created_time;
   var link = data.actions[0].link;
   var message = '';
+  
+  /* display ranking-data */
+  $('#'+index).show();
+
   if (data.message) {
     message = data.message;
-    $('.timeline #'+index+' .message').html(message);
+    $('#'+index+' .message').html(message);
   }
   $('#ranking-title').html(type+ ' - '+name);
   $('#like-ranking-'+index).html(like+' likes');
@@ -113,22 +117,26 @@ function renderRanking(name, type, index, like, data){
 }
 
 function getRankingData(uid, name, type){
-  console.log(uid + name + type);
   var d = new Date();
   var start = d.getFullYear() + '-' + pad(d.getMonth()) + '-01';
   var end = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-31';
 
+  /* make ranking-data as display:none */
+  for (var i = 0; i < 8; i++) {
+    $('#'+i).hide();
+  };
+
   if (rankingBuffer[uid]) {
     var tempData = rankingBuffer[uid];
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < tempData.length; i++) {
       getPost(name, type, tempData[i].id, tempData[i].likes, i, renderRanking);
     };
   } else {
     $.getJSON('backend.php', {data: 'ranking', start: start, end: end, uid: uid}, function(data){
       console.log(data);
       rankingBuffer[uid] = data;
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < data.length; i++) {
         getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
       };
     });
