@@ -1,6 +1,8 @@
 var currentView;
 var currentUser;
 var dataType;
+var rankingBuffer = new Array();
+var postsBuffer = new Array();
 
 $(function(){
 	FB.init({
@@ -108,25 +110,42 @@ function renderRanking(name, type, index, like, data){
 }
 
 function getRankingData(uid, name, type){
+  console.log(uid + name + type);
   var d = new Date();
   var start = d.getFullYear() + '-' + pad(d.getMonth()) + '-01';
   var end = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-31';
-  $.getJSON('backend.php', {data: 'ranking', uid: uid, start: start, end: end}, function(data){
-    for (var i = 0; i < data.length; i++) {
-      getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
+
+  if (rankingBuffer[uid]) {
+    var tempData = rankingBuffer[uid];
+
+    for (var i = 0; i < tempData.length; i++) {
+      getPost(name, type, tempData[i].id, tempData[i].likes, i, renderRanking);
     };
-  });
+  } else {
+    $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
+      console.log(data);
+      rankingBuffer[uid] = data;
+      for (var i = 0; i < data.length; i++) {
+        getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
+      };
+    });
+  }
 }
 
 function getPost(name, type, id, like, index, callback){
-  FB.api(
-    "/"+id+"?fields=message,type,actions,created_time",
-    function (response) {
-      if (response && !response.error) {
-        callback(name, type, index, like, response);
+  if (postsBuffer[id]) {
+      callback(name, type, index, like, postsBuffer[id]);
+  } else {
+    FB.api(
+      "/"+id+"?fields=message,type,actions,created_time",
+      function (response) {
+        if (response && !response.error) {
+          postsBuffer[id] = response;
+          callback(name, type, index, like, response);
+        }
       }
-    }
-);
+    );
+  }
 }
 
 function renderMe() {
