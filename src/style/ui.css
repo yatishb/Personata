@@ -1,0 +1,79 @@
+
+
+body{	
+background: rgb(212,228,239); /* Old browsers */
+background: -moz-linear-gradient(45deg,  rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(212,228,239,1)), color-stop(100%,rgba(134,174,204,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) ); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* IE10+ */
+background: linear-gradient(45deg,  rgba(212,228,239,1) 0%,rgba(134,174,204,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+margin: 0;
+height: 100%;
+}
+#logo
+{
+	margin: 10px;
+
+}
+#login
+{
+	opacity: 0.5;
+	width: 40%;
+	min-width: 300px;
+	height: 350px;
+	box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	padding: 20px;
+	background-color: white;
+}
+#header
+{
+	text-align: center;
+	margin: 20px;
+	font-size: 30px;
+	font-weight: bold;
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+}
+
+#login .intro
+{
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 20px;
+	text-align: justify;
+	font-size: 16px;
+	font-weight: lighter;
+font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+#FB
+{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	border: solid 1px grey;
+	padding-top: 10px;
+	padding-left: 40px;
+}
+#FB:hover
+{
+	border: solid 4px grey;
+	padding-top: 8px;
+	padding-left: 38px;
+}
+ #FB a
+{
+	font-size:60px; 
+	font-weight:bold;
+}
+#FB a:hover
+{
+	text-decoration: none;
+}
