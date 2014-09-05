@@ -54,6 +54,7 @@ a:hover
 	background-color: rgb(255,255,255,0.3);
 	min-height: 600px !important;
 	margin-top: 40px;
+	margin-bottom: 30px;
 }
 
 .menu-buttons {
@@ -504,7 +505,6 @@ body.loading .modal {
 	
 }
 
-<<<<<<< HEAD
 .display{
 	height: auto;
 	width: 130%;
@@ -516,29 +516,7 @@ body.loading .modal {
 
 .left-display {
 	margin-left: -385px;
-=======
-
-
-.display{
-	height: auto;
-	width: 130%;
-	padding: 10px;
-	padding-left: 30px;
-	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
-	font-size: 18px;
-
->>>>>>> 287267d780167bcd16d8c78ef7265d7ebae3bd85
 }
-
-/*.no-content {
-	height: auto;
-	width: 30%;
-	padding: 20px;
-	padding-left: 50px;
-	font-family: "Gill Sans", "Lucida Sans Unicode", Calibri, sans-serif;
-	font-size: 18px;
-	font-weight: lighter;
-}*/
 
 /* Friends List */
 .popover{
