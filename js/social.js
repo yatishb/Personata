@@ -1,5 +1,6 @@
 var friendCache = {};
 var eventCache = {};
+var eventsBuffer = new Array();
 
 function onStatusChange(response) {
   if( response.status == 'connected' ) {
@@ -43,16 +44,21 @@ function getFriends(callback) {
 }
 
 function getEvents(uid, name, type, startDate, endDate, callback) {
-  FB.api("/"+uid+"/events?fields=id,start_time,end_time&since="+startDate+"&until="+endDate,
-    function (response) {
-      if (response && !response.error) {
-        eventCache.event = response.data;
-        callback(constructEventsDataAarray(startDate, endDate), startDate, name, type);
-      } else {
-        console.log(response);
+  if (eventsBuffer[uid]) {
+    callback(eventsBuffer[uid], startDate, name, type);
+  } else {
+    FB.api("/"+uid+"/events?fields=id,start_time,end_time&since="+startDate+"&until="+endDate,
+      function (response) {
+        if (response && !response.error) {
+          eventCache.event = response.data;
+          eventsBuffer[uid] = constructEventsDataAarray(startDate, endDate);
+          callback(eventsBuffer[uid], startDate, name, type);
+        } else {
+          console.log(response);
+        }
       }
-    }
-  );
+    );
+  }
 }
 
 function constructEventsDataAarray(startDate, endDate) {
