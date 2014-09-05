@@ -7,10 +7,10 @@ It is an app created for you to view and evaluate your facebook usage. You could
 
 ### Team Members ###
 
-* Bathini Yatish - yatishby@gmail.com
-* Tang Ning - a0105529@ nus.edu.sg
-* Xia Yiping - eva.ping2506@gmail.com
-* Zhang Yichuan - a0105518@ nus.edu.sg
+* Bathini Yatish - yatishby@gmail.com - A0091545A
+* Tang Ning - a0105529@ nus.edu.sg - A0105529H
+* Xia Yiping - eva.ping2506@gmail.com - A0105670M
+* Zhang Yichuan - a0105518@ nus.edu.sg - A0105518L
 
 ### Contributions ###
 
