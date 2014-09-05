@@ -37,7 +37,6 @@
 </head>
 <body>
 	<div id="background" ></div>
-	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
 		<div class='row' id='main'>
 			<div id="logo">
