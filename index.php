@@ -13,6 +13,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="style/style.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="img/favicon.ico">
 	<script src="js/jquery-2.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/highcharts.js"></script>
