@@ -331,7 +331,15 @@
 			</div>	
 		</div>
 		<div id="fb-root"></div>
-		<div class="modal"><!-- Place at bottom of page --></div>
+		<div class="modal">
+			<div id='bubble'></div>
+				<div id='bubble1'></div>
+				<div id='bubble2'></div>
+				<div id='bubble3'></div>
+				<div id='bubble4'></div>
+				<div id='bubble5'></div>
+			</div>
+		</div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
 		<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
 			<img class='profile' src="" alt="">

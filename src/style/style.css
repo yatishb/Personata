@@ -321,10 +321,7 @@ a:hover
     left:       0;
     height:     100%;
     width:      100%;
-    background: rgba( 255, 255, 255, .2 ) 
-                url('../img/load.gif') 
-                50% 50% 
-                no-repeat;
+    background: rgba( 255, 255, 255, .3 );
 }
 
 body.loading {
@@ -536,6 +533,70 @@ body.loading .modal {
 .friend {
 	margin: 0;
 	padding: 0;
+}
+
+/* Loading bubbles */
+#bubble
+{
+	background: #FF9997; 
+	-webkit-animation: bubble 3s infinite;
+    animation:bubble 3s infinite;
+    position: relative;
+}
+@-webkit-keyframes bubble {
+    
+    0%  {left:400px; top:400px; height:70px; width: 70px; border-radius: 35px;}
+   
+    100%  {left:100px; top:0px; height:200px; width: 200px; border-radius: 100px;opacity: 0.1;}
+
+}
+#bubble1
+{
+	background: orange; 
+	-webkit-animation: bubble1 3s infinite;
+    animation:bubble1 3s infinite;
+    position: relative;
+}
+@-webkit-keyframes bubble1 {
+    
+    0%  {left:300px; top:400px; height:70px; width: 70px; border-radius: 35px;}
+    
+    100%  {left:400px; top:0px; height:50px; width: 50px; border-radius: 50px;opacity: 0.2;}
+
+}
+#bubble2
+{
+	background: seagreen; 
+	-webkit-animation: bubble2 3s infinite;
+    animation:bubble2 6s infinite;
+    position: relative;
+}
+@-webkit-keyframes bubble2 {
+    
+    0%  {left:500px; top:400px; height:80px; width: 80px; border-radius: 40px;}
+ 
+    100%  {left:700px; top:0px; height:100px; width: 100px; border-radius: 50px;opacity: 0.2;}
+}
+#bubble3
+{
+	background: #45D4DD; 
+	-webkit-animation: bubble2 6s infinite;
+    animation:bubble2 3s infinite;
+    position: relative;
+}
+#bubble4
+{
+	background: yellow; 
+	-webkit-animation: bubble1 6s infinite;
+    animation:bubble2 5s infinite;
+    position: relative;
+}
+#bubble5
+{
+	background: rose; 
+	-webkit-animation: bubble 6s infinite;
+    animation:bubble2 4s infinite;
+    position: relative;
 }
 
 

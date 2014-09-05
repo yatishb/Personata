@@ -94,7 +94,7 @@ $(function(){
 
 function switchView(view) {
   $('#share').show();
-  
+
   /* update sub page info */
   if (view == '.front-page') {
     $('#default-info').html('is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well as share and invite them to use the app.');
@@ -126,6 +126,8 @@ function renderRanking(name, type, index, like, data){
   if (data.message) {
     message = data.message;
     $('#'+index+' .message').html(message);
+  } else {
+    $('#'+index+' .message').html(message);
   }
   $('#ranking-title').html(type+ ' - '+name);
   $('#like-ranking-'+index).html(like+' likes');
@@ -150,7 +152,6 @@ function getRankingData(uid, name, type){
     };
   } else {
     $.getJSON('backend.php', {data: 'ranking', start: start, end: end, uid: uid}, function(data){
-      console.log(data);
       rankingBuffer[uid] = data;
       for (var i = 0; i < data.length; i++) {
         getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
