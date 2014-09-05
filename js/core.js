@@ -116,8 +116,10 @@ function getRankingData(uid, name, type){
   var end = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-31';
 
   if (rankingBuffer[uid]) {
-    for (var i = 0; i < rankingBuffer[uid].length; i++) {
-      getPost(name, type, rankingBuffer[uid][i].id, rankingBuffer[uid][i].likes, i, renderRanking);
+    var tempData = rankingBuffer[uid];
+
+    for (var i = 0; i < tempData.length; i++) {
+      getPost(name, type, tempData[i].id, tempData[i].likes, i, renderRanking);
     };
   } else {
     $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
@@ -134,15 +136,15 @@ function getPost(name, type, id, like, index, callback){
   if (postsBuffer[id]) {
       callback(name, type, index, like, postsBuffer[id]);
   } else {
-      FB.api(
-        "/"+id+"?fields=message,type,actions,created_time",
-        function (response) {
-          if (response && !response.error) {
-            postsBuffer[id] = response;
-            callback(name, type, index, like, response);
-          }
+    FB.api(
+      "/"+id+"?fields=message,type,actions,created_time",
+      function (response) {
+        if (response && !response.error) {
+          postsBuffer[id] = response;
+          callback(name, type, index, like, response);
         }
-      );
+      }
+    );
   }
 }
 
