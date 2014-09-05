@@ -50,6 +50,10 @@ a:hover
 	margin-left: 20px;
 }
 
+#ranking-title {
+	margin-left: 20px;
+}
+
 .center-div {
 	background-color: rgb(255,255,255,0.3);
 	min-height: 600px !important;

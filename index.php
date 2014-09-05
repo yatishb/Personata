@@ -13,6 +13,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="style/style.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="img/favicon.ico">
 	<script src="js/jquery-2.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/highcharts.js"></script>
@@ -167,7 +168,7 @@
 						<p class='title sub-page-title'>Most Popular Posts</p>
 						<p id='ranking-title'></p>
 						<ul class="timeline">
-							<li id="0">
+							<li id="0" >
 								<div class="rightarrow arrow">
 									<p>1st <span id='like-ranking-0'></span></p>
 								</div>
@@ -176,7 +177,7 @@
 									<a href="" id="read-more-0">Read More</a>
 								</div>
 							</li>
-							<li id="1">
+							<li id="1" >
 								<div class="rightarrow arrow">
 									<p>2nd <span id='like-ranking-1'></span></p>
 								</div>
@@ -185,7 +186,7 @@
 									<a href="" id="read-more-1">Read More</a>
 								</div>
 							</li>
-							<li id="2">
+							<li id="2" >
 								<div class="leftarrow arrow">
 									<p>3rd <span id='like-ranking-2'></span></p>
 								</div>
@@ -194,7 +195,7 @@
 								</div>
 								<a class='leftarrow display' href="" id="read-more-2">Read More</a>
 							</li>
-							<li id="3">
+							<li id="3" >
 								<div class="rightarrow arrow">
 									<p>4th <span id='like-ranking-3'></span></p>
 								</div>
@@ -203,7 +204,7 @@
 									<a href="" id="read-more-3">Read More</a>
 								</div>
 							</li>
-							<li id="4">
+							<li id="4" >
 								<div class="rightarrow arrow">
 									<p>5th <span id='like-ranking-4'></span></p>
 								</div>
@@ -212,7 +213,7 @@
 									<a href="" id="read-more-4">Read More</a>
 								</div>
 							</li>
-							<li id="5">
+							<li id="5" >
 								<div class="leftarrow arrow">
 									<p>6th <span id='like-ranking-5'></span></p>
 								</div>
@@ -221,7 +222,7 @@
 								</div>
 								<a class='leftarrow display' href="" id="read-more-5">Read More</a>
 							</li>
-							<li id="6">
+							<li id="6" >
 								<div class="rightarrow arrow">
 									<p>7th <span id='like-ranking-6'></span></p>
 								</div>
@@ -230,7 +231,7 @@
 									<a href="" id="read-more-6">Read More</a>
 								</div>
 							</li>
-							<li id="7">
+							<li id="7" >
 								<div class="rightarrow arrow">
 									<p>8th <span id='like-ranking-7'></span></p>
 								</div>
@@ -273,7 +274,7 @@
 				</div>
 				<div class='row'>
 					<div class="iconlist monthly-data events-data daily-data ranking-data view">
-                        <a href="">
+                        <a href="" class='ignore-default' onclick="switchView('.front-page');">
                             <div class="imgWrap">
                                 <img class="icon" src="img/home.png">
                                     <p class="imgDescription">HOME</p>

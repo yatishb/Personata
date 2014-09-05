@@ -93,6 +93,19 @@ $(function(){
 });
 
 function switchView(view) {
+  /* update sub page info */
+  if (view == '.front-page') {
+    $('#default-info').html('is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well as share and invite them to use the app.');
+  } else if (view == '.monthly-data') {
+    $('#default-info').html('This allows you to see your monthly usage of Facebook — How many posts, likes and comments do you have for a consecutive two months? Is there an outstanding date that you’ve noticed?');
+  } else if (view == '.daily-data') {
+    $('#default-info').html('Come and observe your daily routine of Facebook usage — Which is your peak period of posting? Which type of post is your favorite accumulatively?');
+  } else if (view == '.events-data') {
+    $('#default-info').html('');
+  } else if (view == '.ranking-data') {
+    $('#default-info').html('You could see the top-listed posts by you, ranked by the amount of likes and comments you have from your friends — Come and find out what they’ve liked you for.');
+  }
+
   $('.view').hide();
   $(view).show();
   var temp = view.split("-");
@@ -103,9 +116,13 @@ function renderRanking(name, type, index, like, data){
   var time = data.created_time;
   var link = data.actions[0].link;
   var message = '';
+  
+  /* display ranking-data */
+  $('#'+index).show();
+
   if (data.message) {
     message = data.message;
-    $('.timeline #'+index+' .message').html(message);
+    $('#'+index+' .message').html(message);
   }
   $('#ranking-title').html(type+ ' - '+name);
   $('#like-ranking-'+index).html(like+' likes');
@@ -113,22 +130,26 @@ function renderRanking(name, type, index, like, data){
 }
 
 function getRankingData(uid, name, type){
-  console.log(uid + name + type);
   var d = new Date();
   var start = d.getFullYear() + '-' + pad(d.getMonth()) + '-01';
   var end = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-31';
 
+  /* make ranking-data as display:none */
+  for (var i = 0; i < 8; i++) {
+    $('#'+i).hide();
+  };
+
   if (rankingBuffer[uid]) {
     var tempData = rankingBuffer[uid];
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < tempData.length; i++) {
       getPost(name, type, tempData[i].id, tempData[i].likes, i, renderRanking);
     };
   } else {
     $.getJSON('backend.php', {data: 'ranking', start: start, end: end, uid: uid}, function(data){
       console.log(data);
       rankingBuffer[uid] = data;
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < data.length; i++) {
         getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
       };
     });
