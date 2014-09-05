@@ -48,7 +48,7 @@
 				$start_time = $_GET['start'];
 				$end_time = $_GET['end'];
 				$uid = $_GET['uid'];
-				$data = getTopLiked($session, $start_time, $end_time, $uid);
+				$data = getTopLiked($session, $start_time, $end_time, 200, $uid);
 				print json_encode($data);
 			break;
 			
