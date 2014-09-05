@@ -243,7 +243,7 @@ function renderMonthPostGraph(uid, name, type){
 
     if (monthPosts[uid]) {
         renderLineGraph("Number of Posts", " posts", name, type, monthPosts[uid][0], 
-            currMon-1, lastMon-1, monthPosts[uid][1], monthPosts[uid][2]);
+            currMon-1, lastMon-1, monthPosts[uid][2], monthPosts[uid][1]);
     } else {
         $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
             
