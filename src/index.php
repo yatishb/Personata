@@ -174,7 +174,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-0">Read More</a>
+									<a href="" id="read-more-0" target="_blank">Read More</a>
 								</div>
 							</li>
 							<li id="1" >
@@ -183,7 +183,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-1">Read More</a>
+									<a href="" id="read-more-1" target="_blank">Read More</a>
 								</div>
 							</li>
 							<li id="2" >
@@ -193,7 +193,7 @@
 								<div class="display left-display">
 									<p class='message'></p>
 								</div>
-								<a class='leftarrow display' href="" id="read-more-2">Read More</a>
+								<a class='leftarrow display' href="" id="read-more-2" target="_blank">Read More</a>
 							</li>
 							<li id="3" >
 								<div class="rightarrow arrow">
@@ -201,7 +201,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-3">Read More</a>
+									<a href="" id="read-more-3" target="_blank">Read More</a>
 								</div>
 							</li>
 							<li id="4" >
@@ -210,7 +210,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-4">Read More</a>
+									<a href="" id="read-more-4" target="_blank">Read More</a>
 								</div>
 							</li>
 							<li id="5" >
@@ -220,7 +220,7 @@
 								<div class="display left-display">
 									<p class='message'></p>
 								</div>
-								<a class='leftarrow display' href="" id="read-more-5">Read More</a>
+								<a class='leftarrow display' href="" id="read-more-5" target="_blank">Read More</a>
 							</li>
 							<li id="6" >
 								<div class="rightarrow arrow">
@@ -228,7 +228,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-6">Read More</a>
+									<a href="" id="read-more-6" target="_blank">Read More</a>
 								</div>
 							</li>
 							<li id="7" >
@@ -237,7 +237,7 @@
 								</div>
 								<div class="display rightarrow">
 									<p class='message'></p>
-									<a href="" id="read-more-7">Read More</a>
+									<a href="" id="read-more-7" target="_blank">Read More</a>
 								</div>
 							</li>
 						</ul>
@@ -338,6 +338,10 @@
 				<div id='bubble3'></div>
 				<div id='bubble4'></div>
 				<div id='bubble5'></div>
+				<div id='bubble6'></div>
+				<div id='bubble7'></div>
+				<div id='bubble8'></div>
+				<div id='bubble9'></div>
 			</div>
 		</div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
