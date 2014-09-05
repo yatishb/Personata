@@ -1,29 +1,17 @@
-# README #
+# Personata #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+It is an app created for you to view and evaluate your facebook usage. You could know your monthly comments, likes and posts, view your friends as well as share and invite them to use the app.
 
-### What is this repository for? ###
+### Team Members ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Bathini Yatish - yatishby@gmail.com
+* Tang Ning - a0105529@nus.edu.sg
+* Xia Yiping - eva.ping2506@gmail.com
+* Zhang Yichuan - a0105518@nus.edu.sg
 
-### How do I get set up? ###
+### Contributions ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Yatish: Backend Data Retrival & Database Operation
+* Tang Ning: UI and Backend Integration & Events Data
+* Zhang Yichuan: HighCharts API & Monthly Likes, Comments & Cache Data
+* Xia Yiping: UI design & UI Integration
