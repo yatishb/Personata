@@ -16,7 +16,9 @@ function renderEventsGraph() {
         },
 
         title: {
-            text: ''
+            text: '',
+            style:{
+                fontFamily:"impact"}
         },
 
         credits: {
@@ -77,7 +79,9 @@ function renderEventsGraph() {
                 rotation: 'auto'
             },
             title: {
-                text: 'n%'
+                text: 'n%',
+                style:{
+                fontFamily:"impact"},
             },
             plotBands: [{
                 from: 0,
@@ -154,7 +158,8 @@ function renderEventsGraph1(data, startDate, name, type) {
             style: {
                  color: '#36525E',
                  fontSize: '18px',
-                 fontWeight: 'bold'
+                 fontWeight: 'bold',
+                 fontFamily:"impact"
                 }
             
         },
@@ -169,6 +174,8 @@ function renderEventsGraph1(data, startDate, name, type) {
             style:{
                 fontWeight:'light',
                 fontSize:'16px',
+                style:{
+                fontFamily:"impact"}
             }
             
         },
@@ -227,92 +234,28 @@ function renderEventsGraph1(data, startDate, name, type) {
 }
 
 function renderMonthPostGraph(uid, name, type){
-    console.log(uid + name + type);
+
+    var currMon = (new Date()).getMonth()+1;
+    var lastMon = currMon - 1;
+    if (currMon == 1) {
+        lastMon = 12;
+    }
 
     if (monthPosts[uid]) {
-        drawMonthPostGraph(type, name, monthPosts[uid][0], monthPosts[uid][1], monthPosts[uid][2]);
+        renderLineGraph("Number of Posts", " posts", name, type, monthPosts[uid][0], 
+            currMon-1, lastMon-1, monthPosts[uid][1], monthPosts[uid][2]);
     } else {
         $.getJSON( "backend.php", {data: 'month', uid: uid}, function( data ) {
             
-            console.log(data);
-
             var fields = $.map(data.fields, function(el) { return el; });
             var lastMonth = $.map(data.lastmonth, function(el) { return el; });
             var thisMonth = $.map(data.thismonth, function(el) { return el; });
 
             monthPosts[uid] = [fields, lastMonth, thisMonth];
         
-            drawMonthPostGraph(type, name, fields, lastMonth, thisMonth);
+            renderLineGraph("Number of Posts", " posts", name, type, fields, currMon-1, lastMon-1, thisMonth, lastMonth);
         });
     }
-}
-
-function drawMonthPostGraph(type, name, fields, lastMonth, thisMonth) {
-    var option = {
-        exporting: {
-            url: 'http://export.highcharts.com/',
-            enabled: false
-        },
-        chart: {
-            backgroundColor:'rgba(255, 255, 255, 0.5)',
-        },    
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: type+' - '+name,
-            x: -20 //center
-        },
-        subtitle: {
-            text: 'Source: Facebook.com',
-            x: -20
-        },
-        plotOptions: {
-            series: {
-                threshold: 0,
-            }
-        },
-        xAxis: {
-            //from outside data 
-            categories: fields
-        },
-        yAxis: {
-            title: {
-                text: 'Number of Posts'
-            },
-            plotLines: [{
-                value: 1,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: ' Posts'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 1
-        },
-        series: [
-        {
-            name: 'Last Month',
-            color: '#2F4B56',
-            dashStyle: 'Dot',
-            //from outside data
-            data: lastMonth
-        },
-        {
-            name: 'This Month',
-            color: '#F4C443',
-            dashStyle: 'Dot',
-            //from outside data
-            data: thisMonth
-        }]
-    }
-
-    $('#monthly-container').highcharts(option);
 }
 
 function renderMonthLikeGraph(uid, name, type){
@@ -396,11 +339,15 @@ function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, cu
         },
         title: {
             text: type+' - '+name,
+            style:{
+                fontFamily:"impact"},
             x: -20 //center
             },
             subtitle: {
                 text: 'Source: Facebook.com',
-                x: -20
+                x: -20,
+                style:{
+                fontFamily:"Gill Sans"}
             },
             plotOptions: {
                 series: {
@@ -413,7 +360,8 @@ function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, cu
             },
             yAxis: {
                 title: {
-                    
+                    style:{
+                fontFamily:"Gill Sans"},
                     text: title
                 },
                 plotLines: [{
@@ -433,15 +381,22 @@ function renderLineGraph(title, suffix, name, type, fields, currMon, lastMon, cu
             },
             series: [{
                 name: month[lastMon],
-                color: '#36525E',
+                style:{
+                fontFamily:"Gill Sans"},
+                color: '#53777F',
                 dashStyle: 'Dot',
+                shadow:'true',
                 //from outside data
                 data: lastLikes
             },
             {
                 name: month[currMon],
-                color: '#F4C443',
+
+                style:{
+                fontFamily:"Gill Sans"},
+                color: '#FB4642',
                 dashStyle: 'Dot',
+                    shadow: 'true',
                 //from outside data
                 data: currLikes
             }]
@@ -507,7 +462,7 @@ function drawPieGraph(name, type, elements, seriesName) {
            }
         },
 
-        colors: ["#f45b5b", "#8085e9", "#8d4654", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee", "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+        colors: ["#F6D286", "#FFCB43", "#D0E4A7", "#92D8D5", "#82CEC3", "#6EC4DF", "#0093C4", "#A2AEBC", "#FF9999","#D25B5E" ,"#FB8C64", "#F66B52" ],
         
 
         exporting: {
@@ -518,8 +473,11 @@ function drawPieGraph(name, type, elements, seriesName) {
             enabled: false
         },
         title: {
-            text: type+' - '+name
+            text: type+' - '+name,
+            style:{
+                fontFamily:"impact"},
         },
+
         tooltip: {
             pointFormat: '<b>{point.percentage:.1f}%</b> {series.name}'
         },
@@ -540,7 +498,9 @@ function drawPieGraph(name, type, elements, seriesName) {
         series: [{
             type: 'pie',
             name: seriesName,
-            data: elements
+            data: elements,
+            style:{
+                fontFamily:"Gill Sans"},
         }]
     }
 
