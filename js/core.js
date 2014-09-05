@@ -26,6 +26,7 @@ $(function(){
     login(loginCallback);
   });
 
+  /* button for sharing */
   $('#share').click(function () {
       var obj = {}, chart;
           
@@ -46,6 +47,7 @@ $(function(){
       });
   });
 
+  /* button for viewing friends */
   $("#view-friends-button").popover({
     html : true, 
     content: function() {
@@ -58,15 +60,16 @@ $(function(){
     container: 'body'
   });
 
-  $('#logout').click(function() {
-console.log('in here');
+  /* button for logout */
+  $('.logout').click(function() {
+    console.log('in here');
     FB.logout(function(response) {
-       var userInfo = document.getElementById('user-info');
-    });
+     var userInfo = document.getElementById('user-info');
+   });
     $.ajax({
-	url: '/dev/logout.php',
-	success: function () {}	
-    });
+     url: '/dev/logout.php',
+     success: function () {}	
+   });
     window.location = "/dev/login.html";
   });
 
@@ -118,14 +121,14 @@ function getRankingData(uid, name, type){
   if (rankingBuffer[uid]) {
     var tempData = rankingBuffer[uid];
 
-    for (var i = 0; i < tempData.length; i++) {
+    for (var i = 0; i < 10; i++) {
       getPost(name, type, tempData[i].id, tempData[i].likes, i, renderRanking);
     };
   } else {
-    $.getJSON('backend.php', {data: 'ranking', start: start, end: end}, function(data){
+    $.getJSON('backend.php', {data: 'ranking', start: start, end: end, uid: uid}, function(data){
       console.log(data);
       rankingBuffer[uid] = data;
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < 10; i++) {
         getPost(name, type, data[i].id, data[i].likes, i, renderRanking);
       };
     });

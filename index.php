@@ -37,7 +37,6 @@
 </head>
 <body>
 	<div id="background" ></div>
-	<div id='dev'>This app is still under development.</div>
 	<div class='container-fluid'>
 		<div class='row' id='main'>
 			<div id="logo">
@@ -264,9 +263,9 @@
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="#" class='ignore-default logout'>
                             <div class="imgWrap">
-                                <img class="icon" src="img/logout.png" id='logout'>
+                                <img class="icon" src="img/logout.png">
                                     <p class="imgDescription"> Logout</p>
                             </div>
                         </a>
@@ -298,7 +297,7 @@
                                     <p class="imgDescription"> INVITE friends!</p>
                             </div>
                         </a>
-                        <a href="" id='logout'>
+                        <a href="" class='ignore-default logout'>
                             <div class="imgWrap">
                                 <img class="icon" src="img/logout.png">
                                     <p class="imgDescription"> Logout</p>
@@ -333,11 +332,10 @@
 		<div id="fb-root"></div>
 		<div class="modal"><!-- Place at bottom of page --></div>
 		<div id='view-friends-title' style='display:none;'>View Your Friends</div>
-		<div id='view-friends-content' style='display:none;'>
-			<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
-				<img class='profile' src="" alt="">
-			</a>
-		</div>
+		<a class="ignore-default template" onclick="renderFriendsGraph(this);" href="#">
+			<img class='profile' src="" alt="">
+		</a>
+		<div id='view-friends-content' style='display:none;'></div>
 	</div>
 </body>
 </html>
